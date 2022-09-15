@@ -12,35 +12,31 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-left: 10px;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding: 40px 32px 40px 32px;
   width: 380px;
   max-height: 85vh;
   border: 1px solid $white2;
   border-radius: 8px;
   background-color: $white;
-  overflow-y: auto;
-  & > span {
-    color: $grey2;
-  }
+  overflow-y: visible;
+  overflow-x: hidden;
+  scrollbar-gutter: stable both-edges;
   &::-webkit-scrollbar {
     width: 10px;
   }
-
   &::-webkit-scrollbar-thumb {
     border-radius: 50px;
     background-color: #e4e4e4;
   }
 }
-.logo {
-  margin-bottom: 12px;
+.subtitle {
+  text-align: center;
+  color: $grey2;
 }
 .form {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  // height: 224px;
   margin-top: 48px;
 }
 .h1 {
@@ -50,13 +46,7 @@
   font-weight: 700;
   color: $black;
 }
-.h2 {
-  margin-bottom: 32px;
-  font-size: 19px;
-  line-height: 23.85px;
-  font-weight: 700;
-  color: $grey;
-}
+
 .h5 {
   margin-top: 32px;
   font-size: 14px;

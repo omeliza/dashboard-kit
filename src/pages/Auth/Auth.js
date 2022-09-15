@@ -1,22 +1,21 @@
-import logo from '../../assets/logo.png';
 import s from './Auth.module.scss';
 import Input from './../../components/Input/Input';
 import Button from './../../components/Button/Button';
 import { Link, useLocation } from 'react-router-dom';
+import Logo from '../../components/Logo/Logo';
 
-export const Auth = () => {
+const Auth = () => {
   const location = useLocation();
   return (
     <div className={s.wrapper}>
       <div className={s.block}>
-        <img src={logo} alt="Logo" className={s.logo} />
-        <h2 className={s.h2}>Dashboard Kit</h2>
+        <Logo />
         <h1 className={s.h1}>
           {location.pathname === '/signup'
             ? 'Sign Up'
             : 'Log In to Dashboard Kit'}
         </h1>
-        <span>
+        <span className={s.subtitle}>
           {location.pathname === '/signup'
             ? 'Create a new account'
             : 'Enter your email and password'}
@@ -45,11 +44,19 @@ export const Auth = () => {
             name={location.pathname === '/signup' ? 'Register' : 'Log In'}
           />
         </form>
-        <h5 className={s.h5}>
-          Don't have an account?&ensp;
-          <Link className={s.h5_bold}>Sign up</Link>
-        </h5>
+        {location.pathname === '/signup' ? (
+          ''
+        ) : (
+          <h5 className={s.h5}>
+            Don't have an account?&ensp;
+            <Link to="/signup" className={s.h5_bold}>
+              Sign up
+            </Link>
+          </h5>
+        )}
       </div>
     </div>
   );
 };
+
+export default Auth;
