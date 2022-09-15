@@ -1,8 +1,9 @@
 import s from './Auth.module.scss';
-import Input from './../../components/Input/Input';
-import Button from './../../components/Button/Button';
+import Input from '../../components/Input/Input';
+import Button from '../../components/Button/Button';
 import { Link, useLocation } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
+import { handleSubmit } from '../../services/auth.service';
 
 const Auth = () => {
   const location = useLocation();
@@ -20,7 +21,7 @@ const Auth = () => {
             ? 'Create a new account'
             : 'Enter your email and password'}
         </span>
-        <form className={s.form}>
+        <form className={s.form} onSubmit={handleSubmit}>
           <Input placeholder="Email address" type="email" label="email" />
           {location.pathname === '/signup' ? (
             <>

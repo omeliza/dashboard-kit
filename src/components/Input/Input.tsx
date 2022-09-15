@@ -1,7 +1,11 @@
-import React from 'react';
 import s from './Input.module.scss';
 
-const Input = ({ placeholder, type, label }) => {
+interface IInputProps {
+  placeholder: string;
+  type: string;
+  label: string;
+}
+const Input = ({ placeholder, type, label }: IInputProps) => {
   return (
     <label className={s.label}>
       {label.toUpperCase()}

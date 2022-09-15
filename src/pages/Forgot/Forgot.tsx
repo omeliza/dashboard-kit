@@ -1,12 +1,13 @@
-import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import Input from '../../components/Input/Input';
 import Logo from '../../components/Logo/Logo';
+import { handleSubmit } from '../../services/auth.service';
 import s from '../Auth/Auth.module.scss';
 
 const Forgot = () => {
   const location = useLocation();
+
   return (
     <div className={s.wrapper}>
       <div className={s.block}>
@@ -20,7 +21,7 @@ const Forgot = () => {
         ) : (
           <>
             <span>Enter your email from registered account</span>
-            <form className={s.form}>
+            <form className={s.form} onSubmit={handleSubmit}>
               <Input placeholder="Email address" type="email" label="email" />
               <Button name="Send" />
             </form>

@@ -1,7 +1,9 @@
-import React from 'react';
 import s from './Button.module.scss';
 
-const Button = ({ name }) => {
+interface IButtonProps {
+  name: string;
+}
+const Button = ({ name }: IButtonProps) => {
   return <button className={s.button}>{name}</button>;
 };
 
