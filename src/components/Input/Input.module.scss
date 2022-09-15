@@ -5,6 +5,8 @@
   line-height: 15.06px;
   font-weight: 700;
   color: $grey2;
+  position: relative;
+  left: 0;
 }
 .input {
   display: flex;
@@ -23,4 +25,16 @@
     font-family: 'Mulish';
     font-size: 14px;
   }
+}
+.input:where(input[placeholder='Password']) + .toggle {
+  display: block;
+}
+
+.toggle {
+  display: none;
+  background-color: unset;
+  border: none;
+  position: absolute;
+  right: 18px;
+  bottom: 37px;
 }
