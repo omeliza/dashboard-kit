@@ -26,7 +26,7 @@
     font-size: 14px;
   }
 }
-.input:where(input[placeholder='Password']) + .toggle {
+input[placeholder='Password'] + .toggle {
   display: block;
 }
 
