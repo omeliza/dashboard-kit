@@ -1,8 +1,9 @@
-import Button from '../../components/Button/Button';
-import Input from '../../components/Input/Input';
-import Logo from '../../components/Logo/Logo';
-import { handleSubmit } from '../../services/auth.service';
-import s from '../Auth/Auth.module.scss';
+import React from 'react';
+import Button from 'components/Button/Button';
+import Input from 'components/Input/Input';
+import Logo from 'components/Logo/Logo';
+import { handleSubmit } from 'services/auth.service';
+import s from 'pages/Auth/Auth.module.scss';
 
 const Reset = () => {
   return (

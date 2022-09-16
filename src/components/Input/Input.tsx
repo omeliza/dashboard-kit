@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import s from './Input.module.scss';
-import hide from '../../assets/hide.png';
-import show from '../../assets/show.png';
+import React, { useState } from 'react';
+import s from 'components/Input/Input.module.scss';
+import hide from 'assets/hide.png';
+import show from 'assets/show.png';
 
 interface IInputProps {
   placeholder: string;
@@ -9,7 +9,7 @@ interface IInputProps {
   label: string;
 }
 const Input = ({ placeholder, type, label }: IInputProps) => {
-  const [passwordShown, setPasswordShown] = useState(false);
+  const [passwordShown, setPasswordShown] = useState(true);
 
   const togglePassword = () => {
     setPasswordShown(!passwordShown);
@@ -23,8 +23,8 @@ const Input = ({ placeholder, type, label }: IInputProps) => {
         placeholder={placeholder}
         className={s.input}
       />
-      <button className={s.toggle} onClick={togglePassword}>
-        <img src={passwordShown ? show : hide} alt="hide" />
+      <button type="button" className={s.toggle} onClick={togglePassword}>
+        <img src={passwordShown ? hide : show} alt="hide" />
       </button>
     </label>
   );
