@@ -29,6 +29,12 @@
     background-color: #e4e4e4;
   }
 }
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 48px;
+}
 .subtitle {
   text-align: center;
   color: $grey2;

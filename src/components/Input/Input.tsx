@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import s from 'components/Input/Input.module.scss';
 import hide from 'assets/hide.png';
 import show from 'assets/show.png';
+import s from 'components/Input/Input.module.scss';
 
 interface IInputProps {
   placeholder: string;
