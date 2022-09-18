@@ -1,13 +1,26 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import Input from 'components/Input/Input';
 import Button from 'components/Button/Button';
-import { handleSubmit } from 'services/auth.service';
+import { onForgotSubmit } from 'services/auth.service';
 import s from 'pages/Auth/Auth.module.scss';
 import Logo from 'components/Logo/Logo';
+import { FormProvider, useForm } from 'react-hook-form';
+import { joiResolver } from '@hookform/resolvers/joi';
+import { forgotSchema } from 'constants/schemas';
+import { IForgot } from 'interfaces/interfaces';
 
 const Forgot = () => {
   const location = useLocation();
+  const methods = useForm<IForgot>({
+    mode: 'all',
+    resolver: joiResolver(forgotSchema),
+  });
+  const {
+    formState: { isValid, errors },
+    handleSubmit,
+  } = methods;
 
   return (
     <div className={s.wrapper}>
@@ -22,10 +35,19 @@ const Forgot = () => {
         ) : (
           <>
             <span>Enter your email from registered account</span>
-            <form className={s.form} onSubmit={handleSubmit}>
-              <Input placeholder="Email address" type="email" label="email" />
-              <Button name="Send" />
-            </form>
+            <FormProvider {...methods}>
+              <form className={s.form} onSubmit={handleSubmit(onForgotSubmit)}>
+                <Input
+                  name="email"
+                  placeholder="Email address"
+                  type="email"
+                  label="email"
+                />
+                {errors.email && <p>{errors.email?.message}</p>}
+                <div className={s.empty} />
+                <Button disabled={!isValid} name="Send" />
+              </form>
+            </FormProvider>
             <h5 className={s.h5}>
               Don&apos;t have an account?&ensp;
               <Link to="/signup" className={s.h5_bold}>
