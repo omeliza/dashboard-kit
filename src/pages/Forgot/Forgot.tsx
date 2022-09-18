@@ -8,7 +8,7 @@ import s from 'pages/Auth/Auth.module.scss';
 import Logo from 'components/Logo/Logo';
 import { FormProvider, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
-import { forgotSchema } from 'constants/schemas';
+import { forgotSchema } from 'constants/validationSchemas';
 import { IForgot } from 'interfaces/interfaces';
 
 const Forgot = () => {

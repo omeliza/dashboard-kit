@@ -5,7 +5,7 @@ import Input from 'components/Input/Input';
 import Logo from 'components/Logo/Logo';
 import { onResetSubmit } from 'services/auth.service';
 import s from 'pages/Auth/Auth.module.scss';
-import { resetSchema } from 'constants/schemas';
+import { resetSchema } from 'constants/validationSchemas';
 import { useForm, FormProvider } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { IReset } from 'interfaces/interfaces';
