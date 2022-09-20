@@ -5,7 +5,7 @@ import {
 } from 'constants/regularExpressions';
 import Joi from 'joi';
 
-export const authSchema = Joi.object({
+export const registerSchema = Joi.object({
   firstName: Joi.string()
     .label('First name')
     .pattern(nameCheck)
@@ -36,6 +36,21 @@ export const authSchema = Joi.object({
     .label('Confirm Password')
     .equal(Joi.ref('password'))
     .options({ messages: { 'any.only': '{{#label}} does not match' } })
+    .required(),
+});
+
+export const loginSchema = Joi.object({
+  email: Joi.string()
+    .label('Email')
+    .pattern(emailCheck)
+    .message('Email is not correct!')
+    .required(),
+  password: Joi.string()
+    .label('Password')
+    .pattern(passwordCheck)
+    .message(
+      'Password is not correct! It must contain at least 8 characters, one special character(@$!%*#?&)/), one uppercase letter and one number',
+    )
     .required(),
 });
 

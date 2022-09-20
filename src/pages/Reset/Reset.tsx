@@ -4,7 +4,7 @@ import Button from 'components/Button/Button';
 import Input from 'components/Input/Input';
 import Logo from 'components/Logo/Logo';
 import { onResetSubmit } from 'services/auth.service';
-import s from 'pages/Auth/Auth.module.scss';
+import s from 'pages/Reset/Reset.module.scss';
 import { resetSchema } from 'constants/validationSchemas';
 import { useForm, FormProvider } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -17,7 +17,7 @@ const Reset = () => {
   });
   const {
     handleSubmit,
-    formState: { isValid, errors },
+    formState: { errors },
   } = methods;
 
   return (
@@ -43,7 +43,7 @@ const Reset = () => {
             />
             {errors.confirmPassword && <p>{errors.confirmPassword?.message}</p>}
             <div className={s.empty} />
-            <Button disabled={!isValid} name="Send" />
+            <Button name="Send" />
           </form>
         </FormProvider>
       </div>

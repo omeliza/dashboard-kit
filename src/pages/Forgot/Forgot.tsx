@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Input from 'components/Input/Input';
 import Button from 'components/Button/Button';
 import { onForgotSubmit } from 'services/auth.service';
-import s from 'pages/Auth/Auth.module.scss';
+import s from 'pages/Forgot/Forgot.module.scss';
 import Logo from 'components/Logo/Logo';
 import { FormProvider, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
@@ -18,7 +18,7 @@ const Forgot = () => {
     resolver: joiResolver(forgotSchema),
   });
   const {
-    formState: { isValid, errors },
+    formState: { errors },
     handleSubmit,
   } = methods;
 
@@ -45,12 +45,12 @@ const Forgot = () => {
                 />
                 {errors.email && <p>{errors.email?.message}</p>}
                 <div className={s.empty} />
-                <Button disabled={!isValid} name="Send" />
+                <Button name="Send" />
               </form>
             </FormProvider>
             <h5 className={s.h5}>
               Don&apos;t have an account?&ensp;
-              <Link to="/signup" className={s.h5_bold}>
+              <Link to="/register" className={s.h5_bold}>
                 Sign up
               </Link>
             </h5>

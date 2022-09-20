@@ -3,8 +3,8 @@ export interface IForgot {
 }
 export interface IAuthFormInputs {
   email: string;
-  firstName?: string;
-  lastName?: string;
+  firstName: string;
+  lastName: string;
   password: string;
   confirmPassword?: string;
 }
@@ -14,9 +14,16 @@ export interface IReset {
   confirmPassword: string;
 }
 
+export type SignUp = Omit<IAuthFormInputs, 'confirmPassword'>;
+export type SignIn = Pick<SignUp, 'email' | 'password'>;
+
 export interface IInputProps {
   placeholder: string;
   type: string;
   label: string;
   name: string;
+}
+
+export interface IErrorProps {
+  resetErrorBoundary: () => void;
 }
