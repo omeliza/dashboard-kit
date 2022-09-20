@@ -3,10 +3,11 @@ import s from 'components/Button/Button.module.scss';
 
 interface IButtonProps {
   name: string;
+  // disabled: boolean;
 }
 const Button = ({ name }: IButtonProps) => {
   return (
-    <button className={s.button} type="button">
+    <button className={s.button} type="submit">
       {name}
     </button>
   );

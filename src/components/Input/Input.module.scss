@@ -1,18 +1,22 @@
 @import '../../styles.scss';
 
-.label {
+label.label {
   font-size: 12px;
   line-height: 15.06px;
   font-weight: 700;
   color: $grey2;
   position: relative;
   left: 0;
+  margin-top: 24px;
+  &:first-child {
+    margin-top: 0;
+  }
 }
 .input {
   display: flex;
   flex-direction: column;
   margin-top: 6px;
-  margin-bottom: 24px;
+  margin-bottom: 4px;
   width: 316px;
   height: 42px;
   background-color: #fcfdfe;
@@ -36,5 +40,5 @@ input[placeholder='Password'] + .toggle {
   border: none;
   position: absolute;
   right: 18px;
-  bottom: 37px;
+  top: 35px;
 }

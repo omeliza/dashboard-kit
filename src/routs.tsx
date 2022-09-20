@@ -1,17 +1,20 @@
 import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
-import Auth from 'pages/Auth/Auth';
 import Forgot from 'pages/Forgot/Forgot';
 import Reset from 'pages/Reset/Reset';
+import Home from 'pages/Home/Home';
+import Login from 'pages/Login/Login';
+import Register from 'pages/Register/Register';
+import NotFound from 'pages/NotFound/NotFound';
 
 export const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Auth />,
+    path: '/login',
+    element: <Login />,
   },
   {
-    path: '/signup',
-    element: <Auth />,
+    path: '/register',
+    element: <Register />,
   },
   {
     path: '/forgot',
@@ -24,5 +27,13 @@ export const router = createBrowserRouter([
   {
     path: '/reset',
     element: <Reset />,
+  },
+  {
+    path: '/',
+    element: <Home />,
+  },
+  {
+    path: '*',
+    element: <NotFound />,
   },
 ]);
