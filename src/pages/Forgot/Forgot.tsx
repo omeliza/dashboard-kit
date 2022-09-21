@@ -1,20 +1,21 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Input from 'components/Input/Input';
-import Button from 'components/Button/Button';
-import { onForgotSubmit } from 'services/auth.service';
-import s from 'pages/Forgot/Forgot.module.scss';
-import Logo from 'components/Logo/Logo';
 import { FormProvider, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+
+import Input from 'components/Input/Input';
+import Button from 'components/Button/Button';
+import Logo from 'components/Logo/Logo64/Logo';
+import { onForgotSubmit } from 'services/auth.service';
+import s from 'pages/Auth.module.scss';
 import { forgotSchema } from 'constants/validationSchemas';
 import { IForgot } from 'interfaces/interfaces';
 
 const Forgot = () => {
   const location = useLocation();
   const methods = useForm<IForgot>({
-    mode: 'all',
+    mode: 'onBlur',
     resolver: joiResolver(forgotSchema),
   });
   const {
@@ -43,7 +44,9 @@ const Forgot = () => {
                   type="email"
                   label="email"
                 />
-                {errors.email && <p>{errors.email?.message}</p>}
+                {errors.email && (
+                  <p className={s.error}>{errors.email?.message}</p>
+                )}
                 <div className={s.empty} />
                 <Button name="Send" />
               </form>

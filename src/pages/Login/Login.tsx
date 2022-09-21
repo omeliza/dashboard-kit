@@ -8,8 +8,8 @@ import { joiResolver } from '@hookform/resolvers/joi';
 
 import Button from 'components/Button/Button';
 import Input from 'components/Input/Input';
-import Logo from 'components/Logo/Logo';
-import s from 'pages/Login/Auth.module.scss';
+import Logo from 'components/Logo/Logo64/Logo';
+import s from 'pages/Auth.module.scss';
 import { SignIn } from 'interfaces/interfaces';
 import { signIn } from 'services/auth.service';
 import { loginSchema } from 'constants/validationSchemas';
@@ -83,14 +83,16 @@ const Login = () => {
               label="email"
               name="email"
             />
-            {errors.email && <p>{errors.email.message}</p>}
+            {errors.email && <p className={s.error}>{errors.email.message}</p>}
             <Input
               placeholder="Password"
               type="password"
               label="password"
               name="password"
             />
-            {errors.password && <p>{errors.password?.message}</p>}
+            {errors.password && (
+              <p className={s.error}>{errors.password?.message}</p>
+            )}
             <h5 className={s.h5} style={{ marginTop: 0, textAlign: 'right' }}>
               <Link to="/forgot" className={s.h5_bold}>
                 Forgot Password?

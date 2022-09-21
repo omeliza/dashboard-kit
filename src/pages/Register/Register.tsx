@@ -6,10 +6,10 @@ import { AxiosError } from 'axios';
 import ReactModal from 'react-modal';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import s from 'pages/Register/Register.module.scss';
+import s from 'pages/Auth.module.scss';
 import { customStyles } from 'pages/Login/Login';
 import { signUp } from 'services/auth.service';
-import Logo from 'components/Logo/Logo';
+import Logo from 'components/Logo/Logo64/Logo';
 import Input from 'components/Input/Input';
 import Button from 'components/Button/Button';
 import { registerSchema } from 'constants/validationSchemas';
@@ -78,35 +78,43 @@ const Register = () => {
               label="email"
               name="email"
             />
-            {errors.email && <p>{errors.email.message}</p>}
+            {errors.email && <p className={s.error}>{errors.email.message}</p>}
             <Input
               placeholder="First name"
               type="text"
               label="first name"
               name="firstName"
             />
-            {errors.firstName && <p>{errors.firstName.message}</p>}
+            {errors.firstName && (
+              <p className={s.error}>{errors.firstName.message}</p>
+            )}
             <Input
               placeholder="Last name"
               type="text"
               label="last name"
               name="lastName"
             />
-            {errors.lastName && <p>{errors.lastName.message}</p>}
+            {errors.lastName && (
+              <p className={s.error}>{errors.lastName.message}</p>
+            )}
             <Input
               placeholder="Password"
               type="password"
               label="password"
               name="password"
             />
-            {errors.password && <p>{errors.password?.message}</p>}
+            {errors.password && (
+              <p className={s.error}>{errors.password?.message}</p>
+            )}
             <Input
               placeholder="Password"
               type="password"
               label="confirm password"
               name="confirmPassword"
             />
-            {errors.confirmPassword && <p>{errors.confirmPassword?.message}</p>}
+            {errors.confirmPassword && (
+              <p className={s.error}>{errors.confirmPassword?.message}</p>
+            )}
             <h5 className={s.h5} style={{ marginTop: 0, textAlign: 'right' }}>
               <Link to="/forgot" className={s.h5_bold}>
                 Forgot Password?

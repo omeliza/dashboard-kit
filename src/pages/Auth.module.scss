@@ -1,4 +1,4 @@
-@import '../../styles.scss';
+@import '../styles.scss';
 
 .wrapper {
   display: flex;
@@ -67,11 +67,11 @@
   font-weight: 700;
 }
 
-p {
+.error {
   color: #bf1650;
 }
 
-p::before {
+.error::before {
   display: inline;
   content: '⚠ ';
 }

@@ -27,3 +27,10 @@ export interface IInputProps {
 export interface IErrorProps {
   resetErrorBoundary: () => void;
 }
+
+export interface ICustomListItem {
+  src: string;
+  itemIndex: number;
+  name: string;
+  link: string;
+}

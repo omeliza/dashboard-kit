@@ -1,18 +1,19 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import Button from 'components/Button/Button';
-import Input from 'components/Input/Input';
-import Logo from 'components/Logo/Logo';
-import { onResetSubmit } from 'services/auth.service';
-import s from 'pages/Reset/Reset.module.scss';
-import { resetSchema } from 'constants/validationSchemas';
 import { useForm, FormProvider } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+
+import s from 'pages/Auth.module.scss';
+import Button from 'components/Button/Button';
+import Input from 'components/Input/Input';
+import Logo from 'components/Logo/Logo64/Logo';
+import { onResetSubmit } from 'services/auth.service';
+import { resetSchema } from 'constants/validationSchemas';
 import { IReset } from 'interfaces/interfaces';
 
 const Reset = () => {
   const methods = useForm<IReset>({
-    mode: 'all',
+    mode: 'onBlur',
     resolver: joiResolver(resetSchema),
   });
   const {
@@ -34,14 +35,18 @@ const Reset = () => {
               type="password"
               label="password"
             />
-            {errors.password && <p>{errors.password?.message}</p>}
+            {errors.password && (
+              <p className={s.error}>{errors.password?.message}</p>
+            )}
             <Input
               name="confirmPassword"
               placeholder="Password"
               type="password"
               label="confirm password"
             />
-            {errors.confirmPassword && <p>{errors.confirmPassword?.message}</p>}
+            {errors.confirmPassword && (
+              <p className={s.error}>{errors.confirmPassword?.message}</p>
+            )}
             <div className={s.empty} />
             <Button name="Send" />
           </form>
