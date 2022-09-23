@@ -10,9 +10,11 @@ import { useNavigate } from 'react-router-dom';
 import { ICustomListItem } from 'interfaces/interfaces';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setSelectedIndex } from 'redux/slices/sidebar/sidebar.slice';
+import { $bg } from 'constants/colors';
 
 const CustomListItemButton = styled(ListItemButton)({
   height: '56px',
+  borderLeft: `3px solid ${$bg}`,
 });
 
 const CustomListItem = ({ src, itemIndex, name, link }: ICustomListItem) => {
@@ -30,7 +32,7 @@ const CustomListItem = ({ src, itemIndex, name, link }: ICustomListItem) => {
       selected={selectedIndex === itemIndex}
       onClick={switchPage}
     >
-      <ListItemIcon>
+      <ListItemIcon sx={{ minWidth: '40px' }}>
         <img src={src} alt={name} />
       </ListItemIcon>
       <ListItemText primary={name} />

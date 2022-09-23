@@ -1,6 +1,7 @@
 export const $grey = '#a4a6b3';
 export const $grey2 = '#9fa2b4';
 export const $grey3 = '#4b506d';
+export const $grey4 = '#c5c7cd';
 export const $black = '#252733';
 export const $blue = '#3751ff';
 export const $white = '#ffffff';
@@ -8,3 +9,4 @@ export const $white2 = '#dfe0eb';
 export const $white3 = '#DDE2FF;';
 export const $bg = '#363740';
 export const $bgLight = '#F7F8FC;';
+export const $yellow = 'fec400';

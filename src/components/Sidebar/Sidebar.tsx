@@ -1,8 +1,6 @@
 import React from 'react';
 import { Box, Divider, List, styled } from '@mui/material';
-import { NavLink } from 'react-router-dom';
 
-import Logo from 'components/Logo/Logo64/Logo';
 import overview from 'assets/overview.svg';
 import tickets from 'assets/tickets.png';
 import contacts from 'assets/contacts.png';
@@ -15,13 +13,14 @@ const StyledBox = styled(Box)`
   grid-area: s;
   position: static;
   width: 255px;
-  height: 100vh;
+  height: 100%;
   background-color: ${$bg};
 `;
 
 const StyledList = styled(List)({
   color: `${$grey}`,
   letterSpacing: '0.2px',
+  // borderLeft: `3px solid ${$bg}`,
   '&& .Mui-selected, && .Mui-selected:hover': {
     color: `${$white3}`,
     backgroundColor: 'rgba(159, 162, 180, 0.08)',

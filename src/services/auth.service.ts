@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import axios from 'axios';
+
 import { IForgot, IReset } from 'interfaces/interfaces';
 
 const url = process.env.REACT_APP_SERVER_URL;

@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface IForgot {
   email: string;
 }
@@ -33,4 +35,9 @@ export interface ICustomListItem {
   itemIndex: number;
   name: string;
   link: string;
+}
+export interface ICheckbox {
+  label: string;
+  icon: ReactNode;
+  checkedIcon: ReactNode;
 }
