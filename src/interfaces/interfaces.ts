@@ -41,3 +41,6 @@ export interface ICheckbox {
   icon: ReactNode;
   checkedIcon: ReactNode;
 }
+export interface ICustomBox {
+  children: ReactNode;
+}

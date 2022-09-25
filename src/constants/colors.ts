@@ -9,4 +9,6 @@ export const $white2 = '#dfe0eb';
 export const $white3 = '#DDE2FF;';
 export const $bg = '#363740';
 export const $bgLight = '#F7F8FC;';
-export const $yellow = 'fec400';
+export const $yellow = '#fec400';
+export const $green = '#29CC97';
+export const $red = '#F12B2C';
