@@ -126,7 +126,7 @@ const columns: readonly Column[] = [
   { id: 'createdAt', label: 'Created at', minWidth: 225 },
 ];
 
-const TitleTypo = styled(Typography)({
+export const TitleTypo = styled(Typography)({
   lineHeight: '18px',
   letterSpacing: '0.2px',
   color: `${$grey2}`,

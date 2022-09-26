@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
-import { Box, IconButton } from '@mui/material';
-import MoreIcon from '@mui/icons-material/MoreVert';
+import { Box } from '@mui/material';
 
-import { $green, $grey4, $red, $white, $yellow } from 'constants/colors';
+import { $green, $red, $white, $yellow } from 'constants/colors';
 import { ICustomBox } from 'interfaces/interfaces';
 
 const CustomBox: FC<ICustomBox> = ({ children }) => {
@@ -14,31 +13,17 @@ const CustomBox: FC<ICustomBox> = ({ children }) => {
     bgColor = `${$green}`;
   }
   return (
-    <>
-      <Box
-        sx={{
-          borderRadius: '100px',
-          padding: '5px 12px',
-          bgcolor: `${bgColor}`,
-          color: `${$white}`,
-        }}
-      >
-        {children}
-      </Box>
-      <IconButton
-        size="large"
-        aria-label="display more actions"
-        edge="end"
-        sx={{
-          ml: 'auto',
-          color: `${$grey4}`,
-          position: 'relative',
-          right: '0px',
-        }}
-      >
-        <MoreIcon />
-      </IconButton>
-    </>
+    <Box
+      sx={{
+        display: 'inline-block',
+        borderRadius: '100px',
+        padding: '5px 12px',
+        bgcolor: `${bgColor}`,
+        color: `${$white}`,
+      }}
+    >
+      {children}
+    </Box>
   );
 };
 
