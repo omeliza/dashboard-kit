@@ -1,6 +1,7 @@
-import { IErrorProps } from 'interfaces/interfaces';
 import React from 'react';
 import { Link } from 'react-router-dom';
+
+import { IErrorProps } from 'interfaces/interfaces';
 
 const Error = ({ resetErrorBoundary }: IErrorProps) => {
   return (

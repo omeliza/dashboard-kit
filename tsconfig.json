@@ -101,7 +101,16 @@
     /* Completeness */
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
-    "typeRoots": ["./typings", "./node_modules/@types"]
+    "typeRoots": ["./typings", "./node_modules/@types"],
+    "plugins": [
+      {
+        "name": "typescript-styled-plugin",
+        "lint": {
+          "vendorPrefix": "error",
+          "zeroUnits": "ignore"
+        }
+      }
+    ]
   },
   "include": ["src"]
 }

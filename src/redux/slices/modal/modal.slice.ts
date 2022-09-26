@@ -1,25 +1,27 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 type InitState = {
-  isOpen: boolean;
+  isContactModalOpen: boolean;
+  isTicketModalOpen: boolean;
 };
 const initialState: InitState = {
-  isOpen: false,
+  isTicketModalOpen: false,
+  isContactModalOpen: false,
 };
 
 export const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    open: (state) => {
-      state.isOpen = true;
+    toggleTicketModal: (state) => {
+      state.isTicketModalOpen = !state.isTicketModalOpen;
     },
-    close: (state) => {
-      state.isOpen = false;
+    toggleContactModal: (state) => {
+      state.isContactModalOpen = !state.isContactModalOpen;
     },
   },
 });
 
 export default modalSlice.reducer;
 
-export const { open, close } = modalSlice.actions;
+export const { toggleContactModal, toggleTicketModal } = modalSlice.actions;

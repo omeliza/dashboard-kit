@@ -11,9 +11,10 @@ import { customStyles } from 'pages/Login/Login';
 import { signUp } from 'services/auth.service';
 import Logo from 'components/Logo/Logo64/Logo';
 import Input from 'components/Input/Input';
-import Button from 'components/Button/Button';
 import { registerSchema } from 'constants/validationSchemas';
 import { IAuthFormInputs, SignUp } from 'interfaces/interfaces';
+import CustomButton from 'components/CustomButton/CustomButton';
+import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
 
 const Register = () => {
   const [message, setMessage] = useState('');
@@ -78,7 +79,7 @@ const Register = () => {
               label="email"
               name="email"
             />
-            {errors.email && <p className={s.error}>{errors.email.message}</p>}
+            {errors.email && <ErrorTypo>{errors.email.message}</ErrorTypo>}
             <Input
               placeholder="First name"
               type="text"
@@ -86,7 +87,7 @@ const Register = () => {
               name="firstName"
             />
             {errors.firstName && (
-              <p className={s.error}>{errors.firstName.message}</p>
+              <ErrorTypo>{errors.firstName.message}</ErrorTypo>
             )}
             <Input
               placeholder="Last name"
@@ -95,7 +96,7 @@ const Register = () => {
               name="lastName"
             />
             {errors.lastName && (
-              <p className={s.error}>{errors.lastName.message}</p>
+              <ErrorTypo>{errors.lastName.message}</ErrorTypo>
             )}
             <Input
               placeholder="Password"
@@ -104,7 +105,7 @@ const Register = () => {
               name="password"
             />
             {errors.password && (
-              <p className={s.error}>{errors.password?.message}</p>
+              <ErrorTypo>{errors.password?.message}</ErrorTypo>
             )}
             <Input
               placeholder="Password"
@@ -113,7 +114,7 @@ const Register = () => {
               name="confirmPassword"
             />
             {errors.confirmPassword && (
-              <p className={s.error}>{errors.confirmPassword?.message}</p>
+              <ErrorTypo>{errors.confirmPassword?.message}</ErrorTypo>
             )}
             <h5 className={s.h5} style={{ marginTop: 0, textAlign: 'right' }}>
               <Link to="/forgot" className={s.h5_bold}>
@@ -121,7 +122,7 @@ const Register = () => {
               </Link>
             </h5>
             <div className={s.empty} />
-            <Button name="Register" />
+            <CustomButton name="Register" />
           </form>
         </FormProvider>
       </div>

@@ -6,13 +6,14 @@ import { AxiosError } from 'axios';
 import ReactModal from 'react-modal';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import Button from 'components/Button/Button';
 import Input from 'components/Input/Input';
 import Logo from 'components/Logo/Logo64/Logo';
 import s from 'pages/Auth.module.scss';
 import { SignIn } from 'interfaces/interfaces';
 import { signIn } from 'services/auth.service';
 import { loginSchema } from 'constants/validationSchemas';
+import CustomButton from 'components/CustomButton/CustomButton';
+import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
 
 export const customStyles = {
   content: {
@@ -83,7 +84,7 @@ const Login = () => {
               label="email"
               name="email"
             />
-            {errors.email && <p className={s.error}>{errors.email.message}</p>}
+            {errors.email && <ErrorTypo>{errors.email.message}</ErrorTypo>}
             <Input
               placeholder="Password"
               type="password"
@@ -91,7 +92,7 @@ const Login = () => {
               name="password"
             />
             {errors.password && (
-              <p className={s.error}>{errors.password?.message}</p>
+              <ErrorTypo>{errors.password?.message}</ErrorTypo>
             )}
             <h5 className={s.h5} style={{ marginTop: 0, textAlign: 'right' }}>
               <Link to="/forgot" className={s.h5_bold}>
@@ -99,7 +100,7 @@ const Login = () => {
               </Link>
             </h5>
             <div className={s.empty} />
-            <Button name="Log In" />
+            <CustomButton name="Log In" />
           </form>
         </FormProvider>
         <h5 className={s.h5}>

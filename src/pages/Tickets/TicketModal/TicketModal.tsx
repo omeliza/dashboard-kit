@@ -5,7 +5,7 @@ import Input from 'components/Input/Input';
 import { useAppSelector } from 'redux/hooks';
 
 const TicketModal = () => {
-  const isOpen = useAppSelector((state) => state.modal.isOpen);
+  const isOpen = useAppSelector((state) => state.modal.isTicketModalOpen);
   return (
     <Modal open={isOpen} sx={{ width: '380px', height: '606px' }}>
       <>

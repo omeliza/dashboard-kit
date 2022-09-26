@@ -1,12 +1,21 @@
 import React from 'react';
+import styled from 'styled-components';
 
-import s from 'components/Logo/Logo64/Logo.module.scss';
 import logo from 'assets/logo.png';
+import { $grey } from 'constants/colors';
+
+const StyledTitle = styled.h2`
+  margin-bottom: 32px;
+  font-size: 19px;
+  line-height: 23.85px;
+  font-weight: 700;
+  color: ${$grey};
+`;
 
 const Logo = () => (
   <>
-    <img src={logo} alt="Logo" className={s.logo} />
-    <h2 className={s.h2}>Dashboard Kit</h2>
+    <img src={logo} alt="Logo" style={{ marginBottom: '12px' }} />
+    <StyledTitle>Dashboard Kit</StyledTitle>
   </>
 );
 

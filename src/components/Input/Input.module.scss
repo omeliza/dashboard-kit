@@ -1,35 +1,5 @@
 @import '../../styles.scss';
 
-label.label {
-  font-size: 12px;
-  line-height: 15.06px;
-  font-weight: 700;
-  color: $grey2;
-  position: relative;
-  left: 0;
-  margin-top: 24px;
-  &:first-child {
-    margin-top: 0;
-  }
-}
-.input {
-  display: flex;
-  flex-direction: column;
-  margin-top: 6px;
-  margin-bottom: 4px;
-  width: 316px;
-  height: 42px;
-  background-color: #fcfdfe;
-  border: 1px solid #f0f1f7;
-  border-radius: 8px;
-  padding: 11px 16px;
-
-  &::placeholder {
-    color: $grey3;
-    font-family: 'Mulish';
-    font-size: 14px;
-  }
-}
 input[placeholder='Password'] + .toggle {
   display: block;
 }

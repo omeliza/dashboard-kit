@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Card, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { CheckBox } from '@mui/icons-material';
 
 import { $bgLight, $black, $grey2, $white, $white2 } from 'constants/colors';
 import Cards from 'pages/Overview/Cards/Cards';

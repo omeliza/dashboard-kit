@@ -44,3 +44,10 @@ export interface ICheckbox {
 export interface ICustomBox {
   children: ReactNode;
 }
+export interface IContactModal {
+  image?: File;
+  email: string;
+  firstName: string;
+  lastName: string;
+  address: string;
+}

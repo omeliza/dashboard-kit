@@ -1,8 +1,16 @@
 import React from 'react';
+import {
+  NameType,
+  ValueType,
+} from 'recharts/types/component/DefaultTooltipContent';
+import { TooltipProps } from 'recharts';
 
 import bg from 'assets/tooltip.png';
 
-const CustomTooltip = ({ active, payload }: any) => {
+const CustomTooltip = ({
+  active,
+  payload,
+}: TooltipProps<ValueType, NameType>) => {
   if (active && payload && payload.length) {
     return (
       <div

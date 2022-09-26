@@ -7,7 +7,6 @@ import {
   IconButton,
   createTheme,
   ThemeProvider,
-  Button,
 } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import type {} from '@mui/x-data-grid/themeAugmentation';
@@ -22,13 +21,13 @@ import steverogers from 'assets/table/steverogers.png';
 import tomcruise from 'assets/table/tomcruise.png';
 import sort from 'assets/table/sort.png';
 import filter from 'assets/table/filter.png';
-import { $bgLight, $white, $grey2, $blue } from 'constants/colors';
+import { $bgLight, $white, $grey2 } from 'constants/colors';
 import CustomBox from 'pages/Tickets/CustomBox/CustomBox';
 import FiltersTypo from 'pages/Tickets/CustomTypographies/FiltersTypo';
 import BlackTypo from 'pages/Tickets/CustomTypographies/BlackTypo';
 import GreyTypo from 'pages/Tickets/CustomTypographies/GreyTypo';
-import { useAppDispatch } from 'redux/hooks';
-import { open } from 'redux/slices/modal/modal.slice';
+// import { useAppDispatch } from 'redux/hooks';
+// import { openTicketModal } from 'redux/slices/modal/modal.slice';
 
 const dataGridTheme = createTheme({
   components: {
@@ -260,10 +259,10 @@ const rows = [
 ];
 
 const Tickets = () => {
-  const openModal = () => {
-    const dispatch = useAppDispatch();
-    dispatch(open());
-  };
+  // const openModal = () => {
+  //   const dispatch = useAppDispatch();
+  //   dispatch(openTicketModal());
+  // };
   return (
     <Paper
       sx={{
@@ -286,23 +285,6 @@ const Tickets = () => {
         },
       }}
     >
-      <Button
-        sx={{
-          alignSelf: 'flex-end',
-          fontWeight: 600,
-          letterSpacing: '0.2px',
-          color: `${$blue}`,
-          mt: '25px',
-          textTransform: 'capitalize',
-          position: 'absolute',
-          top: '40px',
-          right: '130px',
-          zIndex: 2,
-        }}
-        onClick={() => openModal()}
-      >
-        + Add ticket
-      </Button>
       <ThemeProvider theme={dataGridTheme}>
         <DataGrid
           sx={{

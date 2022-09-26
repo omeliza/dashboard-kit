@@ -5,12 +5,13 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 import Input from 'components/Input/Input';
-import Button from 'components/Button/Button';
 import Logo from 'components/Logo/Logo64/Logo';
 import { onForgotSubmit } from 'services/auth.service';
 import s from 'pages/Auth.module.scss';
 import { forgotSchema } from 'constants/validationSchemas';
 import { IForgot } from 'interfaces/interfaces';
+import CustomButton from 'components/CustomButton/CustomButton';
+import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
 
 const Forgot = () => {
   const location = useLocation();
@@ -44,11 +45,9 @@ const Forgot = () => {
                   type="email"
                   label="email"
                 />
-                {errors.email && (
-                  <p className={s.error}>{errors.email?.message}</p>
-                )}
+                {errors.email && <ErrorTypo>{errors.email?.message}</ErrorTypo>}
                 <div className={s.empty} />
-                <Button name="Send" />
+                <CustomButton name="Send" />
               </form>
             </FormProvider>
             <h5 className={s.h5}>
