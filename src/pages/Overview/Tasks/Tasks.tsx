@@ -96,8 +96,6 @@ const Tasks = () => {
         <Typography
           sx={{
             fontWeight: 60,
-            fontSize: '14px',
-            lineHeight: '20px',
             letterSpacing: '0.2px',
             color: `${$grey4}`,
           }}

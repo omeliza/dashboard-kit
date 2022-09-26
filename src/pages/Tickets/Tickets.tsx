@@ -1,16 +1,15 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { FC } from 'react';
+import React from 'react';
 import {
   Box,
   Typography,
-  styled,
   Paper,
   IconButton,
   createTheme,
   ThemeProvider,
+  Button,
 } from '@mui/material';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
-import MoreIcon from '@mui/icons-material/MoreVert';
 import type {} from '@mui/x-data-grid/themeAugmentation';
 
 import chrisevans from 'assets/table/chrisevans.png';
@@ -23,19 +22,13 @@ import steverogers from 'assets/table/steverogers.png';
 import tomcruise from 'assets/table/tomcruise.png';
 import sort from 'assets/table/sort.png';
 import filter from 'assets/table/filter.png';
-import {
-  $bgLight,
-  $white,
-  $black,
-  $grey4,
-  $yellow,
-  $red,
-  $green,
-  $grey2,
-  $grey3,
-  $blue,
-} from 'constants/colors';
-import { ICustomBox } from 'interfaces/interfaces';
+import { $bgLight, $white, $grey2, $blue } from 'constants/colors';
+import CustomBox from 'pages/Tickets/CustomBox/CustomBox';
+import FiltersTypo from 'pages/Tickets/CustomTypographies/FiltersTypo';
+import BlackTypo from 'pages/Tickets/CustomTypographies/BlackTypo';
+import GreyTypo from 'pages/Tickets/CustomTypographies/GreyTypo';
+import { useAppDispatch } from 'redux/hooks';
+import { open } from 'redux/slices/modal/modal.slice';
 
 const dataGridTheme = createTheme({
   components: {
@@ -70,74 +63,13 @@ const dataGridTheme = createTheme({
   },
 });
 
-const FiltersTypo = styled(Typography)({
-  paddingLeft: '8px',
-  fontSize: '14px',
-  fontWeight: 600,
-  lineHeight: '20px',
-  letterSpacing: '0.2px',
-  color: `${$grey3}`,
-});
-const BlackTypo = styled(Typography)({
-  fontSize: '14px',
-  lineHeight: '20px',
-  fontWeight: 600,
-  letterSpacing: '0.2px',
-  color: `${$black}`,
-  marginBottom: '4px',
-});
-
-const GreyTypo = styled(Typography)({
-  fontSize: '12px',
-  lineHeight: '16px',
-  letterSpacing: '0.1px',
-  color: `${$grey4}`,
-});
-
-const CustomBox: FC<ICustomBox> = ({ children }) => {
-  let bgColor = `${$yellow}`;
-  if (children === 'high') {
-    bgColor = `${$red}`;
-  }
-  if (children === 'normal') {
-    bgColor = `${$green}`;
-  }
-  return (
-    <>
-      <Box
-        sx={{
-          borderRadius: '100px',
-          padding: '5px 12px',
-          bgcolor: `${bgColor}`,
-          color: `${$white}`,
-        }}
-      >
-        {children}
-      </Box>
-      <IconButton
-        size="large"
-        aria-label="display more actions"
-        edge="end"
-        sx={{
-          ml: 'auto',
-          color: `${$grey4}`,
-          position: 'relative',
-          right: '0px',
-        }}
-      >
-        <MoreIcon />
-      </IconButton>
-    </>
-  );
-};
-
 const columns: GridColDef[] = [
   {
     field: 'ticketDetails',
     headerClassName: 'theme--header',
     renderHeader: () => (
-      <Box sx={{ pl: '30px', mt: '30px' }}>
-        <Box sx={{ pb: '47px' }}>
+      <Box sx={{ pl: '30px', mt: '50px' }}>
+        <Box sx={{ pb: '25px' }}>
           <IconButton sx={{ mr: '32px' }}>
             <img src={sort} alt="sort" />
             <FiltersTypo>Sort</FiltersTypo>
@@ -147,7 +79,7 @@ const columns: GridColDef[] = [
             <FiltersTypo>Filter</FiltersTypo>
           </IconButton>
         </Box>
-        Ticket details
+        <Typography sx={{ mb: '30px' }}>Ticket details</Typography>
       </Box>
     ),
     minWidth: 480,
@@ -172,18 +104,19 @@ const columns: GridColDef[] = [
     ),
     hideSortIcons: true,
     disableColumnMenu: true,
+    sortable: false,
   },
   {
     field: 'customerName',
     headerClassName: 'theme--header',
     renderHeader: () => (
-      <Box
+      <Typography
         sx={{
           mt: '85px',
         }}
       >
         Customer Name
-      </Box>
+      </Typography>
     ),
     minWidth: 248,
     renderCell: (params: GridRenderCellParams) => (
@@ -194,18 +127,19 @@ const columns: GridColDef[] = [
     ),
     hideSortIcons: true,
     disableColumnMenu: true,
+    sortable: false,
   },
   {
     field: 'date',
     headerClassName: 'theme--header',
     renderHeader: () => (
-      <Box
+      <Typography
         sx={{
           mt: '85px',
         }}
       >
         Date
-      </Box>
+      </Typography>
     ),
     minWidth: 180,
     align: 'left',
@@ -217,36 +151,12 @@ const columns: GridColDef[] = [
     ),
     hideSortIcons: true,
     disableColumnMenu: true,
+    sortable: false,
   },
   {
     field: 'priority',
     headerClassName: 'theme--header',
-    renderHeader: () => (
-      <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'space-between',
-          width: '180px',
-          height: '105px',
-        }}
-      >
-        <Typography
-          sx={{
-            alignSelf: 'flex-end',
-            fontSize: '14px',
-            lineHeight: '20px',
-            fontWeight: 600,
-            letterSpacing: '0.2px',
-            color: `${$blue}`,
-            mt: '25px',
-          }}
-        >
-          + Add contact
-        </Typography>
-        <Typography>Priority</Typography>
-      </Box>
-    ),
+    renderHeader: () => <Typography sx={{ mt: '80px' }}>Priority</Typography>,
     width: 180,
     align: 'left',
     renderCell: (params: GridRenderCellParams) => (
@@ -254,6 +164,7 @@ const columns: GridColDef[] = [
     ),
     hideSortIcons: true,
     disableColumnMenu: true,
+    sortable: false,
   },
 ];
 
@@ -349,6 +260,10 @@ const rows = [
 ];
 
 const Tickets = () => {
+  const openModal = () => {
+    const dispatch = useAppDispatch();
+    dispatch(open());
+  };
   return (
     <Paper
       sx={{
@@ -358,8 +273,9 @@ const Tickets = () => {
         width: '100%',
         bgcolor: `${$bgLight}`,
         p: '30px',
+        position: 'relative',
+        top: 0,
         '& .theme--header': {
-          fontSize: '14px',
           lineHeight: '18px',
           letterSpacing: '0.2px',
           color: `${$grey2}`,
@@ -370,6 +286,23 @@ const Tickets = () => {
         },
       }}
     >
+      <Button
+        sx={{
+          alignSelf: 'flex-end',
+          fontWeight: 600,
+          letterSpacing: '0.2px',
+          color: `${$blue}`,
+          mt: '25px',
+          textTransform: 'capitalize',
+          position: 'absolute',
+          top: '40px',
+          right: '130px',
+          zIndex: 2,
+        }}
+        onClick={() => openModal()}
+      >
+        + Add ticket
+      </Button>
       <ThemeProvider theme={dataGridTheme}>
         <DataGrid
           sx={{

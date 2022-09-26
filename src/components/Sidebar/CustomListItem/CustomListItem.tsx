@@ -20,9 +20,7 @@ const CustomListItemButton = styled(ListItemButton)({
 const CustomListItem = ({ src, itemIndex, name, link }: ICustomListItem) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const selectedIndex = useAppSelector(
-    (state) => state.sidebarSlice.selectedIndex,
-  );
+  const selectedIndex = useAppSelector((state) => state.sidebar.selectedIndex);
   const switchPage = () => {
     dispatch(setSelectedIndex(itemIndex));
     navigate(link);

@@ -7,7 +7,7 @@ import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import { router } from 'routs';
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
-import store from 'redux/store';
+import { setupStore } from 'redux/store';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -24,6 +24,8 @@ const theme = createTheme({
     },
   },
 });
+
+const store = setupStore();
 
 root.render(
   <ErrorBoundary>

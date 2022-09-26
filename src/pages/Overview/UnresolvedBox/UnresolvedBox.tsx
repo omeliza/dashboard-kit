@@ -29,15 +29,11 @@ const RepeatedSection = styled(Box)({
   paddingRight: '32px',
   '& > :first-of-type': {
     fontWeight: 600,
-    fontSize: '14px',
-    lineHeight: '20px',
     letterSpacing: '0.2px',
     color: `${$black}`,
   },
   '& > :last-of-type': {
     fontWeight: 600,
-    fontSize: '14px',
-    lineHeight: '20px',
     letterSpacing: '0.2px',
     color: `${$grey2}`,
   },

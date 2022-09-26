@@ -10,7 +10,6 @@ import Layout from 'components/Layout/Layout';
 import Overview from 'pages/Overview/Overview';
 import Tickets from 'pages/Tickets/Tickets';
 import Contacts from 'pages/Contacts/Contacts';
-import Settings from 'pages/Settings/Settings';
 
 export const router = createBrowserRouter([
   {
@@ -48,10 +47,6 @@ export const router = createBrowserRouter([
       {
         path: 'contacts',
         element: <Contacts />,
-      },
-      {
-        path: 'settings',
-        element: <Settings />,
       },
     ],
   },
