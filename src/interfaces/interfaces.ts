@@ -24,6 +24,7 @@ export interface IInputProps {
   type: string;
   label: string;
   name: string;
+  min?: string;
 }
 
 export interface IErrorProps {
@@ -50,4 +51,10 @@ export interface IContactModal {
   firstName: string;
   lastName: string;
   address: string;
+}
+export interface ITicketModal {
+  ticketDetails: string;
+  customerName: string;
+  date: string;
+  priority: 'Low' | 'Normal' | 'High';
 }

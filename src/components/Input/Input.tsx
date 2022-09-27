@@ -7,9 +7,9 @@ import hide from 'assets/hide.png';
 import show from 'assets/show.png';
 import s from 'components/Input/Input.module.scss';
 import { IInputProps } from 'interfaces/interfaces';
-import { $grey2 } from 'constants/colors';
+import { $grey2, $white4, $white5 } from 'constants/colors';
 
-const StyledLabel = styled.label`
+export const StyledLabel = styled.label`
   font-size: 12px;
   line-height: 15.06px;
   font-weight: 700;
@@ -24,14 +24,13 @@ const StyledLabel = styled.label`
 `;
 
 const StyledInput = styled.input`
-  display: flex;
-  flex-direction: column;
+  font-family: 'Mulish';
   margin-top: 6px;
   margin-bottom: 4px;
   width: 316px;
   height: 42px;
-  background-color: #fcfdfe;
-  border: 1px solid #f0f1f7;
+  background-color: ${$white4};
+  border: 1px solid ${$white5};
   border-radius: 8px;
   padding: 11px 16px;
 
