@@ -19,7 +19,7 @@ import { useFormContext } from 'react-hook-form';
 //   },
 // };
 
-const priorities = ['Low', 'Normal', 'High'];
+const priorities = ['low', 'normal', 'high'];
 
 function getStyles(priority: string, personPriority: string[], theme: Theme) {
   return {

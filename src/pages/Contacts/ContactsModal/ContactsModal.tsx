@@ -20,6 +20,7 @@ import { addContactSchema } from 'constants/validationSchemas';
 import CustomButton from 'components/CustomButton/CustomButton';
 import { IContactModal } from 'interfaces/interfaces';
 import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
+import { addContact } from 'redux/slices/contacts/contacts.slice';
 
 const StyledPaper = styled(Paper)`
   position: absolute;
@@ -50,14 +51,33 @@ const ContactsModal = () => {
     formState: { errors },
   } = methods;
 
-  const addContact = () => {};
   const handleClose = () => {
     dispatch(toggleContactModal());
     reset();
   };
+
   const cancel = () => {
     handleClose();
     reset();
+  };
+
+  const addContactSubmit = (data: {
+    image?: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    address: string;
+    src?: string;
+  }) => {
+    dispatch(
+      addContact({
+        src: data.image,
+        name: `${data.firstName} ${data.lastName}`,
+        email: data.email,
+        address: data.address,
+      }),
+    );
+    handleClose();
   };
 
   return (
@@ -77,7 +97,7 @@ const ContactsModal = () => {
         </Typography>
         <FormProvider {...methods}>
           <form
-            onSubmit={handleSubmit(addContact)}
+            onSubmit={handleSubmit(addContactSubmit)}
             style={{
               display: 'flex',
               flexDirection: 'column',

@@ -18,6 +18,7 @@ const CustomBox: FC<ICustomBox> = ({ children }) => {
         display: 'inline-block',
         borderRadius: '100px',
         padding: '5px 12px',
+        ml: '18px',
         bgcolor: `${bgColor}`,
         color: `${$white}`,
       }}

@@ -1,5 +1,7 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { ChangeEvent, useState } from 'react';
 import {
+  Avatar,
   Box,
   IconButton,
   Paper,
@@ -25,87 +27,12 @@ import {
   $white2,
 } from 'constants/colors';
 import FiltersTypo from 'pages/Tickets/CustomTypographies/FiltersTypo';
-import yasirstein from 'assets/table/chrisevans.png';
-import lucasharrington from 'assets/table/cristianbale.png';
-import carltonblackmore from 'assets/table/henrycavil.png';
-import elenasheldon from 'assets/table/mattdamon.png';
-import kimgould from 'assets/table/robertdowney.png';
-import danikabass from 'assets/table/samsmith.png';
-import shaynatierney from 'assets/table/steverogers.png';
-import mandeepwalton from 'assets/table/tomcruise.png';
 import sort from 'assets/table/sort.png';
 import filter from 'assets/table/filter.png';
 import ContactsModal from 'pages/Contacts/ContactsModal/ContactsModal';
-import { useAppDispatch } from 'redux/hooks';
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { toggleContactModal } from 'redux/slices/modal/modal.slice';
-
-const data = [
-  {
-    id: 1,
-    src: mandeepwalton,
-    name: 'Mandeep Walton',
-    email: 'mandeep.walton@gmail.com',
-    address:
-      'Unit 1, Moons Park, Burnt Meadow Road, Moons Moat North Industrial Estate",B98 9PA',
-    createdAt: 'May 26, 2019',
-  },
-  {
-    id: 2,
-    src: elenasheldon,
-    name: 'Elena Sheldon',
-    email: 'elena.sheldon@gmail.com',
-    address: 'South Lodge, Reddish Lane, Lymm,WA13 9PY',
-    createdAt: 'May 26, 2019',
-  },
-  {
-    id: 3,
-    src: kimgould,
-    name: 'Kim Gould',
-    email: 'kim.gould@gmail.com',
-    address: '15 Romilly Street, Liverpool,L6 9JL',
-    createdAt: 'May 26, 2019',
-  },
-  {
-    id: 4,
-    src: lucasharrington,
-    name: 'Lucas Harrington',
-    email: 'harringtonl@gmail.com',
-    address: '13 Balfour Crescent, Bracknell, RG12 7JA',
-    createdAt: 'May 25, 2019',
-  },
-  {
-    id: 5,
-    src: carltonblackmore,
-    name: 'Carlton Blackmore',
-    email: 'carlton.blackmore@gmail.com',
-    address: '267 Rundells, Harlow,CM18 7HH',
-    createdAt: 'May 25, 2019',
-  },
-  {
-    id: 6,
-    src: yasirstein,
-    name: 'Yasir Stein',
-    email: 'yasir.stein@gmail.com',
-    address: '47 Chelmsford Close, Hull,HU9 5DR',
-    createdAt: 'May 25, 2019',
-  },
-  {
-    id: 7,
-    src: danikabass,
-    name: 'Danika Bass',
-    email: 'danika.bass@gmail.com',
-    address: '65 Chapel Street, Salford,M3 5BZ',
-    createdAt: 'May 25, 2019',
-  },
-  {
-    id: 8,
-    src: shaynatierney,
-    name: 'Shayna Tierney',
-    email: 'shayna.tierney@gmail.com',
-    address: '16 Cedar Avenue, Poulton-Le-Fylde",FY6 8DQ',
-    createdAt: 'May 24, 2019',
-  },
-];
+import { stringAvatar } from 'utils/navbarHelpers';
 
 const BlackTypo = styled(Typography)({
   fontWeight: 600,
@@ -137,6 +64,7 @@ const Contacts = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const dispatch = useAppDispatch();
+  const data = useAppSelector((state) => state.contacts.list);
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -158,15 +86,15 @@ const Contacts = () => {
         sx={{
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center',
           p: '30px',
           width: '100%',
-          height: '100%',
+          minHeight: 'calc(100vh - 93px)',
           backgroundColor: `${$bgLight}`,
         }}
       >
         <Paper
           sx={{
+            height: 'max-content',
             maxWidth: '1122px',
             bgColor: `${$white}`,
             border: `1px solid ${$white2}`,
@@ -277,7 +205,11 @@ const Contacts = () => {
                                   alignItems: 'center',
                                 }}
                               >
-                                <img src={row.src} alt={row.name} />
+                                {row.src ? (
+                                  <img src={row.src} alt={row.name} />
+                                ) : (
+                                  <Avatar {...stringAvatar(row.name)} />
+                                )}
                                 <BlackTypo sx={{ ml: '24px' }}>
                                   {value}
                                 </BlackTypo>

@@ -12,7 +12,7 @@ const StyledBox = styled(Box)`
   grid-area: s;
   position: static;
   width: 255px;
-  height: 100%;
+  min-height: 100vh;
   background-color: ${$bg};
 `;
 

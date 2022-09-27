@@ -99,8 +99,8 @@ export const addContactSchema = Joi.object({
 });
 
 export const addTicketSchema = Joi.object({
-  details: Joi.string().label('Ticket details').min(6).max(25).required(),
+  ticketDetails: Joi.string().min(6).max(25).required(),
   customerName: Joi.string().label('Customer name').min(6).max(20).required(),
   date: Joi.string().label('Date').required(),
-  priority: Joi.string().label('Choose priority').required(),
+  priority: Joi.any().required(),
 });

@@ -20,6 +20,10 @@ import { ITicketModal } from 'interfaces/interfaces';
 import { toggleTicketModal } from 'redux/slices/modal/modal.slice';
 import CustomButton from 'components/CustomButton/CustomButton';
 import { $white } from 'constants/colors';
+import {
+  ActionPayloadTicketType,
+  addTicket,
+} from 'redux/slices/tickets/tickets.slice';
 
 const StyledPaper = styled(Paper)`
   position: absolute;
@@ -49,8 +53,6 @@ const TicketModal = () => {
     formState: { errors },
   } = methods;
 
-  const addTicket = () => {};
-
   const handleClose = () => {
     dispatch(toggleTicketModal());
     reset();
@@ -58,6 +60,18 @@ const TicketModal = () => {
   const cancel = () => {
     handleClose();
     reset();
+  };
+
+  const addTicketSubmit = (data: ActionPayloadTicketType) => {
+    dispatch(
+      addTicket({
+        ticketDetails: data.ticketDetails,
+        customerName: data.customerName,
+        date: data.date,
+        priority: data.priority,
+      }),
+    );
+    handleClose();
   };
 
   return (
@@ -77,7 +91,7 @@ const TicketModal = () => {
         </Typography>
         <FormProvider {...methods}>
           <form
-            onSubmit={handleSubmit(addTicket)}
+            onSubmit={handleSubmit(addTicketSubmit)}
             style={{
               display: 'flex',
               flexDirection: 'column',

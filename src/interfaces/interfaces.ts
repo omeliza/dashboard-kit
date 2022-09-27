@@ -46,7 +46,7 @@ export interface ICustomBox {
   children: ReactNode;
 }
 export interface IContactModal {
-  image?: File;
+  image?: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -56,5 +56,5 @@ export interface ITicketModal {
   ticketDetails: string;
   customerName: string;
   date: string;
-  priority: 'Low' | 'Normal' | 'High';
+  priority: 'low' | 'normal' | 'high';
 }
