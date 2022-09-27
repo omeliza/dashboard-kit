@@ -5,6 +5,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { AxiosError } from 'axios';
 import ReactModal from 'react-modal';
 import { joiResolver } from '@hookform/resolvers/joi';
+import jwtDecode from 'jwt-decode';
 
 import Input from 'components/Input/Input';
 import Logo from 'components/Logo/Logo64/Logo';
@@ -14,6 +15,8 @@ import { signIn } from 'services/auth.service';
 import { loginSchema } from 'constants/validationSchemas';
 import CustomButton from 'components/CustomButton/CustomButton';
 import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
+import { useAppDispatch } from 'redux/hooks';
+import { authenticated, setUser } from 'redux/slices/auth/auth.slice';
 
 export const customStyles = {
   content: {
@@ -29,7 +32,7 @@ export const customStyles = {
 const Login = () => {
   const [message, setMessage] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const methods = useForm<SignIn>({
     mode: 'onBlur',
@@ -50,8 +53,12 @@ const Login = () => {
   };
   const onLoginSubmit = async (data: SignIn) => {
     try {
+      localStorage.removeItem('token');
       const response = await signIn(data.email, data.password);
       if (response.status === 200) {
+        localStorage.setItem('token', response.data.token);
+        dispatch(setUser(jwtDecode(response.data.token)));
+        dispatch(authenticated());
         reset();
         navigate('/');
       }

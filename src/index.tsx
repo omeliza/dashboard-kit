@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import 'index.css';
-import { RouterProvider } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
-import { router } from 'routs';
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 import { setupStore } from 'redux/store';
+import App from 'components/App';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -31,7 +30,7 @@ root.render(
   <ErrorBoundary>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <RouterProvider router={router} />
+        <App />
       </ThemeProvider>
     </Provider>
   </ErrorBoundary>,

@@ -1,10 +1,20 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import { AppBar, Avatar, Box, Typography } from '@mui/material';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 
-import avatar from 'assets/avatar.png';
 import { $black, $bgLight } from 'constants/colors';
+import { useAppSelector } from 'redux/hooks';
+import { stringAvatar } from 'utils/navbarHelpers';
 
 const Navbar = () => {
+  const location = useLocation();
+  const capitalize =
+    location.pathname.slice(1).charAt(0).toUpperCase() +
+    location.pathname.slice(2);
+  const firstName = useAppSelector((state) => state.auth.user.firstname);
+  const lastName = useAppSelector((state) => state.auth.user.lastname);
+  const fullName = `${firstName} ${lastName}`;
   return (
     <AppBar
       sx={{
@@ -31,7 +41,7 @@ const Navbar = () => {
           color: `${$black}`,
         }}
       >
-        Overview
+        {location.pathname === '/' ? 'Overview' : capitalize}
       </Typography>
       <Box
         sx={{
@@ -47,9 +57,9 @@ const Navbar = () => {
             mr: '14px',
           }}
         >
-          Jones Ferdinand
+          {fullName}
         </Typography>
-        <Avatar alt="Jones Ferdinand" src={avatar} />
+        <Avatar {...stringAvatar(fullName)} />
       </Box>
     </AppBar>
   );

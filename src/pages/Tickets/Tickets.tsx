@@ -1,5 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import {
   Box,
   Paper,
@@ -154,6 +154,7 @@ const Tickets = () => {
   const openModal = () => {
     dispatch(toggleTicketModal());
   };
+
   return (
     <>
       <TicketModal />

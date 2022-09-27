@@ -19,7 +19,7 @@ export const signUp = (
   lastName: string,
   password: string,
 ) => {
-  return axios.post(`${url}/auth/signup`, {
+  return axios.post<string>(`${url}/auth/signup`, {
     email,
     firstName,
     lastName,

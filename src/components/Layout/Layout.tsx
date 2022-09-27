@@ -1,9 +1,10 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import styled from 'styled-components';
 
 import Navbar from 'components/NavBar/NavBar';
 import SideBar from 'components/Sidebar/Sidebar';
+import { useAppSelector } from 'redux/hooks';
 
 const StyledLayout = styled.div`
   display: grid;
@@ -16,12 +17,17 @@ const StyledLayout = styled.div`
 `;
 
 const Layout = () => {
-  return (
+  const isAuth = useAppSelector((state) => state.auth.isAuth);
+  return isAuth === true ? (
     <StyledLayout>
-      <Navbar />
-      <SideBar />
-      <Outlet />
+      <>
+        <Navbar />
+        <SideBar />
+        <Outlet />
+      </>
     </StyledLayout>
+  ) : (
+    <Navigate to="/login" />
   );
 };
 

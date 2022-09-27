@@ -22,51 +22,49 @@ const OverviewWrapper = styled(Card)`
     'un un ta ta';
 `;
 
-const Overview = () => {
-  return (
-    <OverviewWrapper>
-      <Cards />
-      <Box
-        style={{
-          gridArea: 'tr',
-          background: `${$white}`,
-          border: `1px solid ${$white2}`,
-          borderRadius: '8px',
-          padding: '32px 0 32px 32px',
-          maxHeight: '546px',
+const Overview = () => (
+  <OverviewWrapper>
+    <Cards />
+    <Box
+      style={{
+        gridArea: 'tr',
+        background: `${$white}`,
+        border: `1px solid ${$white2}`,
+        borderRadius: '8px',
+        padding: '32px 0 32px 32px',
+        maxHeight: '546px',
+      }}
+    >
+      <Typography
+        sx={{
+          fontWeight: 700,
+          fontSize: '19px',
+          lineHeight: '24px',
+          letterSpacing: '0.4px',
+          color: `${$black}`,
+          mb: '8px',
         }}
       >
-        <Typography
-          sx={{
-            fontWeight: 700,
-            fontSize: '19px',
-            lineHeight: '24px',
-            letterSpacing: '0.4px',
-            color: `${$black}`,
-            mb: '8px',
-          }}
-        >
-          Today’s trends
-        </Typography>
-        <Typography
-          sx={{
-            fontSize: '12px',
-            lineHeight: '16px',
-            letterSpacing: '0.1px',
-            color: `${$grey2}`,
-          }}
-        >
-          as of 25 May 2019, 09:41 PM
-        </Typography>
-        <Box sx={{ display: 'flex' }}>
-          <Chart />
-          <SideCards />
-        </Box>
+        Today’s trends
+      </Typography>
+      <Typography
+        sx={{
+          fontSize: '12px',
+          lineHeight: '16px',
+          letterSpacing: '0.1px',
+          color: `${$grey2}`,
+        }}
+      >
+        as of 25 May 2019, 09:41 PM
+      </Typography>
+      <Box sx={{ display: 'flex' }}>
+        <Chart />
+        <SideCards />
       </Box>
-      <UnresolvedBox />
-      <Tasks />
-    </OverviewWrapper>
-  );
-};
+    </Box>
+    <UnresolvedBox />
+    <Tasks />
+  </OverviewWrapper>
+);
 
 export default Overview;

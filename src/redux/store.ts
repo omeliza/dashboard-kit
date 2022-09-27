@@ -2,10 +2,12 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import sidebarSlice from 'redux/slices/sidebar/sidebar.slice';
 import modalSlice from 'redux/slices/modal/modal.slice';
+import authSlice from 'redux/slices/auth/auth.slice';
 
 const rootReducer = combineReducers({
   sidebar: sidebarSlice,
   modal: modalSlice,
+  auth: authSlice,
 });
 
 export const setupStore = () => {
