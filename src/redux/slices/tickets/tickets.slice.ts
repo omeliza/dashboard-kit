@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { format } from 'date-fns';
+import { format, formatDistanceToNow } from 'date-fns';
 
 import chrisevans from 'assets/table/chrisevans.png';
 import cristianbale from 'assets/table/cristianbale.png';
@@ -11,7 +11,7 @@ import steverogers from 'assets/table/steverogers.png';
 import tomcruise from 'assets/table/tomcruise.png';
 
 export interface ITicket {
-  id: number;
+  id: number | undefined;
   src: string;
   ticketDetails: string;
   updated: string;
@@ -19,15 +19,23 @@ export interface ITicket {
   customerDate: string;
   date: string;
   time: string;
-  priority: 'low' | 'normal' | 'high';
+  priority: 'low' | 'normal' | 'high' | undefined;
 }
 
 export type ActionPayloadTicketType = Pick<
   ITicket,
-  'ticketDetails' | 'customerName' | 'customerName' | 'priority' | 'date'
+  'ticketDetails' | 'customerName' | 'priority' | 'date'
 >;
+
+type CurrentTicket = Pick<
+  ITicket,
+  'id' | 'ticketDetails' | 'customerName' | 'priority' | 'date'
+>;
+
 interface ITicketsState {
   list: ITicket[];
+  currentTicketId: number | undefined;
+  currentTicket: CurrentTicket;
 }
 
 const initialState: ITicketsState = {
@@ -121,6 +129,14 @@ const initialState: ITicketsState = {
       priority: 'normal',
     },
   ],
+  currentTicketId: undefined,
+  currentTicket: {
+    id: undefined,
+    ticketDetails: '',
+    customerName: '',
+    priority: undefined,
+    date: '',
+  },
 };
 
 export const ticketsSlice = createSlice({
@@ -132,17 +148,50 @@ export const ticketsSlice = createSlice({
         id: state.list.length + 2,
         src: '',
         ticketDetails: action.payload.ticketDetails,
-        updated: '',
         customerName: action.payload.customerName,
         customerDate: format(new Date(), 'dd.MM.yyyy'),
         date: format(new Date(action.payload.date), 'LLLL dd, yyyy'),
-        time: format(new Date(), 'h a'),
+        time: format(new Date(action.payload.date), 'h a'),
+        updated: formatDistanceToNow(new Date(), {
+          addSuffix: true,
+          includeSeconds: true,
+        }),
         priority: action.payload.priority,
       });
+    },
+    updateTicket: (state, action: PayloadAction<CurrentTicket>) => {
+      const ticket = state.list.find((u) => u.id === action.payload.id);
+      if (ticket) {
+        ticket.ticketDetails = action.payload.ticketDetails;
+        ticket.customerName = action.payload.customerName;
+        ticket.priority = action.payload.priority;
+        ticket.updated = formatDistanceToNow(new Date(), {
+          addSuffix: true,
+          includeSeconds: true,
+        });
+      }
+    },
+    deleteTicket: (state, action: PayloadAction<number>) => {
+      state.list = state.list.filter((u) => u.id !== action.payload);
+    },
+    setCurrentTicketId: (state, action: PayloadAction<number | undefined>) => {
+      state.currentTicketId = action.payload;
+    },
+    setCurrentTicket: (state, action) => {
+      state.currentTicket.id = action.payload.id;
+      state.currentTicket.customerName = action.payload.customerName;
+      state.currentTicket.ticketDetails = action.payload.ticketDetails;
+      state.currentTicket.priority = action.payload.priority;
     },
   },
 });
 
 export default ticketsSlice.reducer;
 
-export const { addTicket } = ticketsSlice.actions;
+export const {
+  addTicket,
+  updateTicket,
+  deleteTicket,
+  setCurrentTicketId,
+  setCurrentTicket,
+} = ticketsSlice.actions;

@@ -49,6 +49,7 @@ const Input = ({
   name,
   changeHandler,
   value,
+  disabled,
 }: IInputProps) => {
   const [passwordShown, setPasswordShown] = useState(true);
 
@@ -67,6 +68,7 @@ const Input = ({
         autoComplete="true"
         onChange={changeHandler}
         value={value}
+        disabled={disabled}
       />
       <button type="button" className={s.toggle} onClick={togglePassword}>
         <img src={passwordShown ? hide : show} alt="hide" />

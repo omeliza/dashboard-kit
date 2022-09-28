@@ -23,7 +23,7 @@ import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
 import {
   addContact,
   setCurrentId,
-  setCurrentUser,
+  setCurrentContact,
   updateContact,
 } from 'redux/slices/contacts/contacts.slice';
 
@@ -45,7 +45,9 @@ const ContactsModal = () => {
   const isOpen = useAppSelector((state) => state.modal.isContactModalOpen);
   const currentId = useAppSelector((state) => state.contacts.currentId);
 
-  const currentUser = useAppSelector((state) => state.contacts.currentUser);
+  const currentContact = useAppSelector(
+    (state) => state.contacts.currentContact,
+  );
   const dispatch = useAppDispatch();
 
   const methods = useForm<IContactModal>({
@@ -63,7 +65,7 @@ const ContactsModal = () => {
     dispatch(toggleContactModal());
     dispatch(setCurrentId(undefined));
     dispatch(
-      setCurrentUser({
+      setCurrentContact({
         id: undefined,
         src: '',
         firstName: '',
@@ -78,7 +80,7 @@ const ContactsModal = () => {
     reset();
     dispatch(setCurrentId(undefined));
     dispatch(
-      setCurrentUser({
+      setCurrentContact({
         id: undefined,
         src: '',
         firstName: '',
@@ -175,11 +177,10 @@ const ContactsModal = () => {
                     hidden
                     accept="image/*"
                     name="image"
-                    // value={currentUser.src}
                     onChange={(e) =>
                       dispatch(
-                        setCurrentUser({
-                          ...currentUser,
+                        setCurrentContact({
+                          ...currentContact,
                           src: e.target.value,
                         }),
                       )
@@ -192,11 +193,11 @@ const ContactsModal = () => {
                 label="First name"
                 type="text"
                 name="firstName"
-                value={currentUser.firstName}
+                value={currentContact.firstName}
                 changeHandler={(e) =>
                   dispatch(
-                    setCurrentUser({
-                      ...currentUser,
+                    setCurrentContact({
+                      ...currentContact,
                       firstName: e.target.value,
                     }),
                   )
@@ -210,11 +211,11 @@ const ContactsModal = () => {
                 label="Last name"
                 type="text"
                 name="lastName"
-                value={currentUser.lastName}
+                value={currentContact.lastName}
                 changeHandler={(e) =>
                   dispatch(
-                    setCurrentUser({
-                      ...currentUser,
+                    setCurrentContact({
+                      ...currentContact,
                       lastName: e.target.value,
                     }),
                   )
@@ -228,11 +229,11 @@ const ContactsModal = () => {
                 label="Email"
                 type="email"
                 name="email"
-                value={currentUser.email}
+                value={currentContact.email}
                 changeHandler={(e) =>
                   dispatch(
-                    setCurrentUser({
-                      ...currentUser,
+                    setCurrentContact({
+                      ...currentContact,
                       email: e.target.value,
                     }),
                   )
@@ -244,11 +245,11 @@ const ContactsModal = () => {
                 label="Address"
                 type="text"
                 name="address"
-                value={currentUser.address}
+                value={currentContact.address}
                 changeHandler={(e) =>
                   dispatch(
-                    setCurrentUser({
-                      ...currentUser,
+                    setCurrentContact({
+                      ...currentContact,
                       address: e.target.value,
                     }),
                   )

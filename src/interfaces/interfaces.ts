@@ -27,6 +27,7 @@ export interface IInputProps {
   min?: string;
   value?: string | number;
   changeHandler?: (e: ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }
 
 export interface IErrorProps {

@@ -31,11 +31,11 @@ import ContactsModal from 'pages/Contacts/ContactsModal/ContactsModal';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { toggleContactModal } from 'redux/slices/modal/modal.slice';
 import { stringAvatar } from 'utils/navbarHelpers';
-import PopoverPopup from 'pages/Contacts/PopoverPopup/PopoverPopup';
+import PopoverPopup from 'components/PopoverPopup/PopoverPopup';
 import {
   deleteContact,
   setCurrentId,
-  setCurrentUser,
+  setCurrentContact,
 } from 'redux/slices/contacts/contacts.slice';
 
 const BlackTypo = styled(Typography)({
@@ -78,7 +78,7 @@ const Contacts = () => {
     dispatch(setCurrentId(id));
     if (user && typeof user !== undefined) {
       dispatch(
-        setCurrentUser({
+        setCurrentContact({
           id: user.id,
           src: user.src,
           firstName: user.name.split(' ')[0],
@@ -113,7 +113,7 @@ const Contacts = () => {
   useEffect(() => {
     if (user)
       dispatch(
-        setCurrentUser({
+        setCurrentContact({
           id: user.id,
           src: user.src,
           firstName: user.name.split(' ')[0],

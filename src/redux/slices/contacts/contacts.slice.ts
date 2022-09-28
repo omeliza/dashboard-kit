@@ -13,7 +13,7 @@ import mandeepwalton from 'assets/table/tomcruise.png';
 import {
   AddContact,
   IContactsState,
-  ICurrentUser,
+  ICurrentContact,
 } from 'redux/slices/contacts/types';
 
 const initialState: IContactsState = {
@@ -85,7 +85,7 @@ const initialState: IContactsState = {
     },
   ],
   currentId: undefined,
-  currentUser: {
+  currentContact: {
     id: undefined,
     src: '',
     firstName: '',
@@ -109,8 +109,8 @@ export const contactsSlice = createSlice({
         createdAt: format(new Date(), 'LLLL dd, yyyy'),
       });
     },
-    updateContact: (state, action: PayloadAction<ICurrentUser>) => {
-      const contact = state.list.find((u) => u.email === action.payload.email);
+    updateContact: (state, action: PayloadAction<ICurrentContact>) => {
+      const contact = state.list.find((u) => u.id === action.payload.id);
       if (contact) {
         contact.address = action.payload.address;
         contact.email = action.payload.email;
@@ -124,13 +124,13 @@ export const contactsSlice = createSlice({
     setCurrentId: (state, action: PayloadAction<number | undefined>) => {
       state.currentId = action.payload;
     },
-    setCurrentUser: (state, action: PayloadAction<ICurrentUser>) => {
-      state.currentUser.id = action.payload.id;
-      state.currentUser.src = action.payload.src;
-      state.currentUser.address = action.payload.address;
-      state.currentUser.email = action.payload.email;
-      state.currentUser.firstName = action.payload.firstName;
-      state.currentUser.lastName = action.payload.lastName;
+    setCurrentContact: (state, action: PayloadAction<ICurrentContact>) => {
+      state.currentContact.id = action.payload.id;
+      state.currentContact.src = action.payload.src;
+      state.currentContact.address = action.payload.address;
+      state.currentContact.email = action.payload.email;
+      state.currentContact.firstName = action.payload.firstName;
+      state.currentContact.lastName = action.payload.lastName;
     },
   },
 });
@@ -142,5 +142,5 @@ export const {
   setCurrentId,
   updateContact,
   deleteContact,
-  setCurrentUser,
+  setCurrentContact,
 } = contactsSlice.actions;

@@ -10,7 +10,7 @@ export interface IContact {
 export type UpdateContact = Omit<IContact, 'createdAt'>;
 export type AddContact = Omit<UpdateContact, 'id'>;
 
-export interface ICurrentUser {
+export interface ICurrentContact {
   id: number | undefined;
   src: string;
   firstName: string;
@@ -18,8 +18,9 @@ export interface ICurrentUser {
   email: string;
   address: string;
 }
+
 export interface IContactsState {
   list: IContact[];
   currentId: number | undefined;
-  currentUser: ICurrentUser;
+  currentContact: ICurrentContact;
 }

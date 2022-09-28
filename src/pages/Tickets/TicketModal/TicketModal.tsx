@@ -23,6 +23,9 @@ import { $white } from 'constants/colors';
 import {
   ActionPayloadTicketType,
   addTicket,
+  setCurrentTicket,
+  setCurrentTicketId,
+  updateTicket,
 } from 'redux/slices/tickets/tickets.slice';
 
 const StyledPaper = styled(Paper)`
@@ -43,6 +46,9 @@ const TicketModal = () => {
   const dispatch = useAppDispatch();
 
   const isOpen = useAppSelector((state) => state.modal.isTicketModalOpen);
+  const currentId = useAppSelector((state) => state.tickets.currentTicketId);
+  const currentTicket = useAppSelector((state) => state.tickets.currentTicket);
+
   const methods = useForm<ITicketModal>({
     mode: 'onBlur',
     resolver: joiResolver(addTicketSchema),
@@ -54,22 +60,53 @@ const TicketModal = () => {
   } = methods;
 
   const handleClose = () => {
-    dispatch(toggleTicketModal());
     reset();
+    dispatch(toggleTicketModal());
+    dispatch(setCurrentTicketId(undefined));
+    dispatch(
+      setCurrentTicket({
+        id: undefined,
+        ticketDetails: '',
+        customerName: '',
+        priority: undefined,
+      }),
+    );
   };
   const cancel = () => {
     reset();
+    dispatch(setCurrentTicketId(undefined));
+    dispatch(
+      setCurrentTicket({
+        id: undefined,
+        ticketDetails: '',
+        customerName: '',
+        priority: undefined,
+        date: '',
+      }),
+    );
   };
 
   const addTicketSubmit = (data: ActionPayloadTicketType) => {
-    dispatch(
-      addTicket({
-        ticketDetails: data.ticketDetails,
-        customerName: data.customerName,
-        date: data.date,
-        priority: data.priority,
-      }),
-    );
+    if (!currentId) {
+      dispatch(
+        addTicket({
+          ticketDetails: data.ticketDetails,
+          customerName: data.customerName,
+          date: data.date,
+          priority: data.priority,
+        }),
+      );
+    } else {
+      dispatch(
+        updateTicket({
+          id: currentId,
+          ticketDetails: data.ticketDetails,
+          customerName: data.customerName,
+          priority: data.priority,
+          date: data.date,
+        }),
+      );
+    }
     handleClose();
   };
 
@@ -104,6 +141,15 @@ const TicketModal = () => {
               label="Ticket details"
               type="text"
               name="ticketDetails"
+              value={currentTicket.ticketDetails}
+              changeHandler={(e) =>
+                dispatch(
+                  setCurrentTicket({
+                    ...currentTicket,
+                    ticketDetails: e.target.value,
+                  }),
+                )
+              }
             />
             {errors.ticketDetails && (
               <ErrorTypo>{errors.ticketDetails.message}</ErrorTypo>
@@ -113,6 +159,15 @@ const TicketModal = () => {
               label="Customer name"
               type="text"
               name="customerName"
+              value={currentTicket.customerName}
+              changeHandler={(e) =>
+                dispatch(
+                  setCurrentTicket({
+                    ...currentTicket,
+                    customerName: e.target.value,
+                  }),
+                )
+              }
             />
             {errors.customerName && (
               <ErrorTypo>{errors.customerName.message}</ErrorTypo>
@@ -123,6 +178,16 @@ const TicketModal = () => {
               placeholder="Date"
               name="date"
               min={new Date().toISOString().split('T')[0]}
+              value={currentTicket.date}
+              changeHandler={(e) =>
+                dispatch(
+                  setCurrentTicket({
+                    ...currentTicket,
+                    date: e.target.value,
+                  }),
+                )
+              }
+              // disabled={currentId !== undefined}
             />
             {errors.date && <ErrorTypo>{errors.date.message}</ErrorTypo>}
             <StyledLabel>

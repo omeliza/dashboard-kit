@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable react/destructuring-assignment */
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import {
   Box,
   Paper,
@@ -14,11 +14,10 @@ import {
   TableRow,
   Avatar,
 } from '@mui/material';
-import MoreIcon from '@mui/icons-material/MoreVert';
 
 import sort from 'assets/table/sort.png';
 import filter from 'assets/table/filter.png';
-import { $bgLight, $white, $grey4, $white2, $blue } from 'constants/colors';
+import { $bgLight, $white, $white2, $blue } from 'constants/colors';
 import FiltersTypo from 'pages/Tickets/CustomTypographies/FiltersTypo';
 import { toggleTicketModal } from 'redux/slices/modal/modal.slice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
@@ -28,6 +27,12 @@ import { TitleTypo } from 'pages/Contacts/Contacts';
 import BlackTypo from 'pages/Tickets/CustomTypographies/BlackTypo';
 import GreyTypo from 'pages/Tickets/CustomTypographies/GreyTypo';
 import { stringAvatar } from 'utils/navbarHelpers';
+import {
+  deleteTicket,
+  setCurrentTicket,
+  setCurrentTicketId,
+} from 'redux/slices/tickets/tickets.slice';
+import PopoverPopup from 'components/PopoverPopup/PopoverPopup';
 
 interface Column {
   id: 'ticketDetails' | 'customerName' | 'date' | 'priority';
@@ -45,7 +50,12 @@ const Tickets = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const dispatch = useAppDispatch();
+  const currentId = useAppSelector((state) => state.tickets.currentTicketId);
+  const ticket = useAppSelector((state) =>
+    currentId ? state.tickets.list.find((t) => t.id === currentId) : null,
+  );
   const data = useAppSelector((state) => state.tickets.list);
+
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
   };
@@ -58,6 +68,41 @@ const Tickets = () => {
   const openModal = () => {
     dispatch(toggleTicketModal());
   };
+
+  const edit = (id: number | undefined) => {
+    dispatch(setCurrentTicketId(id));
+    if (ticket && typeof ticket !== undefined) {
+      dispatch(
+        setCurrentTicket({
+          id: ticket.id,
+          customerName: ticket.customerName,
+          ticketDetails: ticket.ticketDetails,
+          priority: ticket.priority,
+        }),
+      );
+      dispatch(setCurrentTicketId(ticket.id));
+      dispatch(toggleTicketModal());
+    }
+  };
+
+  const deleteLine = (id: number | undefined) => {
+    dispatch(setCurrentTicketId(id));
+    if (ticket && typeof ticket !== undefined && currentId) {
+      dispatch(deleteTicket(currentId));
+    }
+  };
+
+  useEffect(() => {
+    if (ticket)
+      dispatch(
+        setCurrentTicket({
+          id: ticket.id,
+          customerName: ticket.customerName,
+          ticketDetails: ticket.ticketDetails,
+          priority: ticket.priority,
+        }),
+      );
+  }, [currentId, dispatch]);
 
   return (
     <>
@@ -246,21 +291,10 @@ const Tickets = () => {
                           </TableCell>
                         );
                       })}
-                      <IconButton
-                        size="large"
-                        aria-label="display more actions"
-                        edge="end"
-                        sx={{
-                          mt: 'auto',
-                          mb: 'auto',
-                          color: `${$grey4}`,
-                          position: 'absolute',
-                          right: '35px',
-                          top: '23px',
-                        }}
-                      >
-                        <MoreIcon />
-                      </IconButton>
+                      <PopoverPopup
+                        edit={() => edit(row.id)}
+                        deleteLine={() => deleteLine(row.id)}
+                      />
                     </TableRow>
                   ))}
               </TableBody>
