@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { format } from 'date-fns';
 
@@ -9,19 +10,11 @@ import kimgould from 'assets/table/robertdowney.png';
 import danikabass from 'assets/table/samsmith.png';
 import shaynatierney from 'assets/table/steverogers.png';
 import mandeepwalton from 'assets/table/tomcruise.png';
-
-export interface IContact {
-  id?: number;
-  src?: string;
-  name: string;
-  email: string;
-  address: string;
-  createdAt?: string;
-}
-
-interface IContactsState {
-  list: IContact[];
-}
+import {
+  AddContact,
+  IContactsState,
+  ICurrentUser,
+} from 'redux/slices/contacts/types';
 
 const initialState: IContactsState = {
   list: [
@@ -91,13 +84,22 @@ const initialState: IContactsState = {
       createdAt: 'May 24, 2019',
     },
   ],
+  currentId: undefined,
+  currentUser: {
+    id: undefined,
+    src: '',
+    firstName: '',
+    lastName: '',
+    email: '',
+    address: '',
+  },
 };
 
 export const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
-    addContact: (state, action: PayloadAction<IContact>) => {
+    addContact: (state, action: PayloadAction<AddContact>) => {
       state.list.push({
         id: state.list.length + 2,
         src: action.payload.src,
@@ -107,9 +109,38 @@ export const contactsSlice = createSlice({
         createdAt: format(new Date(), 'LLLL dd, yyyy'),
       });
     },
+    updateContact: (state, action: PayloadAction<ICurrentUser>) => {
+      const contact = state.list.find((u) => u.email === action.payload.email);
+      if (contact) {
+        contact.address = action.payload.address;
+        contact.email = action.payload.email;
+        contact.name = `${action.payload.firstName} ${action.payload.lastName}`;
+        if (action.payload.src) contact.src = action.payload.src;
+      }
+    },
+    deleteContact: (state, action: PayloadAction<number>) => {
+      state.list = state.list.filter((u) => u.id !== action.payload);
+    },
+    setCurrentId: (state, action: PayloadAction<number | undefined>) => {
+      state.currentId = action.payload;
+    },
+    setCurrentUser: (state, action: PayloadAction<ICurrentUser>) => {
+      state.currentUser.id = action.payload.id;
+      state.currentUser.src = action.payload.src;
+      state.currentUser.address = action.payload.address;
+      state.currentUser.email = action.payload.email;
+      state.currentUser.firstName = action.payload.firstName;
+      state.currentUser.lastName = action.payload.lastName;
+    },
   },
 });
 
 export default contactsSlice.reducer;
 
-export const { addContact } = contactsSlice.actions;
+export const {
+  addContact,
+  setCurrentId,
+  updateContact,
+  deleteContact,
+  setCurrentUser,
+} = contactsSlice.actions;

@@ -42,7 +42,14 @@ const StyledInput = styled.input`
   }
 `;
 
-const Input = ({ placeholder, type, label, name }: IInputProps) => {
+const Input = ({
+  placeholder,
+  type,
+  label,
+  name,
+  changeHandler,
+  value,
+}: IInputProps) => {
   const [passwordShown, setPasswordShown] = useState(true);
 
   const togglePassword = () => {
@@ -58,6 +65,8 @@ const Input = ({ placeholder, type, label, name }: IInputProps) => {
         type={passwordShown ? type : 'text'}
         placeholder={placeholder}
         autoComplete="true"
+        onChange={changeHandler}
+        value={value}
       />
       <button type="button" className={s.toggle} onClick={togglePassword}>
         <img src={passwordShown ? hide : show} alt="hide" />

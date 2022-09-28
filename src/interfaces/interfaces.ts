@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ChangeEvent, ReactNode } from 'react';
 
 export interface IForgot {
   email: string;
@@ -25,6 +25,8 @@ export interface IInputProps {
   label: string;
   name: string;
   min?: string;
+  value?: string | number;
+  changeHandler?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface IErrorProps {
@@ -46,11 +48,19 @@ export interface ICustomBox {
   children: ReactNode;
 }
 export interface IContactModal {
-  image?: string;
-  email: string;
+  id?: number;
+  src: string;
+  name?: string;
+  image: string;
   firstName: string;
   lastName: string;
+  email: string;
   address: string;
+  // image: string;
+  // email: string;
+  // firstName: string;
+  // lastName: string;
+  // address: string;
 }
 export interface ITicketModal {
   ticketDetails: string;

@@ -20,7 +20,12 @@ import { addContactSchema } from 'constants/validationSchemas';
 import CustomButton from 'components/CustomButton/CustomButton';
 import { IContactModal } from 'interfaces/interfaces';
 import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
-import { addContact } from 'redux/slices/contacts/contacts.slice';
+import {
+  addContact,
+  setCurrentId,
+  setCurrentUser,
+  updateContact,
+} from 'redux/slices/contacts/contacts.slice';
 
 const StyledPaper = styled(Paper)`
   position: absolute;
@@ -38,7 +43,9 @@ const StyledPaper = styled(Paper)`
 
 const ContactsModal = () => {
   const isOpen = useAppSelector((state) => state.modal.isContactModalOpen);
+  const currentId = useAppSelector((state) => state.contacts.currentId);
 
+  const currentUser = useAppSelector((state) => state.contacts.currentUser);
   const dispatch = useAppDispatch();
 
   const methods = useForm<IContactModal>({
@@ -52,142 +59,230 @@ const ContactsModal = () => {
   } = methods;
 
   const handleClose = () => {
-    dispatch(toggleContactModal());
     reset();
+    dispatch(toggleContactModal());
+    dispatch(setCurrentId(undefined));
+    dispatch(
+      setCurrentUser({
+        id: undefined,
+        src: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        address: '',
+      }),
+    );
   };
 
   const cancel = () => {
-    handleClose();
     reset();
-  };
-
-  const addContactSubmit = (data: {
-    image?: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    address: string;
-    src?: string;
-  }) => {
+    dispatch(setCurrentId(undefined));
     dispatch(
-      addContact({
-        src: data.image,
-        name: `${data.firstName} ${data.lastName}`,
-        email: data.email,
-        address: data.address,
+      setCurrentUser({
+        id: undefined,
+        src: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        address: '',
       }),
     );
+  };
+
+  const addContactSubmit = (data: IContactModal) => {
+    if (!currentId) {
+      dispatch(
+        addContact({
+          src: data.image,
+          name: `${data.firstName} ${data.lastName}`,
+          email: data.email,
+          address: data.address,
+        }),
+      );
+    } else {
+      dispatch(
+        updateContact({
+          id: currentId,
+          src: data.src,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          address: data.address,
+        }),
+      );
+    }
     handleClose();
   };
 
   return (
     <Modal open={isOpen} onClose={handleClose}>
       <StyledPaper>
-        <Typography
-          sx={{
-            fontWeight: 700,
-            fontSize: '24px',
-            lineHeight: '30px',
-            letterSpacing: '0.3px',
-            textAlign: 'center',
-            mb: '32px',
-          }}
-        >
-          Add new contact
-        </Typography>
-        <FormProvider {...methods}>
-          <form
-            onSubmit={handleSubmit(addContactSubmit)}
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              width: '316px',
-              minHeight: '536px',
+        <>
+          <Typography
+            sx={{
+              fontWeight: 700,
+              fontSize: '24px',
+              lineHeight: '30px',
+              letterSpacing: '0.3px',
+              textAlign: 'center',
+              mb: '32px',
             }}
           >
-            <Button
-              component="label"
-              sx={{ display: 'flex', justifyContent: 'start', paddingLeft: 0 }}
-            >
-              <AddIcon
-                sx={{
-                  fontSize: '60px',
-                  color: 'rgba(159, 162, 180, 0.5)',
-                  mr: '20px',
-                  display: 'flex',
-                  justifyContent: 'start',
-                  ml: '-5px',
-                  mb: 0,
-                }}
-              />
-              <Typography
-                sx={{
-                  color: `${$black}`,
-                  letterSpacing: '0.2px',
-                  fontWeight: 600,
-                }}
-              >
-                Add photo
-              </Typography>
-              <input type="file" hidden accept="image/*" name="image" />
-            </Button>
-            <Input
-              placeholder="First name"
-              label="First name"
-              type="text"
-              name="firstName"
-            />
-            {errors.firstName && (
-              <ErrorTypo>{errors.firstName.message}</ErrorTypo>
-            )}
-            <Input
-              placeholder="Last name"
-              label="Last name"
-              type="text"
-              name="lastName"
-            />
-            {errors.lastName && (
-              <ErrorTypo>{errors.lastName.message}</ErrorTypo>
-            )}
-            <Input
-              placeholder="Email"
-              label="Email"
-              type="email"
-              name="email"
-            />
-            {errors.email && <ErrorTypo>{errors.email.message}</ErrorTypo>}
-            <Input
-              placeholder="Address"
-              label="Address"
-              type="text"
-              name="address"
-            />
-            {errors.address && <ErrorTypo>{errors.address.message}</ErrorTypo>}
-            <ButtonGroup
-              orientation="vertical"
-              sx={{
+            {currentId ? 'Editing contact' : 'Add new contact'}
+          </Typography>
+          <FormProvider {...methods}>
+            <form
+              onSubmit={handleSubmit(addContactSubmit)}
+              style={{
                 display: 'flex',
-                minHeight: '95px',
+                flexDirection: 'column',
                 justifyContent: 'space-between',
-                mt: '24px',
+                width: '316px',
+                minHeight: '536px',
               }}
             >
-              <CustomButton name="Save" />
               <Button
-                variant="text"
-                onClick={cancel}
+                component="label"
                 sx={{
-                  ml: 'calc(50% - 158px)',
-                  display: 'block',
-                  letterSpacing: '0.2px',
+                  display: 'flex',
+                  justifyContent: 'start',
+                  paddingLeft: 0,
                 }}
               >
-                Cancel
+                <>
+                  <AddIcon
+                    sx={{
+                      fontSize: '60px',
+                      color: 'rgba(159, 162, 180, 0.5)',
+                      mr: '20px',
+                      display: 'flex',
+                      justifyContent: 'start',
+                      ml: '-5px',
+                      mb: 0,
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      color: `${$black}`,
+                      letterSpacing: '0.2px',
+                      fontWeight: 600,
+                    }}
+                  >
+                    Add photo
+                  </Typography>
+                  <input
+                    type="file"
+                    hidden
+                    accept="image/*"
+                    name="image"
+                    // value={currentUser.src}
+                    onChange={(e) =>
+                      dispatch(
+                        setCurrentUser({
+                          ...currentUser,
+                          src: e.target.value,
+                        }),
+                      )
+                    }
+                  />
+                </>
               </Button>
-            </ButtonGroup>
-          </form>
-        </FormProvider>
+              <Input
+                placeholder="First name"
+                label="First name"
+                type="text"
+                name="firstName"
+                value={currentUser.firstName}
+                changeHandler={(e) =>
+                  dispatch(
+                    setCurrentUser({
+                      ...currentUser,
+                      firstName: e.target.value,
+                    }),
+                  )
+                }
+              />
+              {errors.firstName && (
+                <ErrorTypo>{errors.firstName.message}</ErrorTypo>
+              )}
+              <Input
+                placeholder="Last name"
+                label="Last name"
+                type="text"
+                name="lastName"
+                value={currentUser.lastName}
+                changeHandler={(e) =>
+                  dispatch(
+                    setCurrentUser({
+                      ...currentUser,
+                      lastName: e.target.value,
+                    }),
+                  )
+                }
+              />
+              {errors.lastName && (
+                <ErrorTypo>{errors.lastName.message}</ErrorTypo>
+              )}
+              <Input
+                placeholder="Email"
+                label="Email"
+                type="email"
+                name="email"
+                value={currentUser.email}
+                changeHandler={(e) =>
+                  dispatch(
+                    setCurrentUser({
+                      ...currentUser,
+                      email: e.target.value,
+                    }),
+                  )
+                }
+              />
+              {errors.email && <ErrorTypo>{errors.email.message}</ErrorTypo>}
+              <Input
+                placeholder="Address"
+                label="Address"
+                type="text"
+                name="address"
+                value={currentUser.address}
+                changeHandler={(e) =>
+                  dispatch(
+                    setCurrentUser({
+                      ...currentUser,
+                      address: e.target.value,
+                    }),
+                  )
+                }
+              />
+              {errors.address && (
+                <ErrorTypo>{errors.address.message}</ErrorTypo>
+              )}
+              <ButtonGroup
+                orientation="vertical"
+                sx={{
+                  display: 'flex',
+                  minHeight: '95px',
+                  justifyContent: 'space-between',
+                  mt: '24px',
+                }}
+              >
+                <CustomButton name="Save" />
+                <Button
+                  variant="text"
+                  onClick={cancel}
+                  sx={{
+                    ml: 'calc(50% - 158px)',
+                    display: 'block',
+                    letterSpacing: '0.2px',
+                  }}
+                  type="reset"
+                >
+                  Cancel
+                </Button>
+              </ButtonGroup>
+            </form>
+          </FormProvider>
+        </>
       </StyledPaper>
     </Modal>
   );

@@ -35,6 +35,8 @@ const MyButton = styled.button`
 interface IButtonProps {
   name: string;
   // disabled: boolean;
+  // eslint-disable-next-line react/no-unused-prop-types
+  // onClick?: (e: MouseEventHandler<HTMLInputElement>) => void;
 }
 const CustomButton = ({ name }: IButtonProps) => {
   return <MyButton type="submit">{name}</MyButton>;

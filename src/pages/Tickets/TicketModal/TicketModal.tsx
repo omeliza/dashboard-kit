@@ -58,7 +58,6 @@ const TicketModal = () => {
     reset();
   };
   const cancel = () => {
-    handleClose();
     reset();
   };
 
