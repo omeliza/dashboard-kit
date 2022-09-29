@@ -178,7 +178,7 @@ const TicketModal = () => {
               placeholder="Date"
               name="date"
               min={new Date().toISOString().split('T')[0]}
-              value={currentTicket.date}
+              // value={currentTicket.date}
               changeHandler={(e) =>
                 dispatch(
                   setCurrentTicket({

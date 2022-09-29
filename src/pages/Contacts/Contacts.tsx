@@ -26,7 +26,6 @@ import {
 } from 'constants/colors';
 import FiltersTypo from 'pages/Tickets/CustomTypographies/FiltersTypo';
 import sort from 'assets/table/sort.png';
-import filter from 'assets/table/filter.png';
 import ContactsModal from 'pages/Contacts/ContactsModal/ContactsModal';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { toggleContactModal } from 'redux/slices/modal/modal.slice';
@@ -37,6 +36,7 @@ import {
   setCurrentId,
   setCurrentContact,
 } from 'redux/slices/contacts/contacts.slice';
+import FilterPopover from 'components/FilterPopover/FilterPopover';
 
 const BlackTypo = styled(Typography)({
   fontWeight: 600,
@@ -69,7 +69,7 @@ const Contacts = () => {
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.contacts.list);
-  const currentId = useAppSelector((state) => state.contacts.currentId);
+  const { currentId, searchName } = useAppSelector((state) => state.contacts);
   const user = useAppSelector((state) =>
     currentId ? state.contacts.list.find((u) => u.id === currentId) : null,
   );
@@ -123,6 +123,17 @@ const Contacts = () => {
         }),
       );
   }, [currentId, dispatch]);
+
+  const filteredContacts = (name: string | undefined) => {
+    return name
+      ? data.filter((str: { name: string; address: string }) =>
+          str.name
+            .toLowerCase()
+            .concat(str.address.toLowerCase())
+            .includes(name),
+        )
+      : data;
+  };
 
   return (
     <>
@@ -202,15 +213,12 @@ const Contacts = () => {
                                 height: '90px',
                               }}
                             >
-                              <Box>
+                              <Box sx={{ display: 'flex' }}>
                                 <IconButton sx={{ mr: '32px' }}>
                                   <img src={sort} alt="sort" />
                                   <FiltersTypo>Sort</FiltersTypo>
                                 </IconButton>
-                                <IconButton>
-                                  <img src={filter} alt="filter" />
-                                  <FiltersTypo>Filter</FiltersTypo>
-                                </IconButton>
+                                <FilterPopover />
                               </Box>
                               <TitleTypo>{column.label}</TitleTypo>
                             </Box>
@@ -228,7 +236,7 @@ const Contacts = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {data
+                    {filteredContacts(searchName)
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage,

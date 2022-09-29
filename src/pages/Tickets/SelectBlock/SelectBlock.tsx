@@ -1,12 +1,14 @@
-import * as React from 'react';
+import React from 'react';
 import { Theme, useTheme } from '@mui/material/styles';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+
+import { useAppDispatch, useAppSelector } from 'redux/hooks';
+import { setPersonPriority } from 'redux/slices/tickets/tickets.slice';
 
 // const ITEM_HEIGHT = 42;
 // const ITEM_PADDING_TOP = 8;
@@ -21,7 +23,7 @@ import { useFormContext } from 'react-hook-form';
 
 const priorities = ['low', 'normal', 'high'];
 
-function getStyles(priority: string, personPriority: string[], theme: Theme) {
+function getStyles(priority: string, personPriority: string, theme: Theme) {
   return {
     fontWeight:
       personPriority.indexOf(priority) === -1
@@ -32,24 +34,24 @@ function getStyles(priority: string, personPriority: string[], theme: Theme) {
 
 const SelectBlock = () => {
   const theme = useTheme();
-  const [personPriority, setPersonPriority] = useState<string[]>([]);
+  const personPriority = useAppSelector(
+    (state) => state.tickets.personPriority,
+  );
+  const dispatch = useAppDispatch();
 
   const handleChange = (event: SelectChangeEvent<typeof personPriority>) => {
     const {
       target: { value },
     } = event;
-    setPersonPriority(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+    dispatch(setPersonPriority(value));
   };
   const { register } = useFormContext();
   return (
     <div>
       <FormControl sx={{ mt: '6px', width: 316, height: 42 }} required>
-        <InputLabel id="demo-multiple-name-label" /* shrink={false} */>
+        {/* <InputLabel id="demo-multiple-name-label"  shrink={false}>
           Choose priority
-        </InputLabel>
+        </InputLabel> */}
         <Select
           // eslint-disable-next-line react/jsx-props-no-spreading
           {...register('priority')}

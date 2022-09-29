@@ -23,4 +23,5 @@ export interface IContactsState {
   list: IContact[];
   currentId: number | undefined;
   currentContact: ICurrentContact;
+  searchName: string;
 }

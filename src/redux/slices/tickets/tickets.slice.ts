@@ -10,6 +10,8 @@ import samsmith from 'assets/table/samsmith.png';
 import steverogers from 'assets/table/steverogers.png';
 import tomcruise from 'assets/table/tomcruise.png';
 
+// type Priority = 'low' | 'normal' | 'high' | undefined;
+
 export interface ITicket {
   id: number | undefined;
   src: string;
@@ -19,7 +21,7 @@ export interface ITicket {
   customerDate: string;
   date: string;
   time: string;
-  priority: 'low' | 'normal' | 'high' | undefined;
+  priority: string;
 }
 
 export type ActionPayloadTicketType = Pick<
@@ -36,6 +38,8 @@ interface ITicketsState {
   list: ITicket[];
   currentTicketId: number | undefined;
   currentTicket: CurrentTicket;
+  personPriority: string;
+  searchedText: string;
 }
 
 const initialState: ITicketsState = {
@@ -134,9 +138,11 @@ const initialState: ITicketsState = {
     id: undefined,
     ticketDetails: '',
     customerName: '',
-    priority: undefined,
+    priority: '',
     date: '',
   },
+  personPriority: '',
+  searchedText: '',
 };
 
 export const ticketsSlice = createSlice({
@@ -183,6 +189,12 @@ export const ticketsSlice = createSlice({
       state.currentTicket.ticketDetails = action.payload.ticketDetails;
       state.currentTicket.priority = action.payload.priority;
     },
+    setPersonPriority: (state, action: PayloadAction<string>) => {
+      state.personPriority = action.payload;
+    },
+    setSearchedText: (state, action: PayloadAction<string>) => {
+      state.searchedText = action.payload;
+    },
   },
 });
 
@@ -194,4 +206,6 @@ export const {
   deleteTicket,
   setCurrentTicketId,
   setCurrentTicket,
+  setPersonPriority,
+  setSearchedText,
 } = ticketsSlice.actions;

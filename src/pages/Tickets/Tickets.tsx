@@ -16,7 +16,6 @@ import {
 } from '@mui/material';
 
 import sort from 'assets/table/sort.png';
-import filter from 'assets/table/filter.png';
 import { $bgLight, $white, $white2, $blue } from 'constants/colors';
 import FiltersTypo from 'pages/Tickets/CustomTypographies/FiltersTypo';
 import { toggleTicketModal } from 'redux/slices/modal/modal.slice';
@@ -33,6 +32,7 @@ import {
   setCurrentTicketId,
 } from 'redux/slices/tickets/tickets.slice';
 import PopoverPopup from 'components/PopoverPopup/PopoverPopup';
+import FilterPopover from 'components/FilterPopover/FilterPopover';
 
 interface Column {
   id: 'ticketDetails' | 'customerName' | 'date' | 'priority';
@@ -51,6 +51,8 @@ const Tickets = () => {
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const dispatch = useAppDispatch();
   const currentId = useAppSelector((state) => state.tickets.currentTicketId);
+  const searchedText = useAppSelector((state) => state.tickets.searchedText);
+
   const ticket = useAppSelector((state) =>
     currentId ? state.tickets.list.find((t) => t.id === currentId) : null,
   );
@@ -104,6 +106,22 @@ const Tickets = () => {
       );
   }, [currentId, dispatch]);
 
+  const filteredText = (text: string | undefined) => {
+    return text
+      ? data.filter(
+          (str: {
+            ticketDetails: string;
+            priority: string;
+            customerName: string;
+          }) =>
+            str.ticketDetails
+              .toLowerCase()
+              .concat(str.priority)
+              .concat(str.customerName.toLowerCase())
+              .includes(text),
+        )
+      : data;
+  };
   return (
     <>
       <TicketModal />
@@ -180,15 +198,12 @@ const Tickets = () => {
                             height: '90px',
                           }}
                         >
-                          <Box>
+                          <Box sx={{ display: 'flex' }}>
                             <IconButton sx={{ mr: '32px' }}>
                               <img src={sort} alt="sort" />
                               <FiltersTypo>Sort</FiltersTypo>
                             </IconButton>
-                            <IconButton>
-                              <img src={filter} alt="filter" />
-                              <FiltersTypo>Filter</FiltersTypo>
-                            </IconButton>
+                            <FilterPopover />
                           </Box>
                           <TitleTypo>{column.label}</TitleTypo>
                         </Box>
@@ -210,7 +225,7 @@ const Tickets = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data
+                {filteredText(searchedText)
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => (
                     <TableRow
