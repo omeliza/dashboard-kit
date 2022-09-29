@@ -10,8 +10,6 @@ import samsmith from 'assets/table/samsmith.png';
 import steverogers from 'assets/table/steverogers.png';
 import tomcruise from 'assets/table/tomcruise.png';
 
-// type Priority = 'low' | 'normal' | 'high' | undefined;
-
 export interface ITicket {
   id: number | undefined;
   src: string;
@@ -40,6 +38,7 @@ interface ITicketsState {
   currentTicket: CurrentTicket;
   personPriority: string;
   searchedText: string;
+  ticketOrder: string;
 }
 
 const initialState: ITicketsState = {
@@ -143,6 +142,7 @@ const initialState: ITicketsState = {
   },
   personPriority: '',
   searchedText: '',
+  ticketOrder: '',
 };
 
 export const ticketsSlice = createSlice({
@@ -195,6 +195,9 @@ export const ticketsSlice = createSlice({
     setSearchedText: (state, action: PayloadAction<string>) => {
       state.searchedText = action.payload;
     },
+    setTicketOrder: (state, action: PayloadAction<string>) => {
+      state.ticketOrder = action.payload;
+    },
   },
 });
 
@@ -208,4 +211,5 @@ export const {
   setCurrentTicket,
   setPersonPriority,
   setSearchedText,
+  setTicketOrder,
 } = ticketsSlice.actions;

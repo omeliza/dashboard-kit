@@ -3,7 +3,6 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import {
   Avatar,
   Box,
-  IconButton,
   Paper,
   styled,
   Table,
@@ -24,8 +23,6 @@ import {
   $white,
   $white2,
 } from 'constants/colors';
-import FiltersTypo from 'pages/Tickets/CustomTypographies/FiltersTypo';
-import sort from 'assets/table/sort.png';
 import ContactsModal from 'pages/Contacts/ContactsModal/ContactsModal';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { toggleContactModal } from 'redux/slices/modal/modal.slice';
@@ -37,6 +34,8 @@ import {
   setCurrentContact,
 } from 'redux/slices/contacts/contacts.slice';
 import FilterPopover from 'components/FilterPopover/FilterPopover';
+import SortPopover from 'components/SortPopover/SortPopover';
+import { IContact } from 'redux/slices/contacts/types';
 
 const BlackTypo = styled(Typography)({
   fontWeight: 600,
@@ -44,13 +43,13 @@ const BlackTypo = styled(Typography)({
   color: `${$black}`,
 });
 
-interface Column {
+interface ContactsColumn {
   id: 'name' | 'email' | 'address' | 'createdAt';
   label: string;
   minWidth?: number;
 }
 
-const columns: readonly Column[] = [
+const columns: readonly ContactsColumn[] = [
   { id: 'name', label: 'Name', minWidth: 396 },
   { id: 'email', label: 'Email', minWidth: 248 },
   { id: 'address', label: 'Address', minWidth: 248 },
@@ -69,7 +68,9 @@ const Contacts = () => {
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const dispatch = useAppDispatch();
   const data = useAppSelector((state) => state.contacts.list);
-  const { currentId, searchName } = useAppSelector((state) => state.contacts);
+  const { currentId, searchName, order } = useAppSelector(
+    (state) => state.contacts,
+  );
   const user = useAppSelector((state) =>
     currentId ? state.contacts.list.find((u) => u.id === currentId) : null,
   );
@@ -124,15 +125,29 @@ const Contacts = () => {
       );
   }, [currentId, dispatch]);
 
+  const filtering = (arr: IContact[], text: string) => {
+    return [...arr].filter((str: { name: string; address: string }) =>
+      str.name.toLowerCase().concat(str.address.toLowerCase()).includes(text),
+    );
+  };
+
   const filteredContacts = (name: string | undefined) => {
-    return name
-      ? data.filter((str: { name: string; address: string }) =>
-          str.name
-            .toLowerCase()
-            .concat(str.address.toLowerCase())
-            .includes(name),
-        )
-      : data;
+    if (order === 'asc' && name) {
+      return filtering(data, name).sort((a, b) => (a.name > b.name ? 1 : -1));
+    }
+    if (order === 'desc' && name) {
+      return filtering(data, name).sort((a, b) => (a.name > b.name ? -1 : 1));
+    }
+    if (order === '' && name) {
+      return filtering(data, name);
+    }
+    if (order === 'desc' && name === '') {
+      return [...data].sort((a, b) => (a.name > b.name ? -1 : 1));
+    }
+    if (order === 'asc' && name === '') {
+      return [...data].sort((a, b) => (a.name > b.name ? 1 : -1));
+    }
+    return data;
   };
 
   return (
@@ -214,10 +229,7 @@ const Contacts = () => {
                               }}
                             >
                               <Box sx={{ display: 'flex' }}>
-                                <IconButton sx={{ mr: '32px' }}>
-                                  <img src={sort} alt="sort" />
-                                  <FiltersTypo>Sort</FiltersTypo>
-                                </IconButton>
+                                <SortPopover />
                                 <FilterPopover />
                               </Box>
                               <TitleTypo>{column.label}</TitleTypo>

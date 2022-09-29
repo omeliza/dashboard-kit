@@ -94,6 +94,7 @@ const initialState: IContactsState = {
     address: '',
   },
   searchName: '',
+  order: '',
 };
 
 export const contactsSlice = createSlice({
@@ -136,6 +137,9 @@ export const contactsSlice = createSlice({
     setSearchName: (state, action: PayloadAction<string>) => {
       state.searchName = action.payload;
     },
+    setOrder: (state, action: PayloadAction<string>) => {
+      state.order = action.payload;
+    },
   },
 });
 
@@ -148,4 +152,5 @@ export const {
   deleteContact,
   setCurrentContact,
   setSearchName,
+  setOrder,
 } = contactsSlice.actions;
