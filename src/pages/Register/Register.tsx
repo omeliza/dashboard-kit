@@ -6,8 +6,6 @@ import { AxiosError } from 'axios';
 import ReactModal from 'react-modal';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import s from 'pages/Auth.module.scss';
-import { customStyles } from 'pages/Login/Login';
 import { signUp } from 'services/auth.service';
 import Logo from 'components/Logo/Logo64/Logo';
 import Input from 'components/Input/Input';
@@ -15,6 +13,17 @@ import { registerSchema } from 'constants/validationSchemas';
 import { IAuthFormInputs, SignUp } from 'interfaces/interfaces';
 import CustomButton from 'components/CustomButton/CustomButton';
 import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
+import {
+  AuthBottomTitle,
+  AuthForm,
+  AuthTitle,
+  Block,
+  customStyles,
+  Empty,
+  linkStyles,
+  Subtitle,
+  Wrapper,
+} from 'components/Auth/styles';
 
 const Register = () => {
   const [message, setMessage] = useState('');
@@ -58,11 +67,11 @@ const Register = () => {
     }
   };
   return (
-    <div className={s.wrapper}>
-      <div className={s.block}>
+    <Wrapper>
+      <Block>
         <Logo />
-        <h1 className={s.h1}>Sign Up</h1>
-        <span className={s.subtitle}>Create a new account</span>
+        <AuthTitle>Sign Up</AuthTitle>
+        <Subtitle>Create a new account</Subtitle>
         <ReactModal
           style={customStyles}
           isOpen={isOpen}
@@ -72,7 +81,7 @@ const Register = () => {
           {message}
         </ReactModal>
         <FormProvider {...methods}>
-          <form className={s.form} onSubmit={handleSubmit(onRegisterSubmit)}>
+          <AuthForm onSubmit={handleSubmit(onRegisterSubmit)}>
             <Input
               placeholder="Email address"
               type="email"
@@ -116,17 +125,17 @@ const Register = () => {
             {errors.confirmPassword && (
               <ErrorTypo>{errors.confirmPassword?.message}</ErrorTypo>
             )}
-            <h5 className={s.h5} style={{ marginTop: 0, textAlign: 'right' }}>
-              <Link to="/forgot" className={s.h5_bold}>
+            <AuthBottomTitle>
+              <Link to="/forgot" style={linkStyles}>
                 Forgot Password?
               </Link>
-            </h5>
-            <div className={s.empty} />
+            </AuthBottomTitle>
+            <Empty />
             <CustomButton name="Register" />
-          </form>
+          </AuthForm>
         </FormProvider>
-      </div>
-    </div>
+      </Block>
+    </Wrapper>
   );
 };
 

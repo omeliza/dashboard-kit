@@ -6,10 +6,10 @@ import { IconButton, Paper, TextField } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
 import filter from 'assets/table/filter.png';
-import FiltersTypo from 'pages/Tickets/CustomTypographies/FiltersTypo';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setSearchName } from 'redux/slices/contacts/contacts.slice';
 import { setSearchedText } from 'redux/slices/tickets/tickets.slice';
+import { FiltersTypo } from 'components/Typographies/Typographies';
 
 export const FilterPopover = () => {
   const location = useLocation();

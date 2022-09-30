@@ -3,7 +3,6 @@ import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
-import s from 'pages/Auth.module.scss';
 import Input from 'components/Input/Input';
 import Logo from 'components/Logo/Logo64/Logo';
 import { onResetSubmit } from 'services/auth.service';
@@ -11,6 +10,14 @@ import { resetSchema } from 'constants/validationSchemas';
 import { IReset } from 'interfaces/interfaces';
 import CustomButton from 'components/CustomButton/CustomButton';
 import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
+import {
+  AuthForm,
+  AuthTitle,
+  Block,
+  Empty,
+  Subtitle,
+  Wrapper,
+} from 'components/Auth/styles';
 
 const Reset = () => {
   const methods = useForm<IReset>({
@@ -23,13 +30,13 @@ const Reset = () => {
   } = methods;
 
   return (
-    <div className={s.wrapper}>
-      <div className={s.block}>
+    <Wrapper>
+      <Block>
         <Logo />
-        <h1 className={s.h1}>Reset Password</h1>
-        <span className={s.subtitle}>Enter new password</span>
+        <AuthTitle>Reset Password</AuthTitle>
+        <Subtitle>Enter new password</Subtitle>
         <FormProvider {...methods}>
-          <form className={s.form} onSubmit={handleSubmit(onResetSubmit)}>
+          <AuthForm onSubmit={handleSubmit(onResetSubmit)}>
             <Input
               name="password"
               placeholder="Password"
@@ -48,12 +55,12 @@ const Reset = () => {
             {errors.confirmPassword && (
               <ErrorTypo>{errors.confirmPassword?.message}</ErrorTypo>
             )}
-            <div className={s.empty} />
+            <Empty />
             <CustomButton name="Send" />
-          </form>
+          </AuthForm>
         </FormProvider>
-      </div>
-    </div>
+      </Block>
+    </Wrapper>
   );
 };
 

@@ -2,10 +2,10 @@ import React, { FC } from 'react';
 /* eslint-disable react/jsx-props-no-spreading */
 import Popover from '@mui/material/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
-import { Button, ButtonGroup, IconButton } from '@mui/material';
+import { Button, ButtonGroup } from '@mui/material';
 import MoreIcon from '@mui/icons-material/MoreVert';
 
-import { $grey4 } from 'constants/colors';
+import { StyledIconButton } from 'components/PopoverPopup/styles';
 
 interface IPopup {
   edit: () => void;
@@ -16,22 +16,14 @@ export const PopoverPopup: FC<IPopup> = ({ edit, deleteLine }) => {
     <PopupState variant="popover" popupId="demo-popup-popover">
       {(popupState) => (
         <div>
-          <IconButton
+          <StyledIconButton
             size="large"
             aria-label="display more actions"
             edge="end"
-            sx={{
-              mt: 'auto',
-              mb: 'auto',
-              color: `${$grey4}`,
-              position: 'absolute',
-              right: '35px',
-              top: '23px',
-            }}
             {...bindTrigger(popupState)}
           >
             <MoreIcon />
-          </IconButton>
+          </StyledIconButton>
           <Popover
             {...bindPopover(popupState)}
             anchorOrigin={{

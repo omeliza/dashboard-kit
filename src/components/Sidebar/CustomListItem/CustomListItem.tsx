@@ -1,21 +1,11 @@
 import React from 'react';
-import {
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  styled,
-} from '@mui/material';
+import { ListItemIcon, ListItemText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 import { ICustomListItem } from 'interfaces/interfaces';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setSelectedIndex } from 'redux/slices/sidebar/sidebar.slice';
-import { $bg } from 'constants/colors';
-
-const CustomListItemButton = styled(ListItemButton)({
-  height: '56px',
-  borderLeft: `3px solid ${$bg}`,
-});
+import { CustomListItemButton } from 'components/Sidebar/CustomListItem/styles';
 
 const CustomListItem = ({ src, itemIndex, name, link }: ICustomListItem) => {
   const navigate = useNavigate();

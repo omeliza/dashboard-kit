@@ -1,14 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-interface IAuthState {
-  isAuth: boolean;
-  user: {
-    firstname: string;
-    lastname: string;
-    email: string;
-    id: number;
-  };
-}
+import { IAuthState } from 'redux/slices/auth/types';
+
 const initialState: IAuthState = {
   isAuth: false,
   user: {

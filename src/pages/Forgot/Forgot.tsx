@@ -7,11 +7,20 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Input from 'components/Input/Input';
 import Logo from 'components/Logo/Logo64/Logo';
 import { onForgotSubmit } from 'services/auth.service';
-import s from 'pages/Auth.module.scss';
 import { forgotSchema } from 'constants/validationSchemas';
 import { IForgot } from 'interfaces/interfaces';
 import CustomButton from 'components/CustomButton/CustomButton';
 import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
+import {
+  AuthBottomTitle,
+  AuthForm,
+  AuthTitle,
+  Block,
+  Empty,
+  linkStyles,
+  Subtitle,
+  Wrapper,
+} from 'components/Auth/styles';
 
 const Forgot = () => {
   const location = useLocation();
@@ -25,20 +34,20 @@ const Forgot = () => {
   } = methods;
 
   return (
-    <div className={s.wrapper}>
-      <div className={s.block}>
+    <Wrapper>
+      <Block>
         <Logo />
-        <h1 className={s.h1}>Forgot password?</h1>
+        <AuthTitle>Forgot password?</AuthTitle>
         {location.pathname === '/forgot-success' ? (
-          <span className={s.subtitle}>
+          <Subtitle>
             Link to change your password has been sent to provided email if we
             have it inside our system
-          </span>
+          </Subtitle>
         ) : (
           <>
             <span>Enter your email from registered account</span>
             <FormProvider {...methods}>
-              <form className={s.form} onSubmit={handleSubmit(onForgotSubmit)}>
+              <AuthForm onSubmit={handleSubmit(onForgotSubmit)}>
                 <Input
                   name="email"
                   placeholder="Email address"
@@ -46,20 +55,20 @@ const Forgot = () => {
                   label="email"
                 />
                 {errors.email && <ErrorTypo>{errors.email?.message}</ErrorTypo>}
-                <div className={s.empty} />
+                <Empty />
                 <CustomButton name="Send" />
-              </form>
+              </AuthForm>
             </FormProvider>
-            <h5 className={s.h5}>
+            <AuthBottomTitle>
               Don&apos;t have an account?&ensp;
-              <Link to="/register" className={s.h5_bold}>
+              <Link to="/register" style={linkStyles}>
                 Sign up
               </Link>
-            </h5>
+            </AuthBottomTitle>
           </>
         )}
-      </div>
-    </div>
+      </Block>
+    </Wrapper>
   );
 };
 

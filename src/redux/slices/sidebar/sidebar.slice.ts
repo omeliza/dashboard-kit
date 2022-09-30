@@ -1,8 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type InitState = {
-  selectedIndex: number;
-};
+import { InitState } from 'redux/slices/sidebar/types';
+
 const initialState: InitState = {
   selectedIndex: 0,
 };

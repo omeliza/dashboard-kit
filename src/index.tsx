@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import 'index.css';
 import { Provider } from 'react-redux';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
+import 'index.css';
 import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 import { setupStore } from 'redux/store';
 import App from 'components/App';

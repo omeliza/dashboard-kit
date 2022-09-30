@@ -9,7 +9,6 @@ import jwtDecode from 'jwt-decode';
 
 import Input from 'components/Input/Input';
 import Logo from 'components/Logo/Logo64/Logo';
-import s from 'pages/Auth.module.scss';
 import { SignIn } from 'interfaces/interfaces';
 import { signIn } from 'services/auth.service';
 import { loginSchema } from 'constants/validationSchemas';
@@ -17,17 +16,17 @@ import CustomButton from 'components/CustomButton/CustomButton';
 import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
 import { useAppDispatch } from 'redux/hooks';
 import { authenticated, setUser } from 'redux/slices/auth/auth.slice';
-
-export const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-  },
-};
+import {
+  AuthBottomTitle,
+  AuthForm,
+  AuthTitle,
+  Block,
+  customStyles,
+  Empty,
+  linkStyles,
+  Subtitle,
+  Wrapper,
+} from 'components/Auth/styles';
 
 const Login = () => {
   const [message, setMessage] = useState('');
@@ -70,11 +69,11 @@ const Login = () => {
     }
   };
   return (
-    <div className={s.wrapper}>
-      <div className={s.block}>
+    <Wrapper>
+      <Block>
         <Logo />
-        <h1 className={s.h1}>Log In to Dashboard Kit</h1>
-        <span className={s.subtitle}>Enter your email and password</span>
+        <AuthTitle>Log In to Dashboard Kit</AuthTitle>
+        <Subtitle>Enter your email and password</Subtitle>
         <ReactModal
           style={customStyles}
           isOpen={isOpen}
@@ -84,7 +83,7 @@ const Login = () => {
           {message}
         </ReactModal>
         <FormProvider {...methods}>
-          <form className={s.form} onSubmit={handleSubmit(onLoginSubmit)}>
+          <AuthForm onSubmit={handleSubmit(onLoginSubmit)}>
             <Input
               placeholder="Email address"
               type="email"
@@ -101,23 +100,23 @@ const Login = () => {
             {errors.password && (
               <ErrorTypo>{errors.password?.message}</ErrorTypo>
             )}
-            <h5 className={s.h5} style={{ marginTop: 0, textAlign: 'right' }}>
-              <Link to="/forgot" className={s.h5_bold}>
+            <AuthBottomTitle style={{ marginTop: 0, textAlign: 'right' }}>
+              <Link to="/forgot" style={linkStyles}>
                 Forgot Password?
               </Link>
-            </h5>
-            <div className={s.empty} />
+            </AuthBottomTitle>
+            <Empty />
             <CustomButton name="Log In" />
-          </form>
+          </AuthForm>
         </FormProvider>
-        <h5 className={s.h5}>
+        <AuthBottomTitle>
           Don&apos;t have an account?&ensp;
-          <Link to="/register" className={s.h5_bold}>
+          <Link to="/register" style={linkStyles}>
             Sign up
           </Link>
-        </h5>
-      </div>
-    </div>
+        </AuthBottomTitle>
+      </Block>
+    </Wrapper>
   );
 };
 

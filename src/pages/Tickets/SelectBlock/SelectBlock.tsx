@@ -8,6 +8,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setPersonPriority } from 'redux/slices/tickets/tickets.slice';
+import { $white4, $white5 } from 'constants/colors';
 
 // const ITEM_HEIGHT = 42;
 // const ITEM_PADDING_TOP = 8;
@@ -46,41 +47,39 @@ const SelectBlock = () => {
   };
   const { register } = useFormContext();
   return (
-    <div>
-      <FormControl sx={{ mt: '6px', width: 316, height: 42 }} required>
-        {/* <InputLabel id="demo-multiple-name-label"  shrink={false}>
+    <FormControl sx={{ mt: '6px', width: 316, height: 42 }} required>
+      {/* <InputLabel id="demo-multiple-name-label"  shrink={false}>
           Choose priority
         </InputLabel> */}
-        <Select
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...register('priority')}
-          labelId="demo-multiple-name-label"
-          id="demo-multiple-name"
-          value={personPriority}
-          onChange={handleChange}
-          input={<OutlinedInput label="Choose priority" />}
-          // MenuProps={MenuProps}
-          sx={{
-            width: 316,
-            height: 42,
-            backgroundColor: '#fcfdfe',
-            border: '1px solid #f0f1f7',
-            borderRadius: '8px',
-            padding: '11px 16px',
-          }}
-        >
-          {priorities.map((priority) => (
-            <MenuItem
-              key={priority}
-              value={priority}
-              style={getStyles(priority, personPriority, theme)}
-            >
-              {priority}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
+      <Select
+        // eslint-disable-next-line react/jsx-props-no-spreading
+        {...register('priority')}
+        labelId="demo-multiple-name-label"
+        id="demo-multiple-name"
+        value={personPriority}
+        onChange={handleChange}
+        input={<OutlinedInput label="Choose priority" />}
+        // MenuProps={MenuProps}
+        sx={{
+          width: 316,
+          height: 42,
+          backgroundColor: `${$white4}`,
+          border: `1px solid ${$white5}`,
+          borderRadius: '8px',
+          padding: '11px 16px',
+        }}
+      >
+        {priorities.map((priority) => (
+          <MenuItem
+            key={priority}
+            value={priority}
+            style={getStyles(priority, personPriority, theme)}
+          >
+            {priority}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 };
 

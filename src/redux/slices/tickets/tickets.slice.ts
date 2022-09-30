@@ -9,37 +9,11 @@ import robertdowney from 'assets/table/robertdowney.png';
 import samsmith from 'assets/table/samsmith.png';
 import steverogers from 'assets/table/steverogers.png';
 import tomcruise from 'assets/table/tomcruise.png';
-
-export interface ITicket {
-  id: number | undefined;
-  src: string;
-  ticketDetails: string;
-  updated: string;
-  customerName: string;
-  customerDate: string;
-  date: string;
-  time: string;
-  priority: string;
-}
-
-export type ActionPayloadTicketType = Pick<
-  ITicket,
-  'ticketDetails' | 'customerName' | 'priority' | 'date'
->;
-
-type CurrentTicket = Pick<
-  ITicket,
-  'id' | 'ticketDetails' | 'customerName' | 'priority' | 'date'
->;
-
-interface ITicketsState {
-  list: ITicket[];
-  currentTicketId: number | undefined;
-  currentTicket: CurrentTicket;
-  personPriority: string;
-  searchedText: string;
-  ticketOrder: string;
-}
+import {
+  ITicketsState,
+  ActionPayloadTicketType,
+  CurrentTicket,
+} from 'redux/slices/tickets/types';
 
 const initialState: ITicketsState = {
   list: [

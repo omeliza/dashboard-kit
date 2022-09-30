@@ -19,19 +19,21 @@ import { toggleTicketModal } from 'redux/slices/modal/modal.slice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import TicketModal from 'pages/Tickets/TicketModal/TicketModal';
 import CustomBox from 'pages/Tickets/CustomBox/CustomBox';
-import { TitleTypo } from 'pages/Contacts/Contacts';
-import BlackTypo from 'pages/Tickets/CustomTypographies/BlackTypo';
-import GreyTypo from 'pages/Tickets/CustomTypographies/GreyTypo';
 import { stringAvatar } from 'utils/navbarHelpers';
 import {
   deleteTicket,
-  ITicket,
   setCurrentTicket,
   setCurrentTicketId,
 } from 'redux/slices/tickets/tickets.slice';
 import PopoverPopup from 'components/PopoverPopup/PopoverPopup';
 import FilterPopover from 'components/FilterPopover/FilterPopover';
 import SortPopover from 'components/SortPopover/SortPopover';
+import {
+  BlackTypo,
+  GreyTypo,
+  TitleTypo,
+} from 'components/Typographies/Typographies';
+import { sortingFilteredTickets } from 'utils/sortingFiltered';
 
 interface Column {
   id: 'ticketDetails' | 'customerName' | 'date' | 'priority';
@@ -106,47 +108,6 @@ const Tickets = () => {
       );
   }, [currentId, dispatch]);
 
-  const filtering = (arr: ITicket[], text: string) => {
-    return [...arr].filter(
-      (str: {
-        ticketDetails: string;
-        priority: string;
-        customerName: string;
-      }) =>
-        str.ticketDetails
-          .toLowerCase()
-          .concat(str.priority)
-          .concat(str.customerName.toLowerCase())
-          .includes(text),
-    );
-  };
-
-  const filteredText = (text: string | undefined) => {
-    if (ticketOrder === 'asc' && text) {
-      return filtering(data, text).sort((a, b) =>
-        a.customerName > b.customerName ? 1 : -1,
-      );
-    }
-    if (ticketOrder === 'desc' && text) {
-      return filtering(data, text).sort((a, b) =>
-        a.customerName > b.customerName ? -1 : 1,
-      );
-    }
-    if (ticketOrder === '' && text) {
-      return filtering(data, text);
-    }
-    if (ticketOrder === 'desc' && text === '') {
-      return [...data].sort((a, b) =>
-        a.customerName > b.customerName ? -1 : 1,
-      );
-    }
-    if (ticketOrder === 'asc' && text === '') {
-      return [...data].sort((a, b) =>
-        a.customerName > b.customerName ? 1 : -1,
-      );
-    }
-    return data;
-  };
   return (
     <>
       <TicketModal />
@@ -249,7 +210,7 @@ const Tickets = () => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {filteredText(searchedText)
+                    {sortingFilteredTickets(searchedText, ticketOrder, data)
                       .slice(
                         page * rowsPerPage,
                         page * rowsPerPage + rowsPerPage,

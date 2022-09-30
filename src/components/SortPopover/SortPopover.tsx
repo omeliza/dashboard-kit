@@ -2,21 +2,18 @@
 import React from 'react';
 import Popover from '@mui/material/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
-import {
-  Button,
-  ButtonGroup,
-  Divider,
-  IconButton,
-  Paper,
-  Typography,
-} from '@mui/material';
+import { Button, Divider, IconButton, Paper } from '@mui/material';
 import { useLocation } from 'react-router-dom';
 
 import sort from 'assets/table/sort.png';
-import FiltersTypo from 'pages/Tickets/CustomTypographies/FiltersTypo';
 import { useAppDispatch } from 'redux/hooks';
 import { setOrder } from 'redux/slices/contacts/contacts.slice';
 import { setTicketOrder } from 'redux/slices/tickets/tickets.slice';
+import {
+  StyledButtonGroup,
+  StyledPopoverTitle,
+} from 'components/SortPopover/styles';
+import { FiltersTypo } from 'components/Typographies/Typographies';
 
 export const SortPopover = () => {
   const location = useLocation();
@@ -60,26 +57,15 @@ export const SortPopover = () => {
           >
             <Paper sx={{ p: 2 }}>
               <>
-                <Typography
-                  sx={{ fontWeight: 600, textAlign: 'center', pb: 1 }}
-                >
-                  Sort by name
-                </Typography>
-                <ButtonGroup
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    pb: 1,
-                  }}
-                >
+                <StyledPopoverTitle>Sort by name</StyledPopoverTitle>
+                <StyledButtonGroup>
                   <Button variant="text" onClick={setAsc}>
                     ascending order
                   </Button>
                   <Button variant="text" onClick={setDesc}>
                     descending order
                   </Button>
-                </ButtonGroup>
+                </StyledButtonGroup>
                 <Divider />
                 <Button
                   variant="text"

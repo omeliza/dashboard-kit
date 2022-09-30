@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 
 // import CastomisedActiveDot from 'pages/Overview/Chart/CastomisedActiveDot/CastomisedActiveDot';
-import { $blue, $grey2, $white2 } from 'constants/colors';
+import { $blue, $grey2, $white2, $white6 } from 'constants/colors';
 import CustomTooltip from 'pages/Overview/Chart/CustomTooltip/CustomTooltip';
 
 const data = [
@@ -147,7 +147,7 @@ const Chart = () => {
             left: 20,
           }}
         >
-          <CartesianGrid stroke="#EBEDF0" vertical={false} />
+          <CartesianGrid stroke={`${$white6}`} vertical={false} />
           <defs>
             <linearGradient id="colorToday" x1="0" y1="0" x2="0" y2="1">
               <stop offset="55%" stopColor={$blue} stopOpacity={0.2} />
@@ -158,7 +158,7 @@ const Chart = () => {
             dataKey="name"
             scale="band"
             tickLine={false}
-            axisLine={{ stroke: '#EBEDF0' }}
+            axisLine={{ stroke: `${$white6}` }}
             tick={{
               fill: `${$grey2}`,
               fontSize: '10px',
