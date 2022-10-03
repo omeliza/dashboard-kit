@@ -9,6 +9,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  ThemeProvider,
 } from '@mui/material';
 
 import ContactsModal from 'pages/Contacts/ContactsModal/ContactsModal';
@@ -30,6 +31,7 @@ import {
   PopoversWrapper,
   PositionedRow,
   PositionedStyledTypo,
+  rowTheme,
   StyledBlackTypo,
   StyledBox,
   StyledPaper,
@@ -37,12 +39,7 @@ import {
 } from 'pages/Contacts/styles';
 import { BlackTypo, TitleTypo } from 'components/Typographies/Typographies';
 import { sortingFilteredContacts } from 'utils/sortingFiltered';
-
-interface ContactsColumn {
-  id: 'name' | 'email' | 'address' | 'createdAt';
-  label: string;
-  minWidth?: number;
-}
+import { ContactsColumn } from 'interfaces/interfaces';
 
 const columns: readonly ContactsColumn[] = [
   { id: 'name', label: 'Name', minWidth: 396 },
@@ -119,102 +116,100 @@ const Contacts = () => {
       <StyledBox>
         <StyledPaper>
           <>
-            <TableContainer>
-              <Table
-                sx={{
-                  '& .MuiTableRow-hover:hover': {
-                    backgroundColor: 'rgba(55, 81, 255, 0.04)',
-                  },
-                }}
-              >
-                <>
-                  <TableHead>
-                    <TableRow sx={{ height: '134px' }}>
-                      {columns.map((column) => (
-                        <TableCell
-                          key={column.id}
-                          align="left"
-                          style={{
-                            minWidth: column.minWidth,
-                            paddingLeft: '30px',
-                          }}
-                        >
-                          {column.id === 'createdAt' && (
-                            <HeaderCellWrapper>
-                              <AddContactBox
-                                component="button"
-                                onClick={openModal}
-                              >
-                                + Add contact
-                              </AddContactBox>
-                              <TitleTypo>{column.label}</TitleTypo>
-                            </HeaderCellWrapper>
-                          )}
-                          {column.id === 'name' && (
-                            <HeaderCellWrapper>
-                              <PopoversWrapper>
-                                <SortPopover />
-                                <FilterPopover />
-                              </PopoversWrapper>
-                              <TitleTypo>{column.label}</TitleTypo>
-                            </HeaderCellWrapper>
-                          )}
-                          {(column.id === 'address' ||
-                            column.id === 'email') && (
-                            <PositionedStyledTypo>
-                              {column.label}
-                            </PositionedStyledTypo>
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {sortingFilteredContacts(searchName, order, data)
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage,
-                      )
-                      .map((row) => (
-                        <PositionedRow hover tabIndex={-1} key={row.id}>
-                          {columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                              <StyledTableCell key={column.id} align="left">
-                                {column.id === 'name' ? (
-                                  <NameCellWrapper>
-                                    <>
-                                      {row.src ? (
-                                        <img src={row.src} alt={row.name} />
-                                      ) : (
-                                        <Avatar {...stringAvatar(row.name)} />
-                                      )}
-                                      <StyledBlackTypo>{value}</StyledBlackTypo>
-                                    </>
-                                  </NameCellWrapper>
-                                ) : (
-                                  <BlackTypo
-                                    sx={{
-                                      fontWeight:
-                                        column.id === 'address' ? 400 : 600,
-                                    }}
-                                  >
-                                    {value}
-                                  </BlackTypo>
-                                )}
-                              </StyledTableCell>
-                            );
-                          })}
-                          <PopoverPopup
-                            edit={() => edit(row.id)}
-                            deleteLine={() => deleteLine(row.id)}
-                          />
-                        </PositionedRow>
-                      ))}
-                  </TableBody>
-                </>
-              </Table>
-            </TableContainer>
+            <ThemeProvider theme={rowTheme}>
+              <TableContainer>
+                <Table>
+                  <>
+                    <TableHead>
+                      <TableRow sx={{ height: '134px' }}>
+                        {columns.map((column) => (
+                          <TableCell
+                            key={column.id}
+                            align="left"
+                            style={{
+                              minWidth: column.minWidth,
+                              paddingLeft: '30px',
+                            }}
+                          >
+                            {column.id === 'createdAt' && (
+                              <HeaderCellWrapper>
+                                <AddContactBox
+                                  component="button"
+                                  onClick={openModal}
+                                >
+                                  + Add contact
+                                </AddContactBox>
+                                <TitleTypo>{column.label}</TitleTypo>
+                              </HeaderCellWrapper>
+                            )}
+                            {column.id === 'name' && (
+                              <HeaderCellWrapper>
+                                <PopoversWrapper>
+                                  <SortPopover />
+                                  <FilterPopover />
+                                </PopoversWrapper>
+                                <TitleTypo>{column.label}</TitleTypo>
+                              </HeaderCellWrapper>
+                            )}
+                            {(column.id === 'address' ||
+                              column.id === 'email') && (
+                              <PositionedStyledTypo>
+                                {column.label}
+                              </PositionedStyledTypo>
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {sortingFilteredContacts(searchName, order, data)
+                        .slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage,
+                        )
+                        .map((row) => (
+                          <PositionedRow hover tabIndex={-1} key={row.id}>
+                            {columns.map((column) => {
+                              const value = row[column.id];
+                              return (
+                                <StyledTableCell key={column.id} align="left">
+                                  {column.id === 'name' ? (
+                                    <NameCellWrapper>
+                                      <>
+                                        {row.src ? (
+                                          <img src={row.src} alt={row.name} />
+                                        ) : (
+                                          <Avatar {...stringAvatar(row.name)} />
+                                        )}
+                                        <StyledBlackTypo>
+                                          {value}
+                                        </StyledBlackTypo>
+                                      </>
+                                    </NameCellWrapper>
+                                  ) : (
+                                    <BlackTypo
+                                      sx={{
+                                        fontWeight:
+                                          column.id === 'address' ? 400 : 600,
+                                      }}
+                                    >
+                                      {value}
+                                    </BlackTypo>
+                                  )}
+                                </StyledTableCell>
+                              );
+                            })}
+                            <PopoverPopup
+                              edit={() => edit(row.id)}
+                              deleteLine={() => deleteLine(row.id)}
+                            />
+                          </PositionedRow>
+                        ))}
+                    </TableBody>
+                  </>
+                </Table>
+              </TableContainer>
+            </ThemeProvider>
             <TablePagination
               rowsPerPageOptions={[8, 12, 16]}
               component="div"

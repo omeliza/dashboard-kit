@@ -4,12 +4,11 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 import Input from 'components/Input/Input';
-import Logo from 'components/Logo/Logo64/Logo';
+import Logo from 'components/Logo/LogoMedium/LogoMedium';
 import { onResetSubmit } from 'services/auth.service';
 import { resetSchema } from 'constants/validationSchemas';
 import { IReset } from 'interfaces/interfaces';
 import CustomButton from 'components/CustomButton/CustomButton';
-import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
 import {
   AuthForm,
   AuthTitle,
@@ -18,6 +17,7 @@ import {
   Subtitle,
   Wrapper,
 } from 'components/Auth/styles';
+import { ErrorTypo } from 'components/Typographies/Typographies';
 
 const Reset = () => {
   const methods = useForm<IReset>({

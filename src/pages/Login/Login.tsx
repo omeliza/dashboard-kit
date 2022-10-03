@@ -8,12 +8,11 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import jwtDecode from 'jwt-decode';
 
 import Input from 'components/Input/Input';
-import Logo from 'components/Logo/Logo64/Logo';
+import Logo from 'components/Logo/LogoMedium/LogoMedium';
 import { SignIn } from 'interfaces/interfaces';
 import { signIn } from 'services/auth.service';
 import { loginSchema } from 'constants/validationSchemas';
 import CustomButton from 'components/CustomButton/CustomButton';
-import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
 import { useAppDispatch } from 'redux/hooks';
 import { authenticated, setUser } from 'redux/slices/auth/auth.slice';
 import {
@@ -27,6 +26,7 @@ import {
   Subtitle,
   Wrapper,
 } from 'components/Auth/styles';
+import { ErrorTypo } from 'components/Typographies/Typographies';
 
 const Login = () => {
   const [message, setMessage] = useState('');

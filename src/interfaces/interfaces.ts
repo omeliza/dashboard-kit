@@ -35,10 +35,11 @@ export interface IErrorProps {
 }
 
 export interface ICustomListItem {
-  src: string;
+  // src: string;
   itemIndex: number;
   name: string;
   link: string;
+  children: ReactNode;
 }
 export interface ICheckbox {
   label: string;
@@ -57,15 +58,26 @@ export interface IContactModal {
   lastName: string;
   email: string;
   address: string;
-  // image: string;
-  // email: string;
-  // firstName: string;
-  // lastName: string;
-  // address: string;
 }
 export interface ITicketModal {
   ticketDetails: string;
   customerName: string;
   date: string;
   priority: 'low' | 'normal' | 'high';
+}
+
+export interface TicketsColumn {
+  id: 'ticketDetails' | 'customerName' | 'date' | 'priority';
+  label: string;
+  minWidth?: number;
+}
+
+export interface IButtonProps {
+  name: string;
+}
+
+export interface ContactsColumn {
+  id: 'name' | 'email' | 'address' | 'createdAt';
+  label: string;
+  minWidth?: number;
 }

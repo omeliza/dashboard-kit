@@ -1,4 +1,11 @@
-import { Box, Paper, styled, TableCell, TableRow } from '@mui/material';
+import {
+  Box,
+  createTheme,
+  Paper,
+  styled,
+  TableCell,
+  TableRow,
+} from '@mui/material';
 
 import { BlackTypo, TitleTypo } from 'components/Typographies/Typographies';
 import { $bgLight, $blue, $white, $white2 } from 'constants/colors';
@@ -63,3 +70,17 @@ export const StyledBlackTypo = styled(BlackTypo)`
 export const PopoversWrapper = styled(Box)`
   display: flex;
 `;
+
+export const rowTheme = createTheme({
+  components: {
+    MuiTableRow: {
+      styleOverrides: {
+        root: {
+          '&.MuiTableRow-hover:hover': {
+            backgroundColor: 'rgba(55, 81, 255, 0.04)',
+          },
+        },
+      },
+    },
+  },
+});

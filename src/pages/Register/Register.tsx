@@ -7,12 +7,11 @@ import ReactModal from 'react-modal';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 import { signUp } from 'services/auth.service';
-import Logo from 'components/Logo/Logo64/Logo';
+import Logo from 'components/Logo/LogoMedium/LogoMedium';
 import Input from 'components/Input/Input';
 import { registerSchema } from 'constants/validationSchemas';
 import { IAuthFormInputs, SignUp } from 'interfaces/interfaces';
 import CustomButton from 'components/CustomButton/CustomButton';
-import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
 import {
   AuthBottomTitle,
   AuthForm,
@@ -24,6 +23,7 @@ import {
   Subtitle,
   Wrapper,
 } from 'components/Auth/styles';
+import { ErrorTypo } from 'components/Typographies/Typographies';
 
 const Register = () => {
   const [message, setMessage] = useState('');

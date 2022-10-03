@@ -8,7 +8,6 @@ import Input from 'components/Input/Input';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import SelectBlock from 'pages/Tickets/SelectBlock/SelectBlock';
 import { addTicketSchema } from 'constants/validationSchemas';
-import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
 import { ITicketModal } from 'interfaces/interfaces';
 import { toggleTicketModal } from 'redux/slices/modal/modal.slice';
 import CustomButton from 'components/CustomButton/CustomButton';
@@ -29,6 +28,7 @@ import {
   StyledBtnGroup,
 } from 'components/Modals/styles';
 import { StyledLabel } from 'components/Input/styles';
+import { ErrorTypo } from 'components/Typographies/Typographies';
 
 const TicketModal = () => {
   const dispatch = useAppDispatch();

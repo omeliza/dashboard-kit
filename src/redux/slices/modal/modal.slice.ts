@@ -1,11 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { InitState } from 'redux/slices/modal/types';
-
-const initialState: InitState = {
-  isTicketModalOpen: false,
-  isContactModalOpen: false,
-};
+import { initialState } from 'redux/slices/modal/initState';
 
 export const modalSlice = createSlice({
   name: 'modal',

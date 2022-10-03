@@ -10,9 +10,9 @@ export const ModalTitle = styled(Typography)`
 `;
 
 export const StyledBtnGroup = styled(ButtonGroup)`
-  display: 'flex';
-  min-height: '95px';
-  justify-content: 'space-between';
+  display: flex;
+  min-height: 95px;
+  justify-content: space-between;
   margin-top: 24px;
 `;
 

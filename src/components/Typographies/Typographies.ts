@@ -1,6 +1,6 @@
 import { styled, Typography } from '@mui/material';
 
-import { $black, $grey2, $grey3, $grey4 } from 'constants/colors';
+import { $black, $grey2, $grey3, $grey4, $red2 } from 'constants/colors';
 
 export const TitleTypo = styled(Typography)`
   line-height: 18px;
@@ -27,4 +27,12 @@ export const FiltersTypo = styled(Typography)({
   fontWeight: 600,
   letterSpacing: '0.2px',
   color: `${$grey3}`,
+});
+
+export const ErrorTypo = styled(Typography)({
+  color: `${$red2}`,
+  '&::before': {
+    content: '"⚠ "',
+    display: 'inline',
+  },
 });

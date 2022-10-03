@@ -11,45 +11,43 @@ interface IPopup {
   edit: () => void;
   deleteLine: () => void;
 }
-export const PopoverPopup: FC<IPopup> = ({ edit, deleteLine }) => {
-  return (
-    <PopupState variant="popover" popupId="demo-popup-popover">
-      {(popupState) => (
-        <div>
-          <StyledIconButton
-            size="large"
-            aria-label="display more actions"
-            edge="end"
-            {...bindTrigger(popupState)}
-          >
-            <MoreIcon />
-          </StyledIconButton>
-          <Popover
-            {...bindPopover(popupState)}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}
-          >
-            <ButtonGroup>
-              <>
-                <Button component="button" onClick={edit} type="button">
-                  Edit
-                </Button>
-                <Button color="warning" type="button" onClick={deleteLine}>
-                  Delete
-                </Button>
-              </>
-            </ButtonGroup>
-          </Popover>
-        </div>
-      )}
-    </PopupState>
-  );
-};
+export const PopoverPopup: FC<IPopup> = ({ edit, deleteLine }) => (
+  <PopupState variant="popover" popupId="demo-popup-popover">
+    {(popupState) => (
+      <div>
+        <StyledIconButton
+          size="large"
+          aria-label="display more actions"
+          edge="end"
+          {...bindTrigger(popupState)}
+        >
+          <MoreIcon />
+        </StyledIconButton>
+        <Popover
+          {...bindPopover(popupState)}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center',
+          }}
+        >
+          <ButtonGroup>
+            <>
+              <Button component="button" onClick={edit} type="button">
+                Edit
+              </Button>
+              <Button color="warning" type="button" onClick={deleteLine}>
+                Delete
+              </Button>
+            </>
+          </ButtonGroup>
+        </Popover>
+      </div>
+    )}
+  </PopupState>
+);
 
 export default PopoverPopup;

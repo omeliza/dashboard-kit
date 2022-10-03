@@ -1,16 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-import { IAuthState } from 'redux/slices/auth/types';
-
-const initialState: IAuthState = {
-  isAuth: false,
-  user: {
-    firstname: '',
-    lastname: '',
-    email: '',
-    id: 0,
-  },
-};
+import { initialState } from 'redux/slices/auth/initState';
 
 export const authSlice = createSlice({
   name: 'authSlice',

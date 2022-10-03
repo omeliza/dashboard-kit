@@ -3,7 +3,6 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import {
   Box,
-  Paper,
   Table,
   TableBody,
   TableCell,
@@ -11,10 +10,9 @@ import {
   TableHead,
   TablePagination,
   TableRow,
-  Avatar,
+  ThemeProvider,
 } from '@mui/material';
 
-import { $bgLight, $white, $white2, $blue } from 'constants/colors';
 import { toggleTicketModal } from 'redux/slices/modal/modal.slice';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import TicketModal from 'pages/Tickets/TicketModal/TicketModal';
@@ -34,13 +32,24 @@ import {
   TitleTypo,
 } from 'components/Typographies/Typographies';
 import { sortingFilteredTickets } from 'utils/sortingFiltered';
+import {
+  addTicketStyles,
+  BgTickets,
+  DetailsWrapper,
+  HeaderCell,
+  NameDateWrapper,
+  PopoversWrapper,
+  PositionedRow,
+  PositionedTitle,
+  StyledAvatar,
+  StyledCell,
+  StyledImg,
+  TableWrapper,
+} from 'pages/Tickets/styles';
+import { TicketsColumn } from 'interfaces/interfaces';
+import { rowTheme } from 'pages/Contacts/styles';
 
-interface Column {
-  id: 'ticketDetails' | 'customerName' | 'date' | 'priority';
-  label: string;
-  minWidth?: number;
-}
-const columns: readonly Column[] = [
+const columns: readonly TicketsColumn[] = [
   { id: 'ticketDetails', label: 'Ticket Details', minWidth: 480 },
   { id: 'customerName', label: 'Customer name', minWidth: 248 },
   { id: 'date', label: 'Date', minWidth: 180 },
@@ -111,199 +120,111 @@ const Tickets = () => {
   return (
     <>
       <TicketModal />
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          p: '30px',
-          width: '100%',
-          minHeight: 'calc(100vh - 93px)',
-          backgroundColor: `${$bgLight}`,
-        }}
-      >
-        <Paper
-          sx={{
-            height: 'max-content',
-            maxWidth: '1122px',
-            bgColor: `${$white}`,
-            border: `1px solid ${$white2}`,
-            borderRadius: '8px',
-          }}
-        >
+      <BgTickets>
+        <TableWrapper>
           <>
-            <TableContainer>
-              <Table
-                sx={{
-                  '& .MuiTableRow-hover:hover': {
-                    backgroundColor: 'rgba(55, 81, 255, 0.04)',
-                  },
-                }}
-              >
-                <>
-                  <TableHead>
-                    <TableRow sx={{ height: '134px' }}>
-                      {columns.map((column) => (
-                        <TableCell
-                          key={column.id}
-                          align="left"
-                          style={{
-                            minWidth: column.minWidth,
-                            paddingLeft: '30px',
-                          }}
-                        >
-                          {column.id === 'priority' && (
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'space-between',
-                                height: '90px',
-                              }}
-                            >
-                              <Box
-                                component="button"
-                                sx={{
-                                  fontSize: '14px',
-                                  fontWeight: 600,
-                                  letterSpacing: '0.2px',
-                                  color: `${$blue}`,
-                                  backgroundColor: 'transparent',
-                                }}
-                                onClick={openModal}
-                              >
-                                + Add contact
-                              </Box>
-                              <TitleTypo>{column.label}</TitleTypo>
-                            </Box>
-                          )}
-                          {column.id === 'ticketDetails' && (
-                            <Box
-                              sx={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                justifyContent: 'space-between',
-                                width: '100%',
-                                height: '90px',
-                              }}
-                            >
-                              <Box sx={{ display: 'flex' }}>
-                                <SortPopover />
-                                <FilterPopover />
-                              </Box>
-                              <TitleTypo>{column.label}</TitleTypo>
-                            </Box>
-                          )}
-                          {(column.id === 'date' ||
-                            column.id === 'customerName') && (
-                            <TitleTypo
-                              sx={{
-                                position: 'relative',
-                                top: '35px',
-                                ml: '-16px',
-                              }}
-                            >
-                              {column.label}
-                            </TitleTypo>
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {sortingFilteredTickets(searchedText, ticketOrder, data)
-                      .slice(
-                        page * rowsPerPage,
-                        page * rowsPerPage + rowsPerPage,
-                      )
-                      .map((row) => (
-                        <TableRow
-                          hover
-                          tabIndex={-1}
-                          key={row.id}
-                          sx={{
-                            position: 'relative',
-                            top: 0,
-                            pl: '30px',
-                          }}
-                        >
-                          {columns.map((column) => {
-                            const value = row[column.id];
-                            return (
-                              <TableCell
-                                key={column.id}
-                                align="left"
-                                sx={{ height: '92px', pr: 0 }}
-                              >
-                                {column.id === 'ticketDetails' && (
-                                  <Box sx={{ display: 'flex' }}>
-                                    {row.src ? (
-                                      <img
-                                        src={row.src}
-                                        alt="user"
-                                        style={{
-                                          marginRight: '24px',
-                                          marginLeft: '14px',
-                                        }}
-                                      />
-                                    ) : (
-                                      <Avatar
-                                        style={{
-                                          marginRight: '24px',
-                                          marginLeft: '14px',
-                                        }}
-                                        {...stringAvatar(row.customerName)}
-                                      />
-                                    )}
-                                    <Box
-                                      sx={{
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'center',
-                                      }}
-                                    >
-                                      <BlackTypo>{value}</BlackTypo>
-                                      <GreyTypo>Updated {row.updated}</GreyTypo>
+            <ThemeProvider theme={rowTheme}>
+              <TableContainer>
+                <Table>
+                  <>
+                    <TableHead>
+                      <TableRow sx={{ height: '134px' }}>
+                        {columns.map((column) => (
+                          <TableCell
+                            key={column.id}
+                            align="left"
+                            style={{
+                              minWidth: column.minWidth,
+                              paddingLeft: '30px',
+                            }}
+                          >
+                            {column.id === 'priority' && (
+                              <HeaderCell>
+                                <Box
+                                  component="button"
+                                  style={addTicketStyles}
+                                  onClick={openModal}
+                                >
+                                  + Add ticket
+                                </Box>
+                                <TitleTypo>{column.label}</TitleTypo>
+                              </HeaderCell>
+                            )}
+                            {column.id === 'ticketDetails' && (
+                              <HeaderCell>
+                                <PopoversWrapper>
+                                  <SortPopover />
+                                  <FilterPopover />
+                                </PopoversWrapper>
+                                <TitleTypo>{column.label}</TitleTypo>
+                              </HeaderCell>
+                            )}
+                            {(column.id === 'date' ||
+                              column.id === 'customerName') && (
+                              <PositionedTitle>{column.label}</PositionedTitle>
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {sortingFilteredTickets(searchedText, ticketOrder, data)
+                        .slice(
+                          page * rowsPerPage,
+                          page * rowsPerPage + rowsPerPage,
+                        )
+                        .map((row) => (
+                          <PositionedRow hover tabIndex={-1} key={row.id}>
+                            {columns.map((column) => {
+                              const value = row[column.id];
+                              return (
+                                <StyledCell key={column.id}>
+                                  {column.id === 'ticketDetails' && (
+                                    <Box sx={{ display: 'flex' }}>
+                                      {row.src ? (
+                                        <StyledImg src={row.src} alt="user" />
+                                      ) : (
+                                        <StyledAvatar
+                                          {...stringAvatar(row.customerName)}
+                                        />
+                                      )}
+                                      <DetailsWrapper>
+                                        <BlackTypo>{value}</BlackTypo>
+                                        <GreyTypo>
+                                          Updated {row.updated}
+                                        </GreyTypo>
+                                      </DetailsWrapper>
                                     </Box>
-                                  </Box>
-                                )}
-                                {column.id === 'customerName' && (
-                                  <Box
-                                    sx={{
-                                      display: 'flex',
-                                      flexDirection: 'column',
-                                    }}
-                                  >
-                                    <BlackTypo>{value}</BlackTypo>
-                                    <GreyTypo>{row.customerDate}</GreyTypo>
-                                  </Box>
-                                )}
-                                {column.id === 'date' && (
-                                  <Box
-                                    sx={{
-                                      display: 'flex',
-                                      flexDirection: 'column',
-                                    }}
-                                  >
-                                    <BlackTypo>{value}</BlackTypo>
-                                    <GreyTypo>{row.time}</GreyTypo>
-                                  </Box>
-                                )}
-                                {column.id === 'priority' && (
-                                  <CustomBox>{value}</CustomBox>
-                                )}
-                              </TableCell>
-                            );
-                          })}
-                          <PopoverPopup
-                            edit={() => edit(row.id)}
-                            deleteLine={() => deleteLine(row.id)}
-                          />
-                        </TableRow>
-                      ))}
-                  </TableBody>
-                </>
-              </Table>
-            </TableContainer>
+                                  )}
+                                  {column.id === 'customerName' && (
+                                    <NameDateWrapper>
+                                      <BlackTypo>{value}</BlackTypo>
+                                      <GreyTypo>{row.customerDate}</GreyTypo>
+                                    </NameDateWrapper>
+                                  )}
+                                  {column.id === 'date' && (
+                                    <NameDateWrapper>
+                                      <BlackTypo>{value}</BlackTypo>
+                                      <GreyTypo>{row.time}</GreyTypo>
+                                    </NameDateWrapper>
+                                  )}
+                                  {column.id === 'priority' && (
+                                    <CustomBox>{value}</CustomBox>
+                                  )}
+                                </StyledCell>
+                              );
+                            })}
+                            <PopoverPopup
+                              edit={() => edit(row.id)}
+                              deleteLine={() => deleteLine(row.id)}
+                            />
+                          </PositionedRow>
+                        ))}
+                    </TableBody>
+                  </>
+                </Table>
+              </TableContainer>
+            </ThemeProvider>
             <TablePagination
               rowsPerPageOptions={[8, 12, 16]}
               component="div"
@@ -314,8 +235,8 @@ const Tickets = () => {
               onRowsPerPageChange={handleChangeRowsPerPage}
             />
           </>
-        </Paper>
-      </Box>
+        </TableWrapper>
+      </BgTickets>
     </>
   );
 };

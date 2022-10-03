@@ -6,6 +6,10 @@ import {
 import { TooltipProps } from 'recharts';
 
 import bg from 'assets/tooltip.png';
+import {
+  TooltipValue,
+  TooltipWrapper,
+} from 'pages/Overview/Chart/CustomTooltip/styles';
 
 const CustomTooltip = ({
   active,
@@ -13,19 +17,10 @@ const CustomTooltip = ({
 }: TooltipProps<ValueType, NameType>) => {
   if (active && payload && payload.length) {
     return (
-      <div
-        style={{
-          position: 'relative',
-          top: 0,
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
+      <TooltipWrapper>
         <img src={bg} alt="tooltip" />
-        <div
-          style={{ position: 'absolute', top: 8 }}
-        >{`${payload[0].value}`}</div>
-      </div>
+        <TooltipValue>{`${payload[0].value}`}</TooltipValue>
+      </TooltipWrapper>
     );
   }
   return null;

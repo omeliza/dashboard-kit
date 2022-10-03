@@ -5,12 +5,11 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 
 import Input from 'components/Input/Input';
-import Logo from 'components/Logo/Logo64/Logo';
+import Logo from 'components/Logo/LogoMedium/LogoMedium';
 import { onForgotSubmit } from 'services/auth.service';
 import { forgotSchema } from 'constants/validationSchemas';
 import { IForgot } from 'interfaces/interfaces';
 import CustomButton from 'components/CustomButton/CustomButton';
-import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
 import {
   AuthBottomTitle,
   AuthForm,
@@ -21,6 +20,7 @@ import {
   Subtitle,
   Wrapper,
 } from 'components/Auth/styles';
+import { ErrorTypo } from 'components/Typographies/Typographies';
 
 const Forgot = () => {
   const location = useLocation();

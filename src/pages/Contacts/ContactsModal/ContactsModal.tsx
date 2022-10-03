@@ -10,7 +10,6 @@ import Input from 'components/Input/Input';
 import { addContactSchema } from 'constants/validationSchemas';
 import CustomButton from 'components/CustomButton/CustomButton';
 import { IContactModal } from 'interfaces/interfaces';
-import { ErrorTypo } from 'pages/Contacts/ContactsModal/ErrorTypo';
 import {
   addContact,
   setCurrentId,
@@ -28,6 +27,7 @@ import {
   ModalTitle,
   StyledBtnGroup,
 } from 'components/Modals/styles';
+import { ErrorTypo } from 'components/Typographies/Typographies';
 
 const ContactsModal = () => {
   const isOpen = useAppSelector((state) => state.modal.isContactModalOpen);
