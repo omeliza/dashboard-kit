@@ -6,7 +6,7 @@ import kimgould from 'assets/table/robertdowney.png';
 import danikabass from 'assets/table/samsmith.png';
 import shaynatierney from 'assets/table/steverogers.png';
 import mandeepwalton from 'assets/table/tomcruise.png';
-import { IContactsState } from 'redux/slices/contacts/types';
+import { IContactsState } from 'store/reducers/contacts/types';
 
 export const initialState: IContactsState = {
   list: [

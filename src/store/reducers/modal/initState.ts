@@ -1,4 +1,4 @@
-import { InitState } from 'redux/slices/modal/types';
+import { InitState } from 'store/reducers/modal/types';
 
 export const initialState: InitState = {
   isTicketModalOpen: false,

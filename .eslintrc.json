@@ -79,6 +79,7 @@
         "ignorePropertyModificationsFor": ["state"]
       }
     ],
+    "@typescript-eslint/default-param-last": 0,
     "import/no-named-as-default": 0,
     "@typescript-eslint/require-await": "error",
     "@typescript-eslint/await-thenable": "error",

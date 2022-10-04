@@ -1,4 +1,4 @@
-import { IAuthState } from 'redux/slices/auth/types';
+import { IAuthState } from 'store/reducers/auth/types';
 
 export const initialState: IAuthState = {
   isAuth: false,

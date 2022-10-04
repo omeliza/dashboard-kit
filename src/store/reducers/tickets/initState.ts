@@ -6,7 +6,7 @@ import robertdowney from 'assets/table/robertdowney.png';
 import samsmith from 'assets/table/samsmith.png';
 import steverogers from 'assets/table/steverogers.png';
 import tomcruise from 'assets/table/tomcruise.png';
-import { ITicketsState } from 'redux/slices/tickets/types';
+import { ITicketsState } from 'store/reducers/tickets/actionsType';
 
 export const initialState: ITicketsState = {
   list: [
