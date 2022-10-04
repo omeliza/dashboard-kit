@@ -29,35 +29,42 @@ export interface ITicketsState {
   ticketOrder: string;
 }
 
-export interface AddTicket {
+export interface IAddTicket {
   type: 'ADD_TICKET';
   newTicket: ActionPayloadTicketType;
 }
-export interface UpdateTicket {
+
+export interface IUpdateTicket {
   type: 'UPDATE_TICKET';
   ticket: CurrentTicket;
 }
-export interface DeleteTicket {
+
+export interface IDeleteTicket {
   type: 'DELETE_TICKET';
   id: number;
 }
-export interface SetCurrentTicketId {
+
+export interface ISetCurrentTicketId {
   type: 'CURRENT_TICKET_ID';
   id: number;
 }
-export interface SetCurrentTicket {
+
+export interface ISetCurrentTicket {
   type: 'CURRENT_TICKET';
   currentTicket: CurrentTicket;
 }
-export interface SetPersonPriority {
+
+export interface ISetPersonPriority {
   type: 'PERSON_PRIORITY';
   priority: string;
 }
-export interface SetSearchedText {
+
+export interface ISetSearchedText {
   type: 'SEARCHED_TEXT';
   text: string;
 }
-export interface TicketOrder {
+
+export interface ITicketOrder {
   type: 'TICKET_ORDER';
   order: string;
 }

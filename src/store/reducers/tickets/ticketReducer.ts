@@ -4,27 +4,27 @@ import { format, formatDistanceToNow } from 'date-fns';
 
 import { initialState } from 'store/reducers/tickets/initState';
 import {
-  AddTicket,
-  UpdateTicket,
-  DeleteTicket,
-  SetCurrentTicketId,
-  SetCurrentTicket,
-  SetPersonPriority,
-  SetSearchedText,
-  TicketOrder,
+  IAddTicket,
+  IUpdateTicket,
+  IDeleteTicket,
+  ISetCurrentTicketId,
+  ISetCurrentTicket,
+  ISetPersonPriority,
+  ISetSearchedText,
+  ITicketOrder,
   ITicketsState,
-} from 'store/reducers/tickets/actionsType';
+} from 'store/reducers/tickets/types';
 
 // eslint-disable-next-line @typescript-eslint/naming-convention
 type actions =
-  | AddTicket
-  | UpdateTicket
-  | DeleteTicket
-  | SetCurrentTicketId
-  | SetCurrentTicket
-  | SetPersonPriority
-  | SetSearchedText
-  | TicketOrder;
+  | IAddTicket
+  | IUpdateTicket
+  | IDeleteTicket
+  | ISetCurrentTicketId
+  | ISetCurrentTicket
+  | ISetPersonPriority
+  | ISetSearchedText
+  | ITicketOrder;
 
 const ticketReducer: Reducer<ITicketsState, actions> = (
   state = initialState,
