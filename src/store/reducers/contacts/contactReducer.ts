@@ -13,7 +13,11 @@ import {
   ISetOrder,
   ISetSearchName,
   IUpdateContact,
+  ILoadContactsStart,
+  ILoadContactsSuccess,
+  ILoadContactsError,
 } from 'store/reducers/contacts/types';
+import * as types from 'constants/actionTypes';
 
 type actions =
   | IAddContact
@@ -22,14 +26,17 @@ type actions =
   | ISetCurrentContactId
   | ISetCurrentContact
   | ISetSearchName
-  | ISetOrder;
+  | ISetOrder
+  | ILoadContactsStart
+  | ILoadContactsSuccess
+  | ILoadContactsError;
 
 const contactReducer: Reducer<IContactsState, actions> = (
   state = initialState,
   action,
 ) => {
   switch (action.type) {
-    case 'ADD_CONTACT':
+    case types.ADD_CONTACT:
       return {
         ...state,
         list: [
@@ -44,7 +51,7 @@ const contactReducer: Reducer<IContactsState, actions> = (
           },
         ],
       };
-    case 'UPDATE_CONTACT':
+    case types.UPDATE_CONTACT:
       const contact = state.list.find((u) => u.id === action.contact.id);
       if (contact) {
         return {
@@ -56,21 +63,19 @@ const contactReducer: Reducer<IContactsState, actions> = (
                   address: action.contact.address,
                   email: action.contact.email,
                   name: `${action.contact.firstName} ${action.contact.lastName}`,
-                  src: action.contact.src.length
-                    ? action.contact.src
-                    : contact.src,
+                  src: action.contact.src ? action.contact.src : contact.src,
                 }
               : user,
           ),
         };
       }
       return { ...state };
-    case 'DELETE_CONTACT':
+    case types.DELETE_CONTACT:
       const filteredContacts = state.list.filter((u) => u.id !== action.id);
       return { ...state, list: [...filteredContacts] };
-    case 'SET_CURRENT_CONTACT_ID':
+    case types.SET_CURRENT_CONTACT_ID:
       return { ...state, currentId: action.id };
-    case 'SET_CURRENT_CONTACT':
+    case types.SET_CURRENT_CONTACT:
       return {
         ...state,
         currentContact: {
@@ -82,10 +87,20 @@ const contactReducer: Reducer<IContactsState, actions> = (
           lastName: action.currentContact.lastName,
         },
       };
-    case 'SET_SEARCH_NAME':
+    case types.SET_SEARCH_NAME:
       return { ...state, searchName: action.name };
-    case 'SET_ORDER':
+    case types.SET_ORDER:
       return { ...state, order: action.order };
+    case types.LOAD_CONTACTS_START:
+      return { ...state, loading: true };
+    case types.LOAD_CONTACTS_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        list: [...action.contacts],
+      };
+    case types.LOAD_CONTACTS_ERROR:
+      return { ...state, loading: false, error: action.error };
     default:
       return { ...state };
   }

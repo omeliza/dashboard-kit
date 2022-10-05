@@ -1,14 +1,40 @@
-import { StrictEffect } from 'redux-saga/effects';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import {
+  call,
+  delay,
+  fork,
+  put,
+  StrictEffect,
+  takeEvery,
+} from 'redux-saga/effects';
 
-// eslint-disable-next-line require-yield
-export function* watchContactsSaga(): Generator<StrictEffect> {
-  // yield takeEvery('ADD_CONTACT');
-  // yield takeEvery('UPDATE_CONTACT');
-  // yield takeEvery('DELETE_CONTACT');
-  // yield takeEvery('SET_CURRENT_CONTACT_ID');
-  // yield takeEvery('SET_CURRENT_CONTACT');
-  // yield takeEvery('SET_SEARCH_NAME');
-  // yield takeEvery('SET_ORDER');
-  // eslint-disable-next-line no-console
-  console.log('contacts saga');
+import {
+  loadContactsError,
+  loadContactsSuccess,
+} from 'store/actions/contacts/contactActions';
+import * as types from 'constants/actionTypes';
+
+async function getContacts() {
+  const response = await axios.get('http://localhost:5000/list');
+  return response;
 }
+
+function* workerContacts() {
+  try {
+    const response: AxiosResponse = yield call(getContacts);
+    if (response.status === 200) {
+      yield delay(500);
+      yield put(loadContactsSuccess(response.data));
+    }
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      yield put(loadContactsError(error?.response?.data.message));
+    }
+  }
+}
+
+export function* watchContactsSaga(): Generator<StrictEffect> {
+  yield takeEvery(types.LOAD_CONTACTS_START, workerContacts);
+}
+
+export const contactSagas = [fork(watchContactsSaga)];

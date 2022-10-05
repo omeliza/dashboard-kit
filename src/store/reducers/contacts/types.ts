@@ -1,3 +1,5 @@
+// import * as types from 'constants/actionTypes';
+
 export interface IContact {
   id: number | undefined;
   src: string;
@@ -25,6 +27,8 @@ export interface IContactsState {
   currentContact: ICurrentContact;
   searchName: string;
   order: string;
+  loading: boolean;
+  error: string;
 }
 
 export interface IAddContact {
@@ -60,4 +64,18 @@ export interface ISetSearchName {
 export interface ISetOrder {
   type: 'SET_ORDER';
   order: string;
+}
+
+export interface ILoadContactsStart {
+  type: 'LOAD_CONTACTS_START';
+}
+
+export interface ILoadContactsSuccess {
+  type: 'LOAD_CONTACTS_SUCCESS';
+  contacts: IContact[];
+}
+
+export interface ILoadContactsError {
+  type: 'LOAD_CONTACTS_ERROR';
+  error: string;
 }

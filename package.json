@@ -26,7 +26,7 @@
     "@types/redux-logger": "3.0.9",
     "@types/redux-saga": "0.10.5",
     "@types/styled-components": "^5.1.26",
-    "axios": "^0.27.2",
+    "axios": "0.27.2",
     "date-fns": "^2.29.3",
     "joi": "^17.6.0",
     "json-server": "0.17.0",
@@ -52,7 +52,8 @@
     "lint": "eslint **/*.{tsx,ts} --ignore-pattern node_modules/",
     "lint:fix": "eslint **/*.{tsx,ts} --ignore-pattern node_modules/ --fix",
     "lint:format": "prettier --write src/**/*.{js,jsx,ts,tsx}",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "server": "json-server --watch db.json --port 5000"
   },
   "browserslist": {
     "production": [

@@ -1,8 +1,11 @@
 import {
   AddContact,
   IAddContact,
+  IContact,
   ICurrentContact,
   IDeleteContact,
+  ILoadContactsError,
+  ILoadContactsSuccess,
   ISetCurrentContact,
   ISetCurrentContactId,
   ISetOrder,
@@ -21,3 +24,8 @@ export type SetCurrentContactAC = (
 ) => ISetCurrentContact;
 export type SetSearchNameAC = (name: string) => ISetSearchName;
 export type SetOrderAC = (order: string) => ISetOrder;
+
+export type LoadContactsSuccessAC = (
+  contacts: IContact[],
+) => ILoadContactsSuccess;
+export type LoadContactsErrorAC = (error: string) => ILoadContactsError;

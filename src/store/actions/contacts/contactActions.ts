@@ -1,6 +1,8 @@
 import {
   AddContactAC,
   DeleteContactAC,
+  LoadContactsErrorAC,
+  LoadContactsSuccessAC,
   SetCurrentContactAC,
   SetCurrentContactIdAC,
   SetOrderAC,
@@ -38,3 +40,21 @@ export const setSearchName: SetSearchNameAC = (name) => {
 export const setOrder: SetOrderAC = (order) => {
   return { type: 'SET_ORDER', order };
 };
+
+export const loadContactsStart = () => {
+  return {
+    type: 'LOAD_CONTACTS_START',
+  };
+};
+
+export const loadContactsSuccess: LoadContactsSuccessAC = (contacts) => {
+  return {
+    type: 'LOAD_CONTACTS_SUCCESS',
+    contacts,
+  };
+};
+
+export const loadContactsError: LoadContactsErrorAC = (error) => ({
+  type: 'LOAD_CONTACTS_ERROR',
+  error,
+});

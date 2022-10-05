@@ -38,6 +38,7 @@ import { toggleContactModal } from 'store/actions/modal/modalActions';
 import { AppState } from 'store/reducers/rootReducer';
 import {
   deleteContact,
+  loadContactsStart,
   setCurrentContact,
   setCurrentContactId,
 } from 'store/actions/contacts/contactActions';
@@ -53,14 +54,13 @@ const Contacts = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const dispatch = useDispatch();
-  const data = useSelector((state: AppState) => state.contacts.list);
-  const { currentId, searchName, order } = useSelector(
+  const { currentId, searchName, order, list } = useSelector(
     (state: AppState) => state.contacts,
   );
   const user = useSelector((state: AppState) =>
     currentId ? state.contacts.list.find((u) => u.id === currentId) : null,
   );
-
+  // eslint-disable-next-line no-console
   const edit = (id: number | undefined) => {
     dispatch(setCurrentContactId(id));
     if (user && typeof user !== undefined) {
@@ -111,6 +111,10 @@ const Contacts = () => {
         }),
       );
   }, [currentId, dispatch]);
+
+  useEffect(() => {
+    dispatch(loadContactsStart());
+  }, []);
 
   return (
     <>
@@ -164,7 +168,7 @@ const Contacts = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {sortingFilteredContacts(searchName, order, data)
+                      {sortingFilteredContacts(searchName, order, list)
                         .slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage,
@@ -215,7 +219,7 @@ const Contacts = () => {
             <TablePagination
               rowsPerPageOptions={[8, 12, 16]}
               component="div"
-              count={data.length}
+              count={list.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
