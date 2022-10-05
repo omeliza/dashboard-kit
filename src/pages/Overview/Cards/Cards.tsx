@@ -13,7 +13,7 @@ const mockCardData = [
 const Cards = () => (
   <>
     {mockCardData.map((item, i) => (
-      <CustomCard style={{ gridArea: `c${i + 1}` }}>
+      <CustomCard key={item.title} style={{ gridArea: `c${i + 1}` }}>
         <Typography>{item.title}</Typography>
         <Typography>{item.number}</Typography>
       </CustomCard>

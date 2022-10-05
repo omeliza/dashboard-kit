@@ -23,7 +23,6 @@ const theme = createTheme({
     },
   },
 });
-
 const store = configureStore();
 
 root.render(

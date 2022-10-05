@@ -44,7 +44,7 @@ export interface IDeleteContact {
 
 export interface ISetCurrentContactId {
   type: 'SET_CURRENT_CONTACT_ID';
-  id: number;
+  id: number | undefined;
 }
 
 export interface ISetCurrentContact {

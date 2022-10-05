@@ -4,19 +4,24 @@ import Popover from '@mui/material/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { IconButton, Paper, TextField } from '@mui/material';
 import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import filter from 'assets/table/filter.png';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { setSearchName } from 'redux/slices/contacts/contacts.slice';
-import { setSearchedText } from 'redux/slices/tickets/tickets.slice';
 import { FiltersTypo } from 'components/Typographies/Typographies';
+import { AppState } from 'store/reducers/rootReducer';
+import { setSearchName } from 'store/actions/contacts/contactActions';
+import { setSearchedText } from 'store/actions/tickets/ticketActions';
 
 export const FilterPopover = () => {
   const location = useLocation();
-  const searchName = useAppSelector((state) => state.contacts.searchName);
-  const searchedText = useAppSelector((state) => state.tickets.searchedText);
+  const searchName = useSelector(
+    (state: AppState) => state.contacts.searchName,
+  );
+  const searchedText = useSelector(
+    (state: AppState) => state.tickets.searchedText,
+  );
 
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     location.pathname === '/contacts'

@@ -46,7 +46,7 @@ export interface IDeleteTicket {
 
 export interface ISetCurrentTicketId {
   type: 'CURRENT_TICKET_ID';
-  id: number;
+  id: number | undefined;
 }
 
 export interface ISetCurrentTicket {

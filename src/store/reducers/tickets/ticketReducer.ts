@@ -57,19 +57,20 @@ const ticketReducer: Reducer<ITicketsState, actions> = (
       if (ticket) {
         return {
           ...state,
-          list: [
-            ...state.list,
-            {
-              ...ticket,
-              ticketDetails: action.ticket.ticketDetails,
-              customerName: action.ticket.customerName,
-              priority: action.ticket.priority,
-              updated: formatDistanceToNow(new Date(), {
-                addSuffix: true,
-                includeSeconds: true,
-              }),
-            },
-          ],
+          list: state.list.map((issue) =>
+            issue.id === action.ticket.id
+              ? {
+                  ...ticket,
+                  ticketDetails: action.ticket.ticketDetails,
+                  customerName: action.ticket.customerName,
+                  priority: action.ticket.priority,
+                  updated: formatDistanceToNow(new Date(), {
+                    addSuffix: true,
+                    includeSeconds: true,
+                  }),
+                }
+              : issue,
+          ),
         };
       }
       return { ...state };

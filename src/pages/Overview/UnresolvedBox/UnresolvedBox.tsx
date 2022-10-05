@@ -25,13 +25,13 @@ const UnresolvedBox = () => (
     </BottomSubtitle>
     <Box>
       {unresolvedData.map((item, i) => (
-        <>
+        <div key={item.title}>
           <RepeatedSection>
             <Typography>{item.title}</Typography>
             <Typography>{item.number}</Typography>
           </RepeatedSection>
           {i !== unresolvedData.length - 1 && <Divider />}
-        </>
+        </div>
       ))}
     </Box>
   </Wrapper>

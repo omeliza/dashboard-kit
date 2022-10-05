@@ -3,21 +3,13 @@ import React from 'react';
 import { Modal } from '@mui/material';
 import { joiResolver } from '@hookform/resolvers/joi';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Input from 'components/Input/Input';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import SelectBlock from 'pages/Tickets/SelectBlock/SelectBlock';
 import { addTicketSchema } from 'constants/validationSchemas';
 import { ITicketModal } from 'interfaces/interfaces';
-import { toggleTicketModal } from 'redux/slices/modal/modal.slice';
 import CustomButton from 'components/CustomButton/CustomButton';
-import {
-  addTicket,
-  setCurrentTicket,
-  setCurrentTicketId,
-  updateTicket,
-} from 'redux/slices/tickets/tickets.slice';
-import { ActionPayloadTicketType } from 'redux/slices/tickets/types';
 import {
   StyledPaper,
   StyledTicketForm,
@@ -29,13 +21,28 @@ import {
 } from 'components/Modals/styles';
 import { StyledLabel } from 'components/Input/styles';
 import { ErrorTypo } from 'components/Typographies/Typographies';
+import { AppState } from 'store/reducers/rootReducer';
+import {
+  addTicket,
+  setCurrentTicket,
+  setCurrentTicketId,
+  updateTicket,
+} from 'store/actions/tickets/ticketActions';
+import { toggleTicketModal } from 'store/actions/modal/modalActions';
+import { ActionPayloadTicketType } from 'store/reducers/tickets/types';
 
 const TicketModal = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
-  const isOpen = useAppSelector((state) => state.modal.isTicketModalOpen);
-  const currentId = useAppSelector((state) => state.tickets.currentTicketId);
-  const currentTicket = useAppSelector((state) => state.tickets.currentTicket);
+  const isOpen = useSelector(
+    (state: AppState) => state.modal.isTicketModalOpen,
+  );
+  const currentId = useSelector(
+    (state: AppState) => state.tickets.currentTicketId,
+  );
+  const currentTicket = useSelector(
+    (state: AppState) => state.tickets.currentTicket,
+  );
 
   const methods = useForm<ITicketModal>({
     mode: 'onBlur',
@@ -56,7 +63,8 @@ const TicketModal = () => {
         id: undefined,
         ticketDetails: '',
         customerName: '',
-        priority: undefined,
+        priority: '',
+        date: '',
       }),
     );
   };
@@ -68,7 +76,7 @@ const TicketModal = () => {
         id: undefined,
         ticketDetails: '',
         customerName: '',
-        priority: undefined,
+        priority: '',
         date: '',
       }),
     );

@@ -49,16 +49,19 @@ const contactReducer: Reducer<IContactsState, actions> = (
       if (contact) {
         return {
           ...state,
-          list: [
-            ...state.list,
-            {
-              ...contact,
-              address: action.contact.address,
-              email: action.contact.email,
-              name: `${action.contact.firstName} ${action.contact.lastName}`,
-              src: action.contact.src && action.contact.src,
-            },
-          ],
+          list: state.list.map((user) =>
+            user.id === action.contact.id
+              ? {
+                  ...contact,
+                  address: action.contact.address,
+                  email: action.contact.email,
+                  name: `${action.contact.firstName} ${action.contact.lastName}`,
+                  src: action.contact.src.length
+                    ? action.contact.src
+                    : contact.src,
+                }
+              : user,
+          ),
         };
       }
       return { ...state };
@@ -82,7 +85,7 @@ const contactReducer: Reducer<IContactsState, actions> = (
     case 'SET_SEARCH_NAME':
       return { ...state, searchName: action.name };
     case 'SET_ORDER':
-      return { ...state, searchName: action.order };
+      return { ...state, order: action.order };
     default:
       return { ...state };
   }

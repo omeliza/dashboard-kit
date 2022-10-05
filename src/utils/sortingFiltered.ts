@@ -1,5 +1,5 @@
-import { IContact } from 'redux/slices/contacts/types';
-import { ITicket } from 'redux/slices/tickets/types';
+import { IContact } from 'store/reducers/contacts/types';
+import { ITicket } from 'store/reducers/tickets/types';
 
 const contactsFiltering = (arr: IContact[], text: string) => {
   return [...arr].filter((str: { name: string; address: string }) =>

@@ -13,7 +13,9 @@ import {
 export type AddContactAC = (newContact: AddContact) => IAddContact;
 export type UpdateContactAC = (contact: ICurrentContact) => IUpdateContact;
 export type DeleteContactAC = (id: number) => IDeleteContact;
-export type SetCurrentContactIdAC = (id: number) => ISetCurrentContactId;
+export type SetCurrentContactIdAC = (
+  id: number | undefined,
+) => ISetCurrentContactId;
 export type SetCurrentContactAC = (
   currentContact: ICurrentContact,
 ) => ISetCurrentContact;

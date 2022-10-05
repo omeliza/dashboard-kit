@@ -3,19 +3,12 @@ import React from 'react';
 import { Modal, Button } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { toggleContactModal } from 'redux/slices/modal/modal.slice';
 import Input from 'components/Input/Input';
 import { addContactSchema } from 'constants/validationSchemas';
 import CustomButton from 'components/CustomButton/CustomButton';
 import { IContactModal } from 'interfaces/interfaces';
-import {
-  addContact,
-  setCurrentId,
-  setCurrentContact,
-  updateContact,
-} from 'redux/slices/contacts/contacts.slice';
 import {
   AddPhotoDesc,
   StyledAddIcon,
@@ -28,15 +21,25 @@ import {
   StyledBtnGroup,
 } from 'components/Modals/styles';
 import { ErrorTypo } from 'components/Typographies/Typographies';
+import { AppState } from 'store/reducers/rootReducer';
+import { toggleContactModal } from 'store/actions/modal/modalActions';
+import {
+  addContact,
+  setCurrentContact,
+  setCurrentContactId,
+  updateContact,
+} from 'store/actions/contacts/contactActions';
 
 const ContactsModal = () => {
-  const isOpen = useAppSelector((state) => state.modal.isContactModalOpen);
-  const currentId = useAppSelector((state) => state.contacts.currentId);
-
-  const currentContact = useAppSelector(
-    (state) => state.contacts.currentContact,
+  const isOpen = useSelector(
+    (state: AppState) => state.modal.isContactModalOpen,
   );
-  const dispatch = useAppDispatch();
+  const currentId = useSelector((state: AppState) => state.contacts.currentId);
+
+  const currentContact = useSelector(
+    (state: AppState) => state.contacts.currentContact,
+  );
+  const dispatch = useDispatch();
 
   const methods = useForm<IContactModal>({
     mode: 'onBlur',
@@ -51,7 +54,7 @@ const ContactsModal = () => {
   const handleClose = () => {
     reset();
     dispatch(toggleContactModal());
-    dispatch(setCurrentId(undefined));
+    dispatch(setCurrentContactId(undefined));
     dispatch(
       setCurrentContact({
         id: undefined,
@@ -66,7 +69,7 @@ const ContactsModal = () => {
 
   const cancel = () => {
     reset();
-    dispatch(setCurrentId(undefined));
+    dispatch(setCurrentContactId(undefined));
     dispatch(
       setCurrentContact({
         id: undefined,

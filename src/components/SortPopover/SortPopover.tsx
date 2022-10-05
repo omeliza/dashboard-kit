@@ -4,37 +4,37 @@ import Popover from '@mui/material/Popover';
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
 import { Button, Divider, IconButton, Paper } from '@mui/material';
 import { useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import sort from 'assets/table/sort.png';
-import { useAppDispatch } from 'redux/hooks';
-import { setOrder } from 'redux/slices/contacts/contacts.slice';
-import { setTicketOrder } from 'redux/slices/tickets/tickets.slice';
 import {
   StyledButtonGroup,
   StyledPopoverTitle,
 } from 'components/SortPopover/styles';
 import { FiltersTypo } from 'components/Typographies/Typographies';
+import { setOrder } from 'store/actions/contacts/contactActions';
+import { ticketOrder } from 'store/actions/tickets/ticketActions';
 
 export const SortPopover = () => {
   const location = useLocation();
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const setAsc = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     location.pathname === '/contacts'
       ? dispatch(setOrder('asc'))
-      : dispatch(setTicketOrder('asc'));
+      : dispatch(ticketOrder('asc'));
   };
   const setDesc = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     location.pathname === '/contacts'
       ? dispatch(setOrder('desc'))
-      : dispatch(setTicketOrder('desc'));
+      : dispatch(ticketOrder('desc'));
   };
   const setDefault = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     location.pathname === '/contacts'
       ? dispatch(setOrder(''))
-      : dispatch(setTicketOrder(''));
+      : dispatch(ticketOrder(''));
   };
   return (
     <PopupState variant="popover" popupId="demo-popup-popover">

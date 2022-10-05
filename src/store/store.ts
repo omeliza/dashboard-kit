@@ -1,3 +1,4 @@
+import { composeWithDevTools } from '@redux-devtools/extension';
 import { applyMiddleware, createStore } from 'redux';
 import logger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
@@ -7,22 +8,18 @@ import rootSaga from 'store/sagas/rootSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 
-const store = createStore(rootReducer, applyMiddleware(sagaMiddleware, logger));
+// const store = createStore(rootReducer, applyMiddleware(sagaMiddleware, logger));
 
-sagaMiddleware.run(rootSaga);
+// sagaMiddleware.run(rootSaga);
 
-export default store;
+// export default store;
 
-// declare global {
-//   interface Window {
-//     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
-//   }
-// }
-
-// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-// const configureStore = () => {
-//   const store = createStore(rootReducer, composeEnhancers());
-//   sagaMiddleware.run(rootSaga);
-//   return store;
-// };
+const configureStore = () => {
+  const store = createStore(
+    rootReducer,
+    composeWithDevTools(applyMiddleware(sagaMiddleware)),
+  );
+  sagaMiddleware.run(rootSaga);
+  return store;
+};
+export default configureStore;

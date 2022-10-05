@@ -14,7 +14,9 @@ import {
 export type AddTicketAC = (newContact: ActionPayloadTicketType) => IAddTicket;
 export type UpdateTicketAC = (ticket: CurrentTicket) => IUpdateTicket;
 export type DeleteTicketAC = (id: number) => IDeleteTicket;
-export type SetCurrentTicketIdAC = (id: number) => ISetCurrentTicketId;
+export type SetCurrentTicketIdAC = (
+  id: number | undefined,
+) => ISetCurrentTicketId;
 export type SetCurrentTicketAC = (
   currentTicket: CurrentTicket,
 ) => ISetCurrentTicket;
