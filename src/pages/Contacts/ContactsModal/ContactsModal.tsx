@@ -27,7 +27,7 @@ import {
   createContactStart,
   setCurrentContact,
   setCurrentContactId,
-  updateContact,
+  updateContactStart,
 } from 'store/actions/contacts/contactActions';
 
 const ContactsModal = () => {
@@ -86,27 +86,38 @@ const ContactsModal = () => {
     if (!currentId) {
       dispatch(
         createContactStart({
+          id: undefined,
           src: data.image,
           name: `${data.firstName} ${data.lastName}`,
           email: data.email,
           address: data.address,
-          id: undefined,
           createdAt: '',
         }),
       );
     } else {
       dispatch(
-        updateContact({
+        updateContactStart({
           id: currentId,
-          src: data.src,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          address: data.address,
+          src: currentContact.src || '',
+          firstName: currentContact.firstName,
+          lastName: currentContact.lastName,
+          email: currentContact.email,
+          address: currentContact.address,
         }),
       );
     }
     setTimeout(() => handleClose(), 500);
+    dispatch(setCurrentContactId(undefined));
+    dispatch(
+      setCurrentContact({
+        id: undefined,
+        src: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        address: '',
+      }),
+    );
   };
 
   return (

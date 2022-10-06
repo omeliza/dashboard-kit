@@ -19,6 +19,9 @@ import {
   IDeleteContactStart,
   IDeleteContactSuccess,
   IDeleteContactError,
+  IUpdateContactStart,
+  IUpdateContactError,
+  IUpdateContactSuccess,
 } from 'store/reducers/contacts/types';
 import * as types from 'constants/actionTypes';
 
@@ -36,7 +39,10 @@ type actions =
   | ICreateContactsError
   | IDeleteContactStart
   | IDeleteContactSuccess
-  | IDeleteContactError;
+  | IDeleteContactError
+  | IUpdateContactStart
+  | IUpdateContactSuccess
+  | IUpdateContactError;
 
 const contactReducer: Reducer<IContactsState, actions> = (
   state = initialState,
@@ -83,6 +89,7 @@ const contactReducer: Reducer<IContactsState, actions> = (
     case types.LOAD_CONTACTS_START:
     case types.CREATE_CONTACT_START:
     case types.DELETE_CONTACT_START:
+    case types.UPDATE_CONTACT_START:
       return { ...state, loading: true };
     case types.LOAD_CONTACTS_SUCCESS:
       return {
@@ -91,6 +98,7 @@ const contactReducer: Reducer<IContactsState, actions> = (
         list: [...action.contacts],
       };
     case types.CREATE_CONTACT_SUCCESS:
+    case types.UPDATE_CONTACT_SUCCESS:
       return { ...state, loading: false };
     case types.DELETE_CONTACT_SUCCESS:
       return {
@@ -101,6 +109,7 @@ const contactReducer: Reducer<IContactsState, actions> = (
     case types.LOAD_CONTACTS_ERROR:
     case types.CREATE_CONTACT_ERROR:
     case types.DELETE_CONTACT_ERROR:
+    case types.UPDATE_CONTACT_ERROR:
       return { ...state, loading: false, error: action.error };
     default:
       return { ...state };

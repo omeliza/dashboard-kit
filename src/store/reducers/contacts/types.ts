@@ -97,3 +97,16 @@ export interface IDeleteContactError {
   type: typeof types.DELETE_CONTACT_ERROR;
   error: string;
 }
+
+export interface IUpdateContactStart {
+  type: typeof types.UPDATE_CONTACT_START;
+  updatedContact: ICurrentContact;
+}
+
+export interface IUpdateContactSuccess {
+  type: typeof types.UPDATE_CONTACT_SUCCESS;
+}
+export interface IUpdateContactError {
+  type: typeof types.UPDATE_CONTACT_ERROR;
+  error: string;
+}

@@ -18,12 +18,20 @@ import {
   loadContactsStart,
   deleteContactSuccess,
   deleteContactError,
+  updateContactError,
+  updateContactSuccess,
 } from 'store/actions/contacts/contactActions';
 import * as types from 'constants/actionTypes';
-import { getContacts, addContact, deleteContact } from 'utils/contactsHelpers';
+import {
+  getContacts,
+  addContact,
+  deleteContact,
+  updateContact,
+} from 'utils/contactsHelpers';
 import {
   ICreateContactStart,
   IDeleteContactStart,
+  IUpdateContactStart,
 } from 'store/reducers/contacts/types';
 import { AppState } from 'store/reducers/rootReducer';
 
@@ -75,6 +83,24 @@ function* workerContactDelete({ id }: IDeleteContactStart) {
   }
 }
 
+function* workerContactUpdate(updatedContact: IUpdateContactStart) {
+  try {
+    const { status }: AxiosResponse = yield call(updateContact, updatedContact);
+    if (status === 200) {
+      yield put(updateContactSuccess());
+      yield put(loadContactsStart());
+    }
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      yield put(updateContactError(error?.response?.data.message));
+    }
+  }
+}
+
+function* watchContactUpdate() {
+  yield takeLatest(types.UPDATE_CONTACT_START, workerContactUpdate);
+}
+
 function* watchContactDelete() {
   yield takeEvery(types.DELETE_CONTACT_START, workerContactDelete);
 }
@@ -91,4 +117,5 @@ export const contactSagas = [
   fork(watchContactsGet),
   fork(watchContactAdd),
   fork(watchContactDelete),
+  fork(watchContactUpdate),
 ];

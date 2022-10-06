@@ -11,6 +11,8 @@ import {
   SetOrderAC,
   SetSearchNameAC,
   UpdateContactAC,
+  UpdateContactErrorAC,
+  UpdateContactStartAC,
 } from 'store/actions/contacts/types';
 import * as types from 'constants/actionTypes';
 
@@ -89,6 +91,26 @@ export const deleteContactSuccess: DeleteContactSuccessAC = (id) => {
 export const deleteContactError: DeleteContactErrorAC = (error) => {
   return {
     type: types.DELETE_CONTACT_ERROR,
+    error,
+  };
+};
+
+export const updateContactStart: UpdateContactStartAC = (updatedContact) => {
+  return {
+    type: types.UPDATE_CONTACT_START,
+    updatedContact,
+  };
+};
+
+export const updateContactSuccess = () => {
+  return {
+    type: types.UPDATE_CONTACT_SUCCESS,
+  };
+};
+
+export const updateContactError: UpdateContactErrorAC = (error) => {
+  return {
+    type: types.UPDATE_CONTACT_ERROR,
     error,
   };
 };

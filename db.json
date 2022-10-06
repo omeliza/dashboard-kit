@@ -75,7 +75,7 @@
     {
       "id": 10,
       "src": "",
-      "name": "New Person",
+      "name": "Agata Pirson",
       "email": "n.person@gmail.com",
       "address": "Ukraine, Poltava",
       "createdAt": "October 06, 2022"
@@ -90,6 +90,7 @@
     },
     {
       "id": 12,
+      "src": "",
       "name": "Viktoria Omelich",
       "email": "vomelischv@gmail.com",
       "address": "Ukraine, Dnipro",
@@ -97,6 +98,7 @@
     },
     {
       "id": 13,
+      "src": "",
       "name": "Taras Churko",
       "email": "taras.churko@gmail.com",
       "address": "43 Shirecka st., Komarno",
@@ -104,13 +106,15 @@
     },
     {
       "id": 14,
-      "name": "Yelyzaveta qwer",
+      "src": "",
+      "name": "Yelyzaveta Ivanova",
       "email": "Topsy_secrets@i.ua",
-      "address": "qwerqwerqwer",
+      "address": "UK, London",
       "createdAt": "October 06, 2022"
     },
     {
       "id": 15,
+      "src": "",
       "name": "Dmitriy Obuhov",
       "email": "d.obuhov@gmail.com",
       "address": "Russia, Magnitogorsk",
@@ -118,6 +122,7 @@
     },
     {
       "id": 16,
+      "src": "",
       "name": "Iryna Vaskiv",
       "email": "i.vaskiv@gmail.com",
       "address": "City, street",
@@ -125,16 +130,10 @@
     },
     {
       "id": 17,
+      "src": "",
       "name": "Nastia Rudejko",
       "email": "n.rudejkso@gmail.com",
       "address": "Ukraine, Kamenskoe",
-      "createdAt": "October 06, 2022"
-    },
-    {
-      "id": 18,
-      "name": "qwe gsdfgsfdg",
-      "email": "asdf@sfdgs.vf",
-      "address": "adsfhfghytjhfgs",
       "createdAt": "October 06, 2022"
     }
   ]

@@ -13,6 +13,8 @@ import {
   ISetOrder,
   ISetSearchName,
   IUpdateContact,
+  IUpdateContactError,
+  IUpdateContactStart,
 } from 'store/reducers/contacts/types';
 
 export type UpdateContactAC = (contact: ICurrentContact) => IUpdateContact;
@@ -38,3 +40,8 @@ export type CreateContactErrorAC = (error: string) => ICreateContactsError;
 export type DeleteContactStartAC = (id: number) => IDeleteContactStart;
 export type DeleteContactSuccessAC = (id: number) => IDeleteContactSuccess;
 export type DeleteContactErrorAC = (error: string) => IDeleteContactError;
+
+export type UpdateContactStartAC = (
+  updatedContact: ICurrentContact,
+) => IUpdateContactStart;
+export type UpdateContactErrorAC = (error: string) => IUpdateContactError;
