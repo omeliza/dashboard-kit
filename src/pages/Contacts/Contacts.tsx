@@ -2,6 +2,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import {
   Avatar,
+  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -54,13 +55,13 @@ const Contacts = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const dispatch = useDispatch();
-  const { currentId, searchName, order, list } = useSelector(
+  const { currentId, searchName, order, list, loading } = useSelector(
     (state: AppState) => state.contacts,
   );
   const user = useSelector((state: AppState) =>
     currentId ? state.contacts.list.find((u) => u.id === currentId) : null,
   );
-  // eslint-disable-next-line no-console
+
   const edit = (id: number | undefined) => {
     dispatch(setCurrentContactId(id));
     if (user && typeof user !== undefined) {
@@ -98,6 +99,11 @@ const Contacts = () => {
   const openModal = () => {
     dispatch(toggleContactModal());
   };
+
+  useEffect(() => {
+    dispatch(loadContactsStart());
+  }, []);
+
   useEffect(() => {
     if (user)
       dispatch(
@@ -111,10 +117,6 @@ const Contacts = () => {
         }),
       );
   }, [currentId, dispatch]);
-
-  useEffect(() => {
-    dispatch(loadContactsStart());
-  }, []);
 
   return (
     <>
@@ -168,49 +170,55 @@ const Contacts = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {sortingFilteredContacts(searchName, order, list)
-                        .slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage,
-                        )
-                        .map((row) => (
-                          <PositionedRow hover tabIndex={-1} key={row.id}>
-                            {columns.map((column) => {
-                              const value = row[column.id];
-                              return (
-                                <StyledTableCell key={column.id} align="left">
-                                  {column.id === 'name' ? (
-                                    <NameCellWrapper>
-                                      <>
-                                        {row.src ? (
-                                          <img src={row.src} alt={row.name} />
-                                        ) : (
-                                          <Avatar {...stringAvatar(row.name)} />
-                                        )}
-                                        <StyledBlackTypo>
-                                          {value}
-                                        </StyledBlackTypo>
-                                      </>
-                                    </NameCellWrapper>
-                                  ) : (
-                                    <BlackTypo
-                                      sx={{
-                                        fontWeight:
-                                          column.id === 'address' ? 400 : 600,
-                                      }}
-                                    >
-                                      {value}
-                                    </BlackTypo>
-                                  )}
-                                </StyledTableCell>
-                              );
-                            })}
-                            <PopoverPopup
-                              edit={() => edit(row.id)}
-                              deleteLine={() => deleteLine(row.id)}
-                            />
-                          </PositionedRow>
-                        ))}
+                      {loading ? (
+                        <CircularProgress />
+                      ) : (
+                        sortingFilteredContacts(searchName, order, list)
+                          .slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage,
+                          )
+                          .map((row) => (
+                            <PositionedRow hover tabIndex={-1} key={row.id}>
+                              {columns.map((column) => {
+                                const value = row[column.id];
+                                return (
+                                  <StyledTableCell key={column.id} align="left">
+                                    {column.id === 'name' ? (
+                                      <NameCellWrapper>
+                                        <>
+                                          {row.src ? (
+                                            <img src={row.src} alt={row.name} />
+                                          ) : (
+                                            <Avatar
+                                              {...stringAvatar(row.name)}
+                                            />
+                                          )}
+                                          <StyledBlackTypo>
+                                            {value}
+                                          </StyledBlackTypo>
+                                        </>
+                                      </NameCellWrapper>
+                                    ) : (
+                                      <BlackTypo
+                                        sx={{
+                                          fontWeight:
+                                            column.id === 'address' ? 400 : 600,
+                                        }}
+                                      >
+                                        {value}
+                                      </BlackTypo>
+                                    )}
+                                  </StyledTableCell>
+                                );
+                              })}
+                              <PopoverPopup
+                                edit={() => edit(row.id)}
+                                deleteLine={() => deleteLine(row.id)}
+                              />
+                            </PositionedRow>
+                          ))
+                      )}
                     </TableBody>
                   </>
                 </Table>

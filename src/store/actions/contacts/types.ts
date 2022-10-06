@@ -1,7 +1,7 @@
 import {
-  AddContact,
-  IAddContact,
   IContact,
+  ICreateContactsError,
+  ICreateContactStart,
   ICurrentContact,
   IDeleteContact,
   ILoadContactsError,
@@ -13,7 +13,6 @@ import {
   IUpdateContact,
 } from 'store/reducers/contacts/types';
 
-export type AddContactAC = (newContact: AddContact) => IAddContact;
 export type UpdateContactAC = (contact: ICurrentContact) => IUpdateContact;
 export type DeleteContactAC = (id: number) => IDeleteContact;
 export type SetCurrentContactIdAC = (
@@ -29,3 +28,8 @@ export type LoadContactsSuccessAC = (
   contacts: IContact[],
 ) => ILoadContactsSuccess;
 export type LoadContactsErrorAC = (error: string) => ILoadContactsError;
+
+export type CreateContactStartAC = (
+  newContact: IContact,
+) => ICreateContactStart;
+export type CreateContactErrorAC = (error: string) => ICreateContactsError;

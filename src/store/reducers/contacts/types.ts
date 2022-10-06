@@ -1,4 +1,4 @@
-// import * as types from 'constants/actionTypes';
+import * as types from 'constants/actionTypes';
 
 export interface IContact {
   id: number | undefined;
@@ -29,11 +29,6 @@ export interface IContactsState {
   order: string;
   loading: boolean;
   error: string;
-}
-
-export interface IAddContact {
-  type: 'ADD_CONTACT';
-  newContact: AddContact;
 }
 
 export interface IUpdateContact {
@@ -77,5 +72,18 @@ export interface ILoadContactsSuccess {
 
 export interface ILoadContactsError {
   type: 'LOAD_CONTACTS_ERROR';
+  error: string;
+}
+
+export interface ICreateContactStart {
+  type: typeof types.CREATE_CONTACT_START;
+  newContact: AddContact;
+}
+
+export interface ICreateContactSuccess {
+  type: 'CREATE_CONTACT_SUCCESS';
+}
+export interface ICreateContactsError {
+  type: 'CREATE_CONTACT_ERROR';
   error: string;
 }

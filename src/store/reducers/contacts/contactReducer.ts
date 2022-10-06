@@ -1,11 +1,9 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Reducer } from 'redux';
-import { format } from 'date-fns';
 
 import { initialState } from 'store/reducers/contacts/initState';
 import {
-  IAddContact,
   IContactsState,
   IDeleteContact,
   ISetCurrentContact,
@@ -16,11 +14,13 @@ import {
   ILoadContactsStart,
   ILoadContactsSuccess,
   ILoadContactsError,
+  ICreateContactStart,
+  ICreateContactSuccess,
+  ICreateContactsError,
 } from 'store/reducers/contacts/types';
 import * as types from 'constants/actionTypes';
 
 type actions =
-  | IAddContact
   | IUpdateContact
   | IDeleteContact
   | ISetCurrentContactId
@@ -29,28 +29,16 @@ type actions =
   | ISetOrder
   | ILoadContactsStart
   | ILoadContactsSuccess
-  | ILoadContactsError;
+  | ILoadContactsError
+  | ICreateContactStart
+  | ICreateContactSuccess
+  | ICreateContactsError;
 
 const contactReducer: Reducer<IContactsState, actions> = (
   state = initialState,
   action,
 ) => {
   switch (action.type) {
-    case types.ADD_CONTACT:
-      return {
-        ...state,
-        list: [
-          ...state.list,
-          {
-            id: state.list.length + 1,
-            src: action.newContact.src,
-            name: action.newContact.name,
-            email: action.newContact.email,
-            address: action.newContact.address,
-            createdAt: format(new Date(), 'LLLL dd, yyyy'),
-          },
-        ],
-      };
     case types.UPDATE_CONTACT:
       const contact = state.list.find((u) => u.id === action.contact.id);
       if (contact) {
@@ -92,6 +80,7 @@ const contactReducer: Reducer<IContactsState, actions> = (
     case types.SET_ORDER:
       return { ...state, order: action.order };
     case types.LOAD_CONTACTS_START:
+    case types.CREATE_CONTACT_START:
       return { ...state, loading: true };
     case types.LOAD_CONTACTS_SUCCESS:
       return {
@@ -99,7 +88,10 @@ const contactReducer: Reducer<IContactsState, actions> = (
         loading: false,
         list: [...action.contacts],
       };
+    case types.CREATE_CONTACT_SUCCESS:
+      return { ...state, loading: false };
     case types.LOAD_CONTACTS_ERROR:
+    case types.CREATE_CONTACT_ERROR:
       return { ...state, loading: false, error: action.error };
     default:
       return { ...state };

@@ -1,5 +1,6 @@
 import {
-  AddContactAC,
+  CreateContactErrorAC,
+  CreateContactStartAC,
   DeleteContactAC,
   LoadContactsErrorAC,
   LoadContactsSuccessAC,
@@ -9,13 +10,7 @@ import {
   SetSearchNameAC,
   UpdateContactAC,
 } from 'store/actions/contacts/types';
-
-export const addContact: AddContactAC = (newContact) => {
-  return {
-    type: 'ADD_CONTACT',
-    newContact,
-  };
-};
+import * as types from 'constants/actionTypes';
 
 export const updateContact: UpdateContactAC = (contact) => {
   return { type: 'UPDATE_CONTACT', contact };
@@ -43,18 +38,36 @@ export const setOrder: SetOrderAC = (order) => {
 
 export const loadContactsStart = () => {
   return {
-    type: 'LOAD_CONTACTS_START',
+    type: types.LOAD_CONTACTS_START,
   };
 };
 
 export const loadContactsSuccess: LoadContactsSuccessAC = (contacts) => {
   return {
-    type: 'LOAD_CONTACTS_SUCCESS',
+    type: types.LOAD_CONTACTS_SUCCESS,
     contacts,
   };
 };
 
 export const loadContactsError: LoadContactsErrorAC = (error) => ({
-  type: 'LOAD_CONTACTS_ERROR',
+  type: types.LOAD_CONTACTS_ERROR,
+  error,
+});
+
+export const createContactStart: CreateContactStartAC = (newContact) => {
+  return {
+    type: types.CREATE_CONTACT_START,
+    newContact,
+  };
+};
+
+export const createContactSuccess = () => {
+  return {
+    type: types.CREATE_CONTACT_SUCCESS,
+  };
+};
+
+export const createContactError: CreateContactErrorAC = (error) => ({
+  type: types.CREATE_CONTACT_ERROR,
   error,
 });

@@ -24,7 +24,7 @@ import { ErrorTypo } from 'components/Typographies/Typographies';
 import { AppState } from 'store/reducers/rootReducer';
 import { toggleContactModal } from 'store/actions/modal/modalActions';
 import {
-  addContact,
+  createContactStart,
   setCurrentContact,
   setCurrentContactId,
   updateContact,
@@ -85,11 +85,13 @@ const ContactsModal = () => {
   const addContactSubmit = (data: IContactModal) => {
     if (!currentId) {
       dispatch(
-        addContact({
+        createContactStart({
           src: data.image,
           name: `${data.firstName} ${data.lastName}`,
           email: data.email,
           address: data.address,
+          id: undefined,
+          createdAt: '',
         }),
       );
     } else {
@@ -104,7 +106,7 @@ const ContactsModal = () => {
         }),
       );
     }
-    handleClose();
+    setTimeout(() => handleClose(), 500);
   };
 
   return (
