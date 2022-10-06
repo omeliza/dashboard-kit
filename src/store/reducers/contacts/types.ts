@@ -36,11 +36,6 @@ export interface IUpdateContact {
   contact: ICurrentContact;
 }
 
-export interface IDeleteContact {
-  type: 'DELETE_CONTACT';
-  id: number;
-}
-
 export interface ISetCurrentContactId {
   type: 'SET_CURRENT_CONTACT_ID';
   id: number | undefined;
@@ -85,5 +80,20 @@ export interface ICreateContactSuccess {
 }
 export interface ICreateContactsError {
   type: 'CREATE_CONTACT_ERROR';
+  error: string;
+}
+
+export interface IDeleteContactStart {
+  type: 'DELETE_CONTACT_START';
+  id: number;
+}
+
+export interface IDeleteContactSuccess {
+  type: 'DELETE_CONTACT_SUCCESS';
+  id: number;
+}
+
+export interface IDeleteContactError {
+  type: typeof types.DELETE_CONTACT_ERROR;
   error: string;
 }

@@ -16,10 +16,15 @@ import {
   createContactSuccess,
   createContactError,
   loadContactsStart,
+  deleteContactSuccess,
+  deleteContactError,
 } from 'store/actions/contacts/contactActions';
 import * as types from 'constants/actionTypes';
-import { getContacts, addContact } from 'utils/contactsHelpers';
-import { ICreateContactStart } from 'store/reducers/contacts/types';
+import { getContacts, addContact, deleteContact } from 'utils/contactsHelpers';
+import {
+  ICreateContactStart,
+  IDeleteContactStart,
+} from 'store/reducers/contacts/types';
 import { AppState } from 'store/reducers/rootReducer';
 
 function* workerGetContacts() {
@@ -56,11 +61,34 @@ function* workerAddContact(newContact: ICreateContactStart) {
   }
 }
 
-export function* watchContactsGet(): Generator<StrictEffect> {
+function* workerContactDelete({ id }: IDeleteContactStart) {
+  try {
+    const { status }: AxiosResponse = yield call(deleteContact, id);
+    if (status === 200) {
+      yield delay(500);
+      yield put(deleteContactSuccess(id));
+    }
+  } catch (error: unknown) {
+    if (error instanceof AxiosError) {
+      yield put(deleteContactError(error?.response?.data.message));
+    }
+  }
+}
+
+function* watchContactDelete() {
+  yield takeEvery(types.DELETE_CONTACT_START, workerContactDelete);
+}
+
+function* watchContactsGet(): Generator<StrictEffect> {
   yield takeEvery(types.LOAD_CONTACTS_START, workerGetContacts);
 }
 
-export function* watchContactAdd(): Generator<StrictEffect> {
+function* watchContactAdd(): Generator<StrictEffect> {
   yield takeLatest(types.CREATE_CONTACT_START, workerAddContact);
 }
-export const contactSagas = [fork(watchContactsGet), fork(watchContactAdd)];
+
+export const contactSagas = [
+  fork(watchContactsGet),
+  fork(watchContactAdd),
+  fork(watchContactDelete),
+];

@@ -1,7 +1,9 @@
 import {
   CreateContactErrorAC,
   CreateContactStartAC,
-  DeleteContactAC,
+  DeleteContactErrorAC,
+  DeleteContactStartAC,
+  DeleteContactSuccessAC,
   LoadContactsErrorAC,
   LoadContactsSuccessAC,
   SetCurrentContactAC,
@@ -14,10 +16,6 @@ import * as types from 'constants/actionTypes';
 
 export const updateContact: UpdateContactAC = (contact) => {
   return { type: 'UPDATE_CONTACT', contact };
-};
-
-export const deleteContact: DeleteContactAC = (id) => {
-  return { type: 'DELETE_CONTACT', id };
 };
 
 export const setCurrentContactId: SetCurrentContactIdAC = (id) => {
@@ -67,7 +65,30 @@ export const createContactSuccess = () => {
   };
 };
 
-export const createContactError: CreateContactErrorAC = (error) => ({
-  type: types.CREATE_CONTACT_ERROR,
-  error,
-});
+export const createContactError: CreateContactErrorAC = (error) => {
+  return {
+    type: types.CREATE_CONTACT_ERROR,
+    error,
+  };
+};
+
+export const deleteContactStart: DeleteContactStartAC = (id) => {
+  return {
+    type: types.DELETE_CONTACT_START,
+    id,
+  };
+};
+
+export const deleteContactSuccess: DeleteContactSuccessAC = (id) => {
+  return {
+    type: types.DELETE_CONTACT_SUCCESS,
+    id,
+  };
+};
+
+export const deleteContactError: DeleteContactErrorAC = (error) => {
+  return {
+    type: types.DELETE_CONTACT_ERROR,
+    error,
+  };
+};

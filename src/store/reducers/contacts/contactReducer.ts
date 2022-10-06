@@ -5,7 +5,6 @@ import { Reducer } from 'redux';
 import { initialState } from 'store/reducers/contacts/initState';
 import {
   IContactsState,
-  IDeleteContact,
   ISetCurrentContact,
   ISetCurrentContactId,
   ISetOrder,
@@ -17,12 +16,14 @@ import {
   ICreateContactStart,
   ICreateContactSuccess,
   ICreateContactsError,
+  IDeleteContactStart,
+  IDeleteContactSuccess,
+  IDeleteContactError,
 } from 'store/reducers/contacts/types';
 import * as types from 'constants/actionTypes';
 
 type actions =
   | IUpdateContact
-  | IDeleteContact
   | ISetCurrentContactId
   | ISetCurrentContact
   | ISetSearchName
@@ -32,7 +33,10 @@ type actions =
   | ILoadContactsError
   | ICreateContactStart
   | ICreateContactSuccess
-  | ICreateContactsError;
+  | ICreateContactsError
+  | IDeleteContactStart
+  | IDeleteContactSuccess
+  | IDeleteContactError;
 
 const contactReducer: Reducer<IContactsState, actions> = (
   state = initialState,
@@ -58,9 +62,6 @@ const contactReducer: Reducer<IContactsState, actions> = (
         };
       }
       return { ...state };
-    case types.DELETE_CONTACT:
-      const filteredContacts = state.list.filter((u) => u.id !== action.id);
-      return { ...state, list: [...filteredContacts] };
     case types.SET_CURRENT_CONTACT_ID:
       return { ...state, currentId: action.id };
     case types.SET_CURRENT_CONTACT:
@@ -81,6 +82,7 @@ const contactReducer: Reducer<IContactsState, actions> = (
       return { ...state, order: action.order };
     case types.LOAD_CONTACTS_START:
     case types.CREATE_CONTACT_START:
+    case types.DELETE_CONTACT_START:
       return { ...state, loading: true };
     case types.LOAD_CONTACTS_SUCCESS:
       return {
@@ -90,8 +92,15 @@ const contactReducer: Reducer<IContactsState, actions> = (
       };
     case types.CREATE_CONTACT_SUCCESS:
       return { ...state, loading: false };
+    case types.DELETE_CONTACT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        list: [...state.list.filter((u) => u.id !== action.id)],
+      };
     case types.LOAD_CONTACTS_ERROR:
     case types.CREATE_CONTACT_ERROR:
+    case types.DELETE_CONTACT_ERROR:
       return { ...state, loading: false, error: action.error };
     default:
       return { ...state };

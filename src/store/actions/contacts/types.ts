@@ -3,7 +3,9 @@ import {
   ICreateContactsError,
   ICreateContactStart,
   ICurrentContact,
-  IDeleteContact,
+  IDeleteContactError,
+  IDeleteContactStart,
+  IDeleteContactSuccess,
   ILoadContactsError,
   ILoadContactsSuccess,
   ISetCurrentContact,
@@ -14,7 +16,6 @@ import {
 } from 'store/reducers/contacts/types';
 
 export type UpdateContactAC = (contact: ICurrentContact) => IUpdateContact;
-export type DeleteContactAC = (id: number) => IDeleteContact;
 export type SetCurrentContactIdAC = (
   id: number | undefined,
 ) => ISetCurrentContactId;
@@ -33,3 +34,7 @@ export type CreateContactStartAC = (
   newContact: IContact,
 ) => ICreateContactStart;
 export type CreateContactErrorAC = (error: string) => ICreateContactsError;
+
+export type DeleteContactStartAC = (id: number) => IDeleteContactStart;
+export type DeleteContactSuccessAC = (id: number) => IDeleteContactSuccess;
+export type DeleteContactErrorAC = (error: string) => IDeleteContactError;

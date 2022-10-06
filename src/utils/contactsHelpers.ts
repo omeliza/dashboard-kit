@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { format } from 'date-fns';
 
 import { ICreateContactStart } from 'store/reducers/contacts/types';
@@ -22,3 +22,11 @@ export const addContact = async (
   });
   return response;
 };
+
+export const deleteContact = async (id: number) => {
+  const response: AxiosResponse = await axios.delete(
+    `http://localhost:5000/list/${id}`,
+  );
+  return response;
+};
+// { data: { id } },

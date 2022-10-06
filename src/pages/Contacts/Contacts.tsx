@@ -38,7 +38,7 @@ import { ContactsColumn } from 'interfaces/interfaces';
 import { toggleContactModal } from 'store/actions/modal/modalActions';
 import { AppState } from 'store/reducers/rootReducer';
 import {
-  deleteContact,
+  deleteContactStart,
   loadContactsStart,
   setCurrentContact,
   setCurrentContactId,
@@ -83,8 +83,8 @@ const Contacts = () => {
 
   const deleteLine = (id: number | undefined) => {
     dispatch(setCurrentContactId(id));
-    if (user && typeof user !== undefined && currentId) {
-      dispatch(deleteContact(currentId));
+    if (user && typeof user !== undefined && currentId !== undefined) {
+      dispatch(deleteContactStart(currentId));
     }
   };
   const handleChangePage = (event: unknown, newPage: number) => {
