@@ -6,6 +6,7 @@ import { AxiosError } from 'axios';
 import ReactModal from 'react-modal';
 import { joiResolver } from '@hookform/resolvers/joi';
 import jwtDecode from 'jwt-decode';
+import { useDispatch } from 'react-redux';
 
 import Input from 'components/Input/Input';
 import Logo from 'components/Logo/LogoMedium/LogoMedium';
@@ -13,8 +14,6 @@ import { SignIn } from 'interfaces/interfaces';
 import { signIn } from 'services/auth.service';
 import { loginSchema } from 'constants/validationSchemas';
 import CustomButton from 'components/CustomButton/CustomButton';
-import { useAppDispatch } from 'redux/hooks';
-import { authenticated, setUser } from 'redux/slices/auth/auth.slice';
 import {
   AuthBottomTitle,
   AuthForm,
@@ -27,11 +26,12 @@ import {
   Wrapper,
 } from 'components/Auth/styles';
 import { ErrorTypo } from 'components/Typographies/Typographies';
+import { setAuth, setUser } from 'store/actions/auth/authActions';
 
 const Login = () => {
   const [message, setMessage] = useState('');
   const [isOpen, setIsOpen] = useState(false);
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const methods = useForm<SignIn>({
     mode: 'onBlur',
@@ -57,7 +57,7 @@ const Login = () => {
       if (response.status === 200) {
         localStorage.setItem('token', response.data.token);
         dispatch(setUser(jwtDecode(response.data.token)));
-        dispatch(authenticated());
+        dispatch(setAuth(true));
         reset();
         navigate('/');
       }

@@ -2,6 +2,7 @@ import Joi from 'joi';
 
 import {
   emailCheck,
+  fullNameCheck,
   nameCheck,
   passwordCheck,
 } from 'constants/regularExpressions';
@@ -100,7 +101,13 @@ export const addContactSchema = Joi.object({
 
 export const addTicketSchema = Joi.object({
   ticketDetails: Joi.string().min(6).max(25).required(),
-  customerName: Joi.string().label('Customer name').min(6).max(20).required(),
+  customerName: Joi.string()
+    .label('Customer name')
+    .pattern(fullNameCheck)
+    .message('Please enter full name using alphabetical characters only')
+    .min(6)
+    .max(20)
+    .required(),
   date: Joi.string().label('Date').required(),
   priority: Joi.any().required(),
 });

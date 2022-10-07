@@ -50,7 +50,6 @@ export interface ICustomBox {
   children: ReactNode;
 }
 export interface IContactModal {
-  id?: number;
   src: string;
   name?: string;
   image: string;

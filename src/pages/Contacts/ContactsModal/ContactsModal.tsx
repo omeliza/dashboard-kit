@@ -3,19 +3,12 @@ import React from 'react';
 import { Modal, Button } from '@mui/material';
 import { FormProvider, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { toggleContactModal } from 'redux/slices/modal/modal.slice';
 import Input from 'components/Input/Input';
 import { addContactSchema } from 'constants/validationSchemas';
 import CustomButton from 'components/CustomButton/CustomButton';
 import { IContactModal } from 'interfaces/interfaces';
-import {
-  addContact,
-  setCurrentId,
-  setCurrentContact,
-  updateContact,
-} from 'redux/slices/contacts/contacts.slice';
 import {
   AddPhotoDesc,
   StyledAddIcon,
@@ -28,15 +21,25 @@ import {
   StyledBtnGroup,
 } from 'components/Modals/styles';
 import { ErrorTypo } from 'components/Typographies/Typographies';
+import { AppState } from 'store/reducers/rootReducer';
+import { toggleContactModal } from 'store/actions/modal/modalActions';
+import {
+  createContactStart,
+  setCurrentContact,
+  setCurrentContactId,
+  updateContactStart,
+} from 'store/actions/contacts/contactActions';
 
 const ContactsModal = () => {
-  const isOpen = useAppSelector((state) => state.modal.isContactModalOpen);
-  const currentId = useAppSelector((state) => state.contacts.currentId);
-
-  const currentContact = useAppSelector(
-    (state) => state.contacts.currentContact,
+  const isOpen = useSelector(
+    (state: AppState) => state.modal.isContactModalOpen,
   );
-  const dispatch = useAppDispatch();
+  const currentId = useSelector((state: AppState) => state.contacts.currentId);
+
+  const currentContact = useSelector(
+    (state: AppState) => state.contacts.currentContact,
+  );
+  const dispatch = useDispatch();
 
   const methods = useForm<IContactModal>({
     mode: 'onBlur',
@@ -51,7 +54,7 @@ const ContactsModal = () => {
   const handleClose = () => {
     reset();
     dispatch(toggleContactModal());
-    dispatch(setCurrentId(undefined));
+    dispatch(setCurrentContactId(undefined));
     dispatch(
       setCurrentContact({
         id: undefined,
@@ -66,7 +69,7 @@ const ContactsModal = () => {
 
   const cancel = () => {
     reset();
-    dispatch(setCurrentId(undefined));
+    dispatch(setCurrentContactId(undefined));
     dispatch(
       setCurrentContact({
         id: undefined,
@@ -79,11 +82,17 @@ const ContactsModal = () => {
     );
   };
 
-  const addContactSubmit = (data: IContactModal) => {
+  const addContactSubmit = (data: {
+    image: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    address: string;
+  }) => {
     if (!currentId) {
       dispatch(
-        addContact({
-          src: data.image,
+        createContactStart({
+          src: data.image || '',
           name: `${data.firstName} ${data.lastName}`,
           email: data.email,
           address: data.address,
@@ -91,17 +100,28 @@ const ContactsModal = () => {
       );
     } else {
       dispatch(
-        updateContact({
+        updateContactStart({
           id: currentId,
-          src: data.src,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          address: data.address,
+          src: currentContact.src || '',
+          firstName: currentContact.firstName,
+          lastName: currentContact.lastName,
+          email: currentContact.email,
+          address: currentContact.address,
         }),
       );
     }
-    handleClose();
+    setTimeout(() => handleClose(), 500);
+    dispatch(setCurrentContactId(undefined));
+    dispatch(
+      setCurrentContact({
+        id: undefined,
+        src: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        address: '',
+      }),
+    );
   };
 
   return (

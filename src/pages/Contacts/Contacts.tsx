@@ -2,6 +2,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import {
   Avatar,
+  CircularProgress,
   Table,
   TableBody,
   TableCell,
@@ -11,17 +12,11 @@ import {
   TableRow,
   ThemeProvider,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ContactsModal from 'pages/Contacts/ContactsModal/ContactsModal';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { toggleContactModal } from 'redux/slices/modal/modal.slice';
 import { stringAvatar } from 'utils/navbarHelpers';
 import PopoverPopup from 'components/PopoverPopup/PopoverPopup';
-import {
-  deleteContact,
-  setCurrentId,
-  setCurrentContact,
-} from 'redux/slices/contacts/contacts.slice';
 import FilterPopover from 'components/FilterPopover/FilterPopover';
 import SortPopover from 'components/SortPopover/SortPopover';
 import {
@@ -40,6 +35,14 @@ import {
 import { BlackTypo, TitleTypo } from 'components/Typographies/Typographies';
 import { sortingFilteredContacts } from 'utils/sortingFiltered';
 import { ContactsColumn } from 'interfaces/interfaces';
+import { toggleContactModal } from 'store/actions/modal/modalActions';
+import { AppState } from 'store/reducers/rootReducer';
+import {
+  deleteContactStart,
+  loadContactsStart,
+  setCurrentContact,
+  setCurrentContactId,
+} from 'store/actions/contacts/contactActions';
 
 const columns: readonly ContactsColumn[] = [
   { id: 'name', label: 'Name', minWidth: 396 },
@@ -51,17 +54,16 @@ const columns: readonly ContactsColumn[] = [
 const Contacts = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
-  const dispatch = useAppDispatch();
-  const data = useAppSelector((state) => state.contacts.list);
-  const { currentId, searchName, order } = useAppSelector(
-    (state) => state.contacts,
+  const dispatch = useDispatch();
+  const { currentId, searchName, order, list, loading } = useSelector(
+    (state: AppState) => state.contacts,
   );
-  const user = useAppSelector((state) =>
+  const user = useSelector((state: AppState) =>
     currentId ? state.contacts.list.find((u) => u.id === currentId) : null,
   );
 
   const edit = (id: number | undefined) => {
-    dispatch(setCurrentId(id));
+    dispatch(setCurrentContactId(id));
     if (user && typeof user !== undefined) {
       dispatch(
         setCurrentContact({
@@ -73,15 +75,16 @@ const Contacts = () => {
           address: user.address,
         }),
       );
-      dispatch(setCurrentId(user.id));
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      user.id && dispatch(setCurrentContactId(user.id));
       dispatch(toggleContactModal());
     }
   };
 
   const deleteLine = (id: number | undefined) => {
-    dispatch(setCurrentId(id));
-    if (user && typeof user !== undefined && currentId) {
-      dispatch(deleteContact(currentId));
+    dispatch(setCurrentContactId(id));
+    if (user && typeof user !== undefined && currentId !== undefined) {
+      dispatch(deleteContactStart(currentId));
     }
   };
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -96,6 +99,11 @@ const Contacts = () => {
   const openModal = () => {
     dispatch(toggleContactModal());
   };
+
+  useEffect(() => {
+    dispatch(loadContactsStart());
+  }, []);
+
   useEffect(() => {
     if (user)
       dispatch(
@@ -162,49 +170,55 @@ const Contacts = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {sortingFilteredContacts(searchName, order, data)
-                        .slice(
-                          page * rowsPerPage,
-                          page * rowsPerPage + rowsPerPage,
-                        )
-                        .map((row) => (
-                          <PositionedRow hover tabIndex={-1} key={row.id}>
-                            {columns.map((column) => {
-                              const value = row[column.id];
-                              return (
-                                <StyledTableCell key={column.id} align="left">
-                                  {column.id === 'name' ? (
-                                    <NameCellWrapper>
-                                      <>
-                                        {row.src ? (
-                                          <img src={row.src} alt={row.name} />
-                                        ) : (
-                                          <Avatar {...stringAvatar(row.name)} />
-                                        )}
-                                        <StyledBlackTypo>
-                                          {value}
-                                        </StyledBlackTypo>
-                                      </>
-                                    </NameCellWrapper>
-                                  ) : (
-                                    <BlackTypo
-                                      sx={{
-                                        fontWeight:
-                                          column.id === 'address' ? 400 : 600,
-                                      }}
-                                    >
-                                      {value}
-                                    </BlackTypo>
-                                  )}
-                                </StyledTableCell>
-                              );
-                            })}
-                            <PopoverPopup
-                              edit={() => edit(row.id)}
-                              deleteLine={() => deleteLine(row.id)}
-                            />
-                          </PositionedRow>
-                        ))}
+                      {loading ? (
+                        <CircularProgress />
+                      ) : (
+                        sortingFilteredContacts(searchName, order, list)
+                          .slice(
+                            page * rowsPerPage,
+                            page * rowsPerPage + rowsPerPage,
+                          )
+                          .map((row) => (
+                            <PositionedRow hover tabIndex={-1} key={row.id}>
+                              {columns.map((column) => {
+                                const value = row[column.id];
+                                return (
+                                  <StyledTableCell key={column.id} align="left">
+                                    {column.id === 'name' ? (
+                                      <NameCellWrapper>
+                                        <>
+                                          {row.src ? (
+                                            <img src={row.src} alt={row.name} />
+                                          ) : (
+                                            <Avatar
+                                              {...stringAvatar(row.name)}
+                                            />
+                                          )}
+                                          <StyledBlackTypo>
+                                            {value}
+                                          </StyledBlackTypo>
+                                        </>
+                                      </NameCellWrapper>
+                                    ) : (
+                                      <BlackTypo
+                                        sx={{
+                                          fontWeight:
+                                            column.id === 'address' ? 400 : 600,
+                                        }}
+                                      >
+                                        {value}
+                                      </BlackTypo>
+                                    )}
+                                  </StyledTableCell>
+                                );
+                              })}
+                              <PopoverPopup
+                                edit={() => edit(row.id)}
+                                deleteLine={() => deleteLine(row.id)}
+                              />
+                            </PositionedRow>
+                          ))
+                      )}
                     </TableBody>
                   </>
                 </Table>
@@ -213,7 +227,7 @@ const Contacts = () => {
             <TablePagination
               rowsPerPageOptions={[8, 12, 16]}
               component="div"
-              count={data.length}
+              count={list.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

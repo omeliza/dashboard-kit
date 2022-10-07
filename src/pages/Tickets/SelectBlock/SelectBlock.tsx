@@ -5,10 +5,11 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { useFormContext } from 'react-hook-form';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
-import { setPersonPriority } from 'redux/slices/tickets/tickets.slice';
 import { $white4, $white5 } from 'constants/colors';
+import { AppState } from 'store/reducers/rootReducer';
+import { setPersonPriority } from 'store/actions/tickets/ticketActions';
 
 // const ITEM_HEIGHT = 42;
 // const ITEM_PADDING_TOP = 8;
@@ -34,10 +35,10 @@ function getStyles(priority: string, personPriority: string, theme: Theme) {
 
 const SelectBlock = () => {
   const theme = useTheme();
-  const personPriority = useAppSelector(
-    (state) => state.tickets.personPriority,
+  const personPriority = useSelector(
+    (state: AppState) => state.tickets.personPriority,
   );
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
 
   const handleChange = (event: SelectChangeEvent<typeof personPriority>) => {
     const {

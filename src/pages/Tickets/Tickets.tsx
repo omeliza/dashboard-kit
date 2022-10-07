@@ -12,17 +12,11 @@ import {
   TableRow,
   ThemeProvider,
 } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { toggleTicketModal } from 'redux/slices/modal/modal.slice';
-import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import TicketModal from 'pages/Tickets/TicketModal/TicketModal';
 import CustomBox from 'pages/Tickets/CustomBox/CustomBox';
 import { stringAvatar } from 'utils/navbarHelpers';
-import {
-  deleteTicket,
-  setCurrentTicket,
-  setCurrentTicketId,
-} from 'redux/slices/tickets/tickets.slice';
 import PopoverPopup from 'components/PopoverPopup/PopoverPopup';
 import FilterPopover from 'components/FilterPopover/FilterPopover';
 import SortPopover from 'components/SortPopover/SortPopover';
@@ -48,6 +42,13 @@ import {
 } from 'pages/Tickets/styles';
 import { TicketsColumn } from 'interfaces/interfaces';
 import { rowTheme } from 'pages/Contacts/styles';
+import { AppState } from 'store/reducers/rootReducer';
+import { toggleTicketModal } from 'store/actions/modal/modalActions';
+import {
+  deleteTicket,
+  setCurrentTicket,
+  setCurrentTicketId,
+} from 'store/actions/tickets/ticketActions';
 
 const columns: readonly TicketsColumn[] = [
   { id: 'ticketDetails', label: 'Ticket Details', minWidth: 480 },
@@ -59,15 +60,16 @@ const columns: readonly TicketsColumn[] = [
 const Tickets = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
-  const dispatch = useAppDispatch();
-  const currentId = useAppSelector((state) => state.tickets.currentTicketId);
-  const searchedText = useAppSelector((state) => state.tickets.searchedText);
-  const ticketOrder = useAppSelector((state) => state.tickets.ticketOrder);
-
-  const ticket = useAppSelector((state) =>
-    currentId ? state.tickets.list.find((t) => t.id === currentId) : null,
+  const dispatch = useDispatch();
+  const { currentTicketId, searchedText, ticketOrder, list } = useSelector(
+    (state: AppState) => state.tickets,
   );
-  const data = useAppSelector((state) => state.tickets.list);
+
+  const ticket = useSelector((state: AppState) =>
+    currentTicketId
+      ? state.tickets.list.find((t) => t.id === currentTicketId)
+      : null,
+  );
 
   const handleChangePage = (event: unknown, newPage: number) => {
     setPage(newPage);
@@ -91,6 +93,7 @@ const Tickets = () => {
           customerName: ticket.customerName,
           ticketDetails: ticket.ticketDetails,
           priority: ticket.priority,
+          date: '',
         }),
       );
       dispatch(setCurrentTicketId(ticket.id));
@@ -100,8 +103,8 @@ const Tickets = () => {
 
   const deleteLine = (id: number | undefined) => {
     dispatch(setCurrentTicketId(id));
-    if (ticket && typeof ticket !== undefined && currentId) {
-      dispatch(deleteTicket(currentId));
+    if (ticket && typeof ticket !== undefined && currentTicketId) {
+      dispatch(deleteTicket(currentTicketId));
     }
   };
 
@@ -113,9 +116,10 @@ const Tickets = () => {
           customerName: ticket.customerName,
           ticketDetails: ticket.ticketDetails,
           priority: ticket.priority,
+          date: '',
         }),
       );
-  }, [currentId, dispatch]);
+  }, [currentTicketId, dispatch]);
 
   return (
     <>
@@ -168,7 +172,7 @@ const Tickets = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {sortingFilteredTickets(searchedText, ticketOrder, data)
+                      {sortingFilteredTickets(searchedText, ticketOrder, list)
                         .slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage,
@@ -228,7 +232,7 @@ const Tickets = () => {
             <TablePagination
               rowsPerPageOptions={[8, 12, 16]}
               component="div"
-              count={data.length}
+              count={list.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}
