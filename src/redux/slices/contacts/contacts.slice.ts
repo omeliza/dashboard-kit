@@ -42,10 +42,36 @@ export const addContact = createAsyncThunk(
       address: contact.address,
       createdAt: format(new Date(), 'LLLL dd, yyyy'),
     });
-    if (response.status !== 201) return rejectWithValue('Server Error');
+    if (response.status !== 201)
+      return rejectWithValue('Error! Cannot add new contact.');
     return response.data as IContact;
   },
 );
+
+export const updateContact = createAsyncThunk(
+  'contacts/updateContact',
+  async (contact: ICurrentContact, { rejectWithValue, getState }) => {
+    const {
+      contacts: { list },
+    } = getState() as RootState;
+    const cont = list.find((u) => u.id === contact.id);
+    if (cont) {
+      const response = await axios.put(`${url}/${contact.id}`, {
+        ...cont,
+        src: contact.src,
+        name: `${contact.firstName} ${contact.lastName}`,
+        email: contact.email,
+        address: contact.address,
+      });
+      if (response.status !== 200) {
+        return rejectWithValue('Error! Cannot update contact.');
+      }
+      return response.data;
+    }
+    return rejectWithValue('There is no such contact!');
+  },
+);
+
 function isError(action: AnyAction) {
   return action.type.endsWith('rejected');
 }
@@ -54,15 +80,15 @@ export const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
-    updateContact: (state, action: PayloadAction<ICurrentContact>) => {
-      const contact = state.list.find((u) => u.id === action.payload.id);
-      if (contact) {
-        contact.address = action.payload.address;
-        contact.email = action.payload.email;
-        contact.name = `${action.payload.firstName} ${action.payload.lastName}`;
-        if (action.payload.src) contact.src = action.payload.src;
-      }
-    },
+    // updateContact: (state, action: PayloadAction<ICurrentContact>) => {
+    //   const contact = state.list.find((u) => u.id === action.payload.id);
+    //   if (contact) {
+    //     contact.address = action.payload.address;
+    //     contact.email = action.payload.email;
+    //     contact.name = `${action.payload.firstName} ${action.payload.lastName}`;
+    //     if (action.payload.src) contact.src = action.payload.src;
+    //   }
+    // },
     deleteContact: (state, action: PayloadAction<number>) => {
       state.list = state.list.filter((u) => u.id !== action.payload);
     },
@@ -102,6 +128,20 @@ export const contactsSlice = createSlice({
         state.list.push(action.payload);
         state.loading = false;
       })
+      .addCase(updateContact.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateContact.fulfilled, (state, action) => {
+        const contact = state.list.find((u) => u.id === action.payload.id);
+        if (contact) {
+          contact.address = action.payload.address;
+          contact.email = action.payload.email;
+          contact.name = `${action.payload.firstName} ${action.payload.lastName}`;
+          if (action.payload.src) contact.src = action.payload.src;
+        }
+        state.loading = false;
+      })
       .addMatcher(isError, (state, action: PayloadAction<string>) => {
         state.error = action.payload;
         state.loading = false;
@@ -113,7 +153,6 @@ export default contactsSlice.reducer;
 
 export const {
   setCurrentId,
-  updateContact,
   deleteContact,
   setCurrentContact,
   setSearchName,
