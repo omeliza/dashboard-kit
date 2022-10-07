@@ -9,6 +9,8 @@ import axios from 'axios';
 import { format } from 'date-fns';
 
 import { initialState } from 'redux/slices/contacts/initState';
+// eslint-disable-next-line import/no-cycle
+import { RootState } from 'redux/store';
 import {
   AddContact,
   IContact,
@@ -26,6 +28,24 @@ export const fetchContacts = createAsyncThunk(
   },
 );
 
+export const addContact = createAsyncThunk(
+  'contacts/addContact',
+  async (contact: AddContact, { rejectWithValue, getState }) => {
+    const {
+      contacts: { list },
+    } = getState() as RootState;
+    const response = await axios.post<IContact>(url, {
+      id: list.length + 1,
+      src: contact.src,
+      name: contact.name,
+      email: contact.email,
+      address: contact.address,
+      createdAt: format(new Date(), 'LLLL dd, yyyy'),
+    });
+    if (response.status !== 201) return rejectWithValue('Server Error');
+    return response.data as IContact;
+  },
+);
 function isError(action: AnyAction) {
   return action.type.endsWith('rejected');
 }
@@ -34,16 +54,6 @@ export const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
-    addContact: (state, action: PayloadAction<AddContact>) => {
-      state.list.push({
-        id: state.list.length + 2,
-        src: action.payload.src,
-        name: action.payload.name,
-        email: action.payload.email,
-        address: action.payload.address,
-        createdAt: format(new Date(), 'LLLL dd, yyyy'),
-      });
-    },
     updateContact: (state, action: PayloadAction<ICurrentContact>) => {
       const contact = state.list.find((u) => u.id === action.payload.id);
       if (contact) {
@@ -84,6 +94,14 @@ export const contactsSlice = createSlice({
         state.list = action.payload;
         state.loading = false;
       })
+      .addCase(addContact.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addContact.fulfilled, (state, action) => {
+        state.list.push(action.payload);
+        state.loading = false;
+      })
       .addMatcher(isError, (state, action: PayloadAction<string>) => {
         state.error = action.payload;
         state.loading = false;
@@ -94,7 +112,6 @@ export const contactsSlice = createSlice({
 export default contactsSlice.reducer;
 
 export const {
-  addContact,
   setCurrentId,
   updateContact,
   deleteContact,
