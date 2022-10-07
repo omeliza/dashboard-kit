@@ -4,13 +4,14 @@ import {
   createAsyncThunk,
   createSlice,
   PayloadAction,
+  Reducer,
 } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { format } from 'date-fns';
 
 import { initialState } from 'redux/slices/contacts/initState';
 // eslint-disable-next-line import/no-cycle
-import { RootState } from 'redux/store';
+import type { RootState } from 'redux/store';
 import {
   AddContact,
   IContact,
@@ -22,9 +23,9 @@ const url = process.env.REACT_APP_JSON_SERVER_URL as string;
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchContacts',
   async (_, { rejectWithValue }) => {
-    const response = await axios.get(url);
-    if (response.status !== 200) return rejectWithValue('Server Error');
-    return (await response.data) as IContact[];
+    const { status, data } = await axios.get(url);
+    if (status !== 200) return rejectWithValue('Server Error');
+    return (await data) as IContact[];
   },
 );
 
@@ -34,7 +35,7 @@ export const addContact = createAsyncThunk(
     const {
       contacts: { list },
     } = getState() as RootState;
-    const response = await axios.post<IContact>(url, {
+    const { status, data } = await axios.post<IContact>(url, {
       id: list.length + 1,
       src: contact.src,
       name: contact.name,
@@ -42,9 +43,9 @@ export const addContact = createAsyncThunk(
       address: contact.address,
       createdAt: format(new Date(), 'LLLL dd, yyyy'),
     });
-    if (response.status !== 201)
+    if (status !== 201)
       return rejectWithValue('Error! Cannot add new contact.');
-    return response.data as IContact;
+    return data as IContact;
   },
 );
 
@@ -56,19 +57,30 @@ export const updateContact = createAsyncThunk(
     } = getState() as RootState;
     const cont = list.find((u) => u.id === contact.id);
     if (cont) {
-      const response = await axios.put(`${url}/${contact.id}`, {
+      const { status, data } = await axios.put(`${url}/${contact.id}`, {
         ...cont,
         src: contact.src,
         name: `${contact.firstName} ${contact.lastName}`,
         email: contact.email,
         address: contact.address,
       });
-      if (response.status !== 200) {
+      if (status !== 200) {
         return rejectWithValue('Error! Cannot update contact.');
       }
-      return response.data;
+      return data;
     }
     return rejectWithValue('There is no such contact!');
+  },
+);
+
+export const deleteContact = createAsyncThunk(
+  'contacts/deleteContact',
+  async (id: number, { rejectWithValue }) => {
+    const { status, data } = await axios.delete(`${url}/${id}`);
+    if (status !== 200) {
+      return rejectWithValue('Error! Cannot update contact.');
+    }
+    return data;
   },
 );
 
@@ -80,18 +92,6 @@ export const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
   reducers: {
-    // updateContact: (state, action: PayloadAction<ICurrentContact>) => {
-    //   const contact = state.list.find((u) => u.id === action.payload.id);
-    //   if (contact) {
-    //     contact.address = action.payload.address;
-    //     contact.email = action.payload.email;
-    //     contact.name = `${action.payload.firstName} ${action.payload.lastName}`;
-    //     if (action.payload.src) contact.src = action.payload.src;
-    //   }
-    // },
-    deleteContact: (state, action: PayloadAction<number>) => {
-      state.list = state.list.filter((u) => u.id !== action.payload);
-    },
     setCurrentId: (state, action: PayloadAction<number | undefined>) => {
       state.currentId = action.payload;
     },
@@ -142,6 +142,13 @@ export const contactsSlice = createSlice({
         }
         state.loading = false;
       })
+      .addCase(deleteContact.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteContact.fulfilled, (state, action) => {
+        state.list = state.list.filter((u) => u.id !== action.payload);
+      })
       .addMatcher(isError, (state, action: PayloadAction<string>) => {
         state.error = action.payload;
         state.loading = false;
@@ -149,12 +156,7 @@ export const contactsSlice = createSlice({
   },
 });
 
-export default contactsSlice.reducer;
+export default contactsSlice.reducer as Reducer<typeof initialState>;
 
-export const {
-  setCurrentId,
-  deleteContact,
-  setCurrentContact,
-  setSearchName,
-  setOrder,
-} = contactsSlice.actions;
+export const { setCurrentId, setCurrentContact, setSearchName, setOrder } =
+  contactsSlice.actions;
