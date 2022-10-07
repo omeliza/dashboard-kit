@@ -21,6 +21,7 @@ import {
   deleteContact,
   setCurrentId,
   setCurrentContact,
+  fetchContacts,
 } from 'redux/slices/contacts/contacts.slice';
 import FilterPopover from 'components/FilterPopover/FilterPopover';
 import SortPopover from 'components/SortPopover/SortPopover';
@@ -96,6 +97,14 @@ const Contacts = () => {
   const openModal = () => {
     dispatch(toggleContactModal());
   };
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(fetchContacts());
+    };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    fetchData();
+  }, [data]);
+
   useEffect(() => {
     if (user)
       dispatch(

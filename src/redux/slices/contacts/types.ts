@@ -25,4 +25,6 @@ export interface IContactsState {
   currentContact: ICurrentContact;
   searchName: string;
   order: string;
+  loading: boolean;
+  error: null | string;
 }
