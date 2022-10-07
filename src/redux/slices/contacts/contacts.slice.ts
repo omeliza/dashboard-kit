@@ -1,9 +1,34 @@
 /* eslint-disable prefer-destructuring */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import {
+  AnyAction,
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+} from '@reduxjs/toolkit';
+import axios from 'axios';
 import { format } from 'date-fns';
 
 import { initialState } from 'redux/slices/contacts/initState';
-import { AddContact, ICurrentContact } from 'redux/slices/contacts/types';
+import {
+  AddContact,
+  IContact,
+  ICurrentContact,
+} from 'redux/slices/contacts/types';
+
+const url = process.env.REACT_APP_JSON_SERVER_URL as string;
+
+export const fetchContacts = createAsyncThunk(
+  'contacts/fetchContacts',
+  async (_, { rejectWithValue }) => {
+    const response = await axios.get(url);
+    if (response.status !== 200) return rejectWithValue('Server Error');
+    return (await response.data) as IContact[];
+  },
+);
+
+function isError(action: AnyAction) {
+  return action.type.endsWith('rejected');
+}
 
 export const contactsSlice = createSlice({
   name: 'contacts',
@@ -48,6 +73,21 @@ export const contactsSlice = createSlice({
     setOrder: (state, action: PayloadAction<string>) => {
       state.order = action.payload;
     },
+  },
+  extraReducers(builder) {
+    builder
+      .addCase(fetchContacts.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchContacts.fulfilled, (state, action) => {
+        state.list = action.payload;
+        state.loading = false;
+      })
+      .addMatcher(isError, (state, action: PayloadAction<string>) => {
+        state.error = action.payload;
+        state.loading = false;
+      });
   },
 });
 
