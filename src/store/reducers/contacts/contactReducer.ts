@@ -1,6 +1,7 @@
 /* eslint-disable no-case-declarations */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Reducer } from 'redux';
+import { format } from 'date-fns';
 
 import { initialState } from 'store/reducers/contacts/initState';
 import {
@@ -49,25 +50,6 @@ const contactReducer: Reducer<IContactsState, actions> = (
   action,
 ) => {
   switch (action.type) {
-    case types.UPDATE_CONTACT:
-      const contact = state.list.find((u) => u.id === action.contact.id);
-      if (contact) {
-        return {
-          ...state,
-          list: state.list.map((user) =>
-            user.id === action.contact.id
-              ? {
-                  ...contact,
-                  address: action.contact.address,
-                  email: action.contact.email,
-                  name: `${action.contact.firstName} ${action.contact.lastName}`,
-                  src: action.contact.src ? action.contact.src : contact.src,
-                }
-              : user,
-          ),
-        };
-      }
-      return { ...state };
     case types.SET_CURRENT_CONTACT_ID:
       return { ...state, currentId: action.id };
     case types.SET_CURRENT_CONTACT:
@@ -98,8 +80,43 @@ const contactReducer: Reducer<IContactsState, actions> = (
         list: [...action.contacts],
       };
     case types.CREATE_CONTACT_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        list: [
+          ...state.list,
+          {
+            id: state.list.length + 1,
+            src: action.newContact.src,
+            name: action.newContact.name,
+            email: action.newContact.email,
+            address: action.newContact.address,
+            createdAt: format(new Date(), 'LLLL dd, yyyy'),
+          },
+        ],
+      };
     case types.UPDATE_CONTACT_SUCCESS:
-      return { ...state, loading: false };
+      const contact = state.list.find((u) => u.id === action.updatedContact.id);
+      if (contact) {
+        return {
+          ...state,
+          loading: false,
+          list: state.list.map((user) =>
+            user.id === action.updatedContact.id
+              ? {
+                  ...contact,
+                  src: action.updatedContact.src
+                    ? action.updatedContact.src
+                    : contact.src,
+                  name: `${action.updatedContact.firstName} ${action.updatedContact.lastName}`,
+                  email: action.updatedContact.email,
+                  address: action.updatedContact.address,
+                }
+              : user,
+          ),
+        };
+      }
+      return { ...state };
     case types.DELETE_CONTACT_SUCCESS:
       return {
         ...state,

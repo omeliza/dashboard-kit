@@ -15,11 +15,12 @@ import {
   loadContactsSuccess,
   createContactSuccess,
   createContactError,
-  loadContactsStart,
   deleteContactSuccess,
   deleteContactError,
   updateContactError,
   updateContactSuccess,
+  setCurrentContactId,
+  setCurrentContact,
 } from 'store/actions/contacts/contactActions';
 import * as types from 'constants/actionTypes';
 import {
@@ -48,7 +49,7 @@ function* workerGetContacts() {
     }
   }
 }
-function* workerAddContact(newContact: ICreateContactStart) {
+function* workerAddContact({ newContact }: ICreateContactStart) {
   try {
     const listLength: number = yield select(
       (state: AppState) => state.contacts.list.length,
@@ -59,8 +60,7 @@ function* workerAddContact(newContact: ICreateContactStart) {
       listLength,
     );
     if (status === 201) {
-      yield put(createContactSuccess());
-      yield put(loadContactsStart());
+      yield put(createContactSuccess(newContact));
     }
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
@@ -75,6 +75,17 @@ function* workerContactDelete({ id }: IDeleteContactStart) {
     if (status === 200) {
       yield delay(500);
       yield put(deleteContactSuccess(id));
+      yield put(setCurrentContactId(undefined));
+      yield put(
+        setCurrentContact({
+          id: undefined,
+          src: '',
+          firstName: '',
+          lastName: '',
+          email: '',
+          address: '',
+        }),
+      );
     }
   } catch (error: unknown) {
     if (error instanceof AxiosError) {
@@ -83,12 +94,11 @@ function* workerContactDelete({ id }: IDeleteContactStart) {
   }
 }
 
-function* workerContactUpdate(updatedContact: IUpdateContactStart) {
+function* workerContactUpdate({ updatedContact }: IUpdateContactStart) {
   try {
     const { status }: AxiosResponse = yield call(updateContact, updatedContact);
     if (status === 200) {
-      yield put(updateContactSuccess());
-      yield put(loadContactsStart());
+      yield put(updateContactSuccess(updatedContact));
     }
   } catch (error) {
     if (error instanceof AxiosError) {

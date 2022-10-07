@@ -77,6 +77,7 @@ export interface ICreateContactStart {
 
 export interface ICreateContactSuccess {
   type: 'CREATE_CONTACT_SUCCESS';
+  newContact: AddContact;
 }
 export interface ICreateContactsError {
   type: 'CREATE_CONTACT_ERROR';
@@ -105,6 +106,7 @@ export interface IUpdateContactStart {
 
 export interface IUpdateContactSuccess {
   type: typeof types.UPDATE_CONTACT_SUCCESS;
+  updatedContact: ICurrentContact;
 }
 export interface IUpdateContactError {
   type: typeof types.UPDATE_CONTACT_ERROR;

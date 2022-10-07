@@ -1,6 +1,7 @@
 import {
   CreateContactErrorAC,
   CreateContactStartAC,
+  CreateContactSuccessAC,
   DeleteContactErrorAC,
   DeleteContactStartAC,
   DeleteContactSuccessAC,
@@ -13,6 +14,7 @@ import {
   UpdateContactAC,
   UpdateContactErrorAC,
   UpdateContactStartAC,
+  UpdateContactSuccessAC,
 } from 'store/actions/contacts/types';
 import * as types from 'constants/actionTypes';
 
@@ -61,9 +63,10 @@ export const createContactStart: CreateContactStartAC = (newContact) => {
   };
 };
 
-export const createContactSuccess = () => {
+export const createContactSuccess: CreateContactSuccessAC = (newContact) => {
   return {
     type: types.CREATE_CONTACT_SUCCESS,
+    newContact,
   };
 };
 
@@ -102,9 +105,12 @@ export const updateContactStart: UpdateContactStartAC = (updatedContact) => {
   };
 };
 
-export const updateContactSuccess = () => {
+export const updateContactSuccess: UpdateContactSuccessAC = (
+  updatedContact,
+) => {
   return {
     type: types.UPDATE_CONTACT_SUCCESS,
+    updatedContact,
   };
 };
 

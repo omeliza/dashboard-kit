@@ -82,16 +82,20 @@ const ContactsModal = () => {
     );
   };
 
-  const addContactSubmit = (data: IContactModal) => {
+  const addContactSubmit = (data: {
+    image: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    address: string;
+  }) => {
     if (!currentId) {
       dispatch(
         createContactStart({
-          id: undefined,
-          src: data.image,
+          src: data.image || '',
           name: `${data.firstName} ${data.lastName}`,
           email: data.email,
           address: data.address,
-          createdAt: '',
         }),
       );
     } else {
