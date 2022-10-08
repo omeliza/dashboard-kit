@@ -60,6 +60,7 @@ const TicketModal = () => {
       }),
     );
   };
+
   const cancel = () => {
     reset();
     dispatch(setCurrentTicketId(undefined));
@@ -83,7 +84,7 @@ const TicketModal = () => {
           date: data.date,
           priority: data.priority,
         }),
-      );
+      ).catch((e) => console.log(e.message));
     } else {
       dispatch(
         updateTicket({
@@ -93,7 +94,7 @@ const TicketModal = () => {
           priority: data.priority,
           date: data.date,
         }),
-      );
+      ).catch((e) => console.log(e.message));
     }
     handleClose();
   };

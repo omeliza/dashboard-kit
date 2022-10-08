@@ -1,5 +1,5 @@
 {
-  "list": [
+  "contacts": [
     {
       "id": 1,
       "src": "",
@@ -127,14 +127,96 @@
       "email": "i.vaskiv@gmail.com",
       "address": "City, street",
       "createdAt": "October 06, 2022"
+    }
+  ],
+  "tickets": [
+    {
+      "id": 1,
+      "src": "",
+      "ticketDetails": "Contact Email not Linked",
+      "updated": "1 day ago",
+      "customerName": "Tom Cruise",
+      "customerDate": "24.05.2019",
+      "date": "May 26, 2019",
+      "time": "6:30 PM",
+      "priority": "high"
     },
     {
-      "id": 17,
+      "id": 2,
       "src": "",
-      "name": "Nastia Rudejko",
-      "email": "n.rudejkso@gmail.com",
-      "address": "Ukraine, Kamenskoe",
-      "createdAt": "October 06, 2022"
+      "ticketDetails": "Adding Images to Featured Posts",
+      "updated": "1 day ago",
+      "customerName": "Matt Damon",
+      "customerDate": "24.05.2019",
+      "date": "May 26, 2019",
+      "time": "8:00 AM",
+      "priority": "low"
+    },
+    {
+      "id": 3,
+      "src": "",
+      "ticketDetails": "When will I be charged this month?",
+      "updated": "1 day ago",
+      "customerName": "Robert Downey",
+      "customerDate": "24.05.2019",
+      "date": "May 26, 2019",
+      "time": "7:30 PM",
+      "priority": "high"
+    },
+    {
+      "id": 4,
+      "src": "",
+      "ticketDetails": "Payment not going through",
+      "updated": "2 days ago",
+      "customerName": "Cristian Bale",
+      "customerDate": "24.05.2019",
+      "date": "May 25, 2019",
+      "time": "5:00 PM",
+      "priority": "normal"
+    },
+    {
+      "id": 5,
+      "src": "",
+      "ticketDetails": "Unable to add replies",
+      "updated": "2 days ago",
+      "customerName": "Henry Cavil",
+      "customerDate": "24.05.2019",
+      "date": "May 25, 2019",
+      "time": "4:00 PM",
+      "priority": "high"
+    },
+    {
+      "id": 6,
+      "src": "",
+      "ticketDetails": "Downtime since last week",
+      "updated": "3 days ago",
+      "customerName": "Chris Evans",
+      "customerDate": "23.05.2019",
+      "date": "May 25, 2019",
+      "time": "2:00 PM",
+      "priority": "normal"
+    },
+    {
+      "id": 7,
+      "src": "",
+      "ticketDetails": "Referral Bonus",
+      "updated": "4 days ago",
+      "customerName": "Sam Smith",
+      "customerDate": "22.05.2019",
+      "date": "May 25, 2019",
+      "time": "11:30 AM",
+      "priority": "low"
+    },
+    {
+      "id": 8,
+      "src": "",
+      "ticketDetails": "How do I change my password?",
+      "updated": "6 days ago",
+      "customerName": "Steve Rogers",
+      "customerDate": "21.05.2019",
+      "date": "May 24, 2019",
+      "time": "1:00 PM",
+      "priority": "normal"
     }
   ]
 }

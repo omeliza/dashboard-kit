@@ -53,14 +53,12 @@ const Contacts = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const dispatch = useAppDispatch();
-  const data = useAppSelector((state) => state.contacts.list);
-  const { currentId, searchName, order } = useAppSelector(
+  const { currentId, searchName, order, list } = useAppSelector(
     (state) => state.contacts,
   );
   const user = useAppSelector((state) =>
     currentId ? state.contacts.list.find((u) => u.id === currentId) : null,
   );
-
   const edit = (id: number | undefined) => {
     dispatch(setCurrentId(id));
     if (user && typeof user !== undefined) {
@@ -82,7 +80,7 @@ const Contacts = () => {
   const deleteLine = (id: number | undefined) => {
     dispatch(setCurrentId(id));
     if (user && typeof user !== undefined && currentId) {
-      dispatch(deleteContact(currentId));
+      dispatch(deleteContact(currentId)).catch((e) => console.log(e.message));
     }
   };
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -98,12 +96,8 @@ const Contacts = () => {
     dispatch(toggleContactModal());
   };
   useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(fetchContacts());
-    };
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    fetchData();
-  }, [data]);
+    dispatch(fetchContacts()).catch((e) => console.log(e.message));
+  }, []);
 
   useEffect(() => {
     if (user)
@@ -171,7 +165,7 @@ const Contacts = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {sortingFilteredContacts(searchName, order, data)
+                      {sortingFilteredContacts(searchName, order, list)
                         .slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage,
@@ -222,7 +216,7 @@ const Contacts = () => {
             <TablePagination
               rowsPerPageOptions={[8, 12, 16]}
               component="div"
-              count={data.length}
+              count={list.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

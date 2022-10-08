@@ -88,18 +88,18 @@ const ContactsModal = () => {
           email: data.email,
           address: data.address,
         }),
-      );
+      ).catch((e) => console.log(e.message));
     } else {
       dispatch(
         updateContact({
           id: currentId,
-          src: data.src,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          address: data.address,
+          src: currentContact.src || '',
+          firstName: currentContact.firstName,
+          lastName: currentContact.lastName,
+          email: currentContact.email,
+          address: currentContact.address,
         }),
-      );
+      ).catch((e) => console.log(e.message));
     }
     handleClose();
   };

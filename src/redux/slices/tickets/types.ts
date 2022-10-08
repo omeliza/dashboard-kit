@@ -27,4 +27,6 @@ export interface ITicketsState {
   personPriority: string;
   searchedText: string;
   ticketOrder: string;
+  loading: boolean;
+  error: null | string;
 }

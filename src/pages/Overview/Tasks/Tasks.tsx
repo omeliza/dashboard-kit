@@ -41,7 +41,7 @@ const Tasks = () => {
       </Section>
       <Divider />
       {mockTasks.map((item, i) => (
-        <>
+        <div key={item.label}>
           <Section>
             <Checkbox
               label={item.label}
@@ -53,7 +53,7 @@ const Tasks = () => {
             </IconButton>
           </Section>
           {i !== mockTasks.length - 1 && <Divider />}
-        </>
+        </div>
       ))}
     </Wrapper>
   );

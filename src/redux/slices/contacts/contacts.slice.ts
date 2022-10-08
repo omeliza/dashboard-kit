@@ -10,7 +10,6 @@ import axios from 'axios';
 import { format } from 'date-fns';
 
 import { initialState } from 'redux/slices/contacts/initState';
-// eslint-disable-next-line import/no-cycle
 import type { RootState } from 'redux/store';
 import {
   AddContact,
@@ -18,14 +17,16 @@ import {
   ICurrentContact,
 } from 'redux/slices/contacts/types';
 
-const url = process.env.REACT_APP_JSON_SERVER_URL as string;
+const url = process.env.REACT_APP_JSON_SERVER_URL_CONTACTS as string;
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchContacts',
   async (_, { rejectWithValue }) => {
-    const { status, data } = await axios.get(url);
-    if (status !== 200) return rejectWithValue('Server Error');
-    return (await data) as IContact[];
+    const { status, data } = await axios.get<IContact[]>(url);
+    if (status !== 200) {
+      return rejectWithValue('Server Error');
+    }
+    return data;
   },
 );
 
@@ -43,8 +44,9 @@ export const addContact = createAsyncThunk(
       address: contact.address,
       createdAt: format(new Date(), 'LLLL dd, yyyy'),
     });
-    if (status !== 201)
+    if (status !== 201) {
       return rejectWithValue('Error! Cannot add new contact.');
+    }
     return data as IContact;
   },
 );
@@ -59,7 +61,7 @@ export const updateContact = createAsyncThunk(
     if (cont) {
       const { status, data } = await axios.put(`${url}/${contact.id}`, {
         ...cont,
-        src: contact.src,
+        src: contact.src || '',
         name: `${contact.firstName} ${contact.lastName}`,
         email: contact.email,
         address: contact.address,
@@ -76,15 +78,15 @@ export const updateContact = createAsyncThunk(
 export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (id: number, { rejectWithValue }) => {
-    const { status, data } = await axios.delete(`${url}/${id}`);
+    const { status } = await axios.delete(`${url}/${id}`);
     if (status !== 200) {
       return rejectWithValue('Error! Cannot update contact.');
     }
-    return data;
+    return id;
   },
 );
 
-function isError(action: AnyAction) {
+export function isError(action: AnyAction) {
   return action.type.endsWith('rejected');
 }
 
@@ -137,7 +139,7 @@ export const contactsSlice = createSlice({
         if (contact) {
           contact.address = action.payload.address;
           contact.email = action.payload.email;
-          contact.name = `${action.payload.firstName} ${action.payload.lastName}`;
+          contact.name = action.payload.name;
           if (action.payload.src) contact.src = action.payload.src;
         }
         state.loading = false;
@@ -148,6 +150,12 @@ export const contactsSlice = createSlice({
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.list = state.list.filter((u) => u.id !== action.payload);
+        state.currentContact.id = undefined;
+        state.currentContact.address = '';
+        state.currentContact.email = '';
+        state.currentContact.firstName = '';
+        state.currentContact.lastName = '';
+        state.currentContact.src = '';
       })
       .addMatcher(isError, (state, action: PayloadAction<string>) => {
         state.error = action.payload;
