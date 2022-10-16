@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 import 'index.css';
-import { ErrorBoundary } from 'components/ErrorBoundary/ErrorBoundary';
 import { setupStore } from 'redux/store';
 import App from 'components/App';
 
@@ -27,11 +26,9 @@ const theme = createTheme({
 const store = setupStore();
 
 root.render(
-  // <ErrorBoundary>
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <App />
     </ThemeProvider>
   </Provider>,
-  // </ErrorBoundary>,
 );
