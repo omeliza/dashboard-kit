@@ -20,6 +20,7 @@ import CustomBox from 'pages/Tickets/CustomBox/CustomBox';
 import { stringAvatar } from 'utils/navbarHelpers';
 import {
   deleteTicket,
+  fetchTickets,
   setCurrentTicket,
   setCurrentTicketId,
 } from 'redux/slices/tickets/tickets.slice';
@@ -60,12 +61,14 @@ const Tickets = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const dispatch = useAppDispatch();
-  const currentId = useAppSelector((state) => state.tickets.currentTicketId);
-  const searchedText = useAppSelector((state) => state.tickets.searchedText);
-  const ticketOrder = useAppSelector((state) => state.tickets.ticketOrder);
+  const { currentTicketId, ticketOrder, searchedText, list } = useAppSelector(
+    (state) => state.tickets,
+  );
 
   const ticket = useAppSelector((state) =>
-    currentId ? state.tickets.list.find((t) => t.id === currentId) : null,
+    currentTicketId
+      ? state.tickets.list.find((t) => t.id === currentTicketId)
+      : null,
   );
   const data = useAppSelector((state) => state.tickets.list);
 
@@ -100,10 +103,19 @@ const Tickets = () => {
 
   const deleteLine = (id: number | undefined) => {
     dispatch(setCurrentTicketId(id));
-    if (ticket && typeof ticket !== undefined && currentId) {
-      dispatch(deleteTicket(currentId));
+    if (ticket && typeof ticket !== undefined && currentTicketId) {
+      // eslint-disable-next-line @typescript-eslint/no-floating-promises
+      dispatch(deleteTicket(currentTicketId));
     }
   };
+
+  useEffect(() => {
+    const getTickets = async () => {
+      await dispatch(fetchTickets());
+    };
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    getTickets();
+  }, []);
 
   useEffect(() => {
     if (ticket)
@@ -115,7 +127,7 @@ const Tickets = () => {
           priority: ticket.priority,
         }),
       );
-  }, [currentId, dispatch]);
+  }, [currentTicketId, dispatch]);
 
   return (
     <>
@@ -168,7 +180,7 @@ const Tickets = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {sortingFilteredTickets(searchedText, ticketOrder, data)
+                      {sortingFilteredTickets(searchedText, ticketOrder, list)
                         .slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage,

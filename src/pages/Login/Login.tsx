@@ -11,7 +11,6 @@ import Input from 'components/Input/Input';
 import Logo from 'components/Logo/LogoMedium/LogoMedium';
 import { SignIn } from 'interfaces/interfaces';
 import { signIn } from 'services/auth.service';
-import { loginSchema } from 'constants/validationSchemas';
 import CustomButton from 'components/CustomButton/CustomButton';
 import { useAppDispatch } from 'redux/hooks';
 import { authenticated, setUser } from 'redux/slices/auth/auth.slice';
@@ -25,8 +24,9 @@ import {
   linkStyles,
   Subtitle,
   Wrapper,
-} from 'components/Auth/styles';
+} from 'styles/styles';
 import { ErrorTypo } from 'components/Typographies/Typographies';
+import { loginSchema } from 'pages/Login/login.schema';
 
 const Login = () => {
   const [message, setMessage] = useState('');

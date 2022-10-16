@@ -5,13 +5,9 @@ import { IForgot, IReset } from 'interfaces/interfaces';
 
 const url = process.env.REACT_APP_SERVER_URL;
 
-export const onForgotSubmit = (data: IForgot) => {
-  console.log(data);
-};
+export const onForgotSubmit = (data: IForgot) => data;
 
-export const onResetSubmit = (data: IReset) => {
-  console.log(data);
-};
+export const onResetSubmit = (data: IReset) => data;
 
 export const signUp = (
   email: string,

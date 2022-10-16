@@ -28,6 +28,7 @@ export interface IInputProps {
   value?: string | number;
   changeHandler?: (e: ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
+  defaultValue?: string;
 }
 
 export interface IErrorProps {
@@ -74,10 +75,21 @@ export interface TicketsColumn {
 
 export interface IButtonProps {
   name: string;
+  disabled?: boolean;
+  onClick?:
+    | ((event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void)
+    | undefined;
 }
 
 export interface ContactsColumn {
   id: 'name' | 'email' | 'address' | 'createdAt';
   label: string;
   minWidth?: number;
+}
+
+export interface SidebarArr {
+  index: number;
+  name: string;
+  link: string;
+  icon: ReactNode;
 }

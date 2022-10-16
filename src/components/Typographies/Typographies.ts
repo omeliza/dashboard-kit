@@ -30,6 +30,7 @@ export const FiltersTypo = styled(Typography)({
 });
 
 export const ErrorTypo = styled(Typography)({
+  maxWidth: '316px',
   color: `${$red2}`,
   '&::before': {
     content: '"⚠ "',

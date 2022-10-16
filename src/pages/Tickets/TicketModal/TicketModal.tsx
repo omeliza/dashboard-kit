@@ -7,7 +7,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 import Input from 'components/Input/Input';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import SelectBlock from 'pages/Tickets/SelectBlock/SelectBlock';
-import { addTicketSchema } from 'constants/validationSchemas';
 import { ITicketModal } from 'interfaces/interfaces';
 import { toggleTicketModal } from 'redux/slices/modal/modal.slice';
 import CustomButton from 'components/CustomButton/CustomButton';
@@ -22,13 +21,10 @@ import {
   StyledPaper,
   StyledTicketForm,
 } from 'pages/Tickets/TicketModal/styles';
-import {
-  CencelButton,
-  ModalTitle,
-  StyledBtnGroup,
-} from 'components/Modals/styles';
 import { StyledLabel } from 'components/Input/styles';
 import { ErrorTypo } from 'components/Typographies/Typographies';
+import { addTicketSchema } from 'pages/Tickets/tickets.schema';
+import { CencelButton, ModalTitle, StyledBtnGroup } from 'styles/styles';
 
 const TicketModal = () => {
   const dispatch = useAppDispatch();
@@ -60,6 +56,7 @@ const TicketModal = () => {
       }),
     );
   };
+
   const cancel = () => {
     reset();
     dispatch(setCurrentTicketId(undefined));
@@ -83,7 +80,7 @@ const TicketModal = () => {
           date: data.date,
           priority: data.priority,
         }),
-      );
+      ).catch((e) => e.message);
     } else {
       dispatch(
         updateTicket({
@@ -93,7 +90,7 @@ const TicketModal = () => {
           priority: data.priority,
           date: data.date,
         }),
-      );
+      ).catch((e) => e.message);
     }
     handleClose();
   };

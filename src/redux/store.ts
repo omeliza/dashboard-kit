@@ -5,6 +5,7 @@ import modalSlice from 'redux/slices/modal/modal.slice';
 import authSlice from 'redux/slices/auth/auth.slice';
 import contactsSlice from 'redux/slices/contacts/contacts.slice';
 import ticketsSlice from 'redux/slices/tickets/tickets.slice';
+import wizardSlice from 'redux/slices/wizard/wizard.slice';
 
 const rootReducer = combineReducers({
   sidebar: sidebarSlice,
@@ -12,11 +13,13 @@ const rootReducer = combineReducers({
   auth: authSlice,
   contacts: contactsSlice,
   tickets: ticketsSlice,
+  wizard: wizardSlice,
 });
 
 export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
+    devTools: process.env.NODE_ENV !== 'production',
   });
 };
 

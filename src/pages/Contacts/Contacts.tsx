@@ -21,6 +21,7 @@ import {
   deleteContact,
   setCurrentId,
   setCurrentContact,
+  fetchContacts,
 } from 'redux/slices/contacts/contacts.slice';
 import FilterPopover from 'components/FilterPopover/FilterPopover';
 import SortPopover from 'components/SortPopover/SortPopover';
@@ -52,14 +53,12 @@ const Contacts = () => {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(8);
   const dispatch = useAppDispatch();
-  const data = useAppSelector((state) => state.contacts.list);
-  const { currentId, searchName, order } = useAppSelector(
+  const { currentId, searchName, order, list } = useAppSelector(
     (state) => state.contacts,
   );
   const user = useAppSelector((state) =>
     currentId ? state.contacts.list.find((u) => u.id === currentId) : null,
   );
-
   const edit = (id: number | undefined) => {
     dispatch(setCurrentId(id));
     if (user && typeof user !== undefined) {
@@ -81,7 +80,7 @@ const Contacts = () => {
   const deleteLine = (id: number | undefined) => {
     dispatch(setCurrentId(id));
     if (user && typeof user !== undefined && currentId) {
-      dispatch(deleteContact(currentId));
+      dispatch(deleteContact(currentId)).catch((e) => e.message);
     }
   };
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -96,6 +95,10 @@ const Contacts = () => {
   const openModal = () => {
     dispatch(toggleContactModal());
   };
+  useEffect(() => {
+    dispatch(fetchContacts()).catch((e) => e.message);
+  }, []);
+
   useEffect(() => {
     if (user)
       dispatch(
@@ -162,7 +165,7 @@ const Contacts = () => {
                       </TableRow>
                     </TableHead>
                     <TableBody>
-                      {sortingFilteredContacts(searchName, order, data)
+                      {sortingFilteredContacts(searchName, order, list)
                         .slice(
                           page * rowsPerPage,
                           page * rowsPerPage + rowsPerPage,
@@ -213,7 +216,7 @@ const Contacts = () => {
             <TablePagination
               rowsPerPageOptions={[8, 12, 16]}
               component="div"
-              count={data.length}
+              count={list.length}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={handleChangePage}

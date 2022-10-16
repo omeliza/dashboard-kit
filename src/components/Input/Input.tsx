@@ -15,6 +15,7 @@ const Input = ({
   changeHandler,
   value,
   disabled,
+  defaultValue,
 }: IInputProps) => {
   const [passwordShown, setPasswordShown] = useState(true);
 
@@ -34,6 +35,7 @@ const Input = ({
         onChange={changeHandler}
         value={value}
         disabled={disabled}
+        defaultValue={defaultValue}
       />
       {type === 'password' && (
         <EyeButton type="button" onClick={togglePassword}>

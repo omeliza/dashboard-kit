@@ -7,7 +7,6 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { toggleContactModal } from 'redux/slices/modal/modal.slice';
 import Input from 'components/Input/Input';
-import { addContactSchema } from 'constants/validationSchemas';
 import CustomButton from 'components/CustomButton/CustomButton';
 import { IContactModal } from 'interfaces/interfaces';
 import {
@@ -22,12 +21,9 @@ import {
   StyledForm,
   StyledPaper,
 } from 'pages/Contacts/ContactsModal/styles';
-import {
-  CencelButton,
-  ModalTitle,
-  StyledBtnGroup,
-} from 'components/Modals/styles';
 import { ErrorTypo } from 'components/Typographies/Typographies';
+import { addContactSchema } from 'pages/Contacts/ContactsModal/validationSchema';
+import { CencelButton, ModalTitle, StyledBtnGroup } from 'styles/styles';
 
 const ContactsModal = () => {
   const isOpen = useAppSelector((state) => state.modal.isContactModalOpen);
@@ -88,18 +84,18 @@ const ContactsModal = () => {
           email: data.email,
           address: data.address,
         }),
-      );
+      ).catch((e) => e.message);
     } else {
       dispatch(
         updateContact({
           id: currentId,
-          src: data.src,
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          address: data.address,
+          src: currentContact.src || '',
+          firstName: currentContact.firstName,
+          lastName: currentContact.lastName,
+          email: currentContact.email,
+          address: currentContact.address,
         }),
-      );
+      ).catch((e) => e.message);
     }
     handleClose();
   };
