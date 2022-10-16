@@ -80,7 +80,7 @@ const Contacts = () => {
   const deleteLine = (id: number | undefined) => {
     dispatch(setCurrentId(id));
     if (user && typeof user !== undefined && currentId) {
-      dispatch(deleteContact(currentId)).catch((e) => console.log(e.message));
+      dispatch(deleteContact(currentId)).catch((e) => e.message);
     }
   };
   const handleChangePage = (event: unknown, newPage: number) => {
@@ -96,7 +96,7 @@ const Contacts = () => {
     dispatch(toggleContactModal());
   };
   useEffect(() => {
-    dispatch(fetchContacts()).catch((e) => console.log(e.message));
+    dispatch(fetchContacts()).catch((e) => e.message);
   }, []);
 
   useEffect(() => {

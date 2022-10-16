@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { $grey2, $white4, $white5 } from 'constants/colors';
 
 export const StyledLabel = styled.label`
+  display: flex;
+  flex-direction: column;
   font-size: 12px;
   line-height: 15.06px;
   font-weight: 700;

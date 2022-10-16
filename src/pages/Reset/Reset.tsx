@@ -6,7 +6,6 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Input from 'components/Input/Input';
 import Logo from 'components/Logo/LogoMedium/LogoMedium';
 import { onResetSubmit } from 'services/auth.service';
-import { resetSchema } from 'constants/validationSchemas';
 import { IReset } from 'interfaces/interfaces';
 import CustomButton from 'components/CustomButton/CustomButton';
 import {
@@ -16,8 +15,9 @@ import {
   Empty,
   Subtitle,
   Wrapper,
-} from 'components/Auth/styles';
+} from 'styles/styles';
 import { ErrorTypo } from 'components/Typographies/Typographies';
+import { resetSchema } from 'pages/Reset/reset.schema';
 
 const Reset = () => {
   const methods = useForm<IReset>({

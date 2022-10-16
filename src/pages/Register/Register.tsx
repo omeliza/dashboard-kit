@@ -9,7 +9,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import { signUp } from 'services/auth.service';
 import Logo from 'components/Logo/LogoMedium/LogoMedium';
 import Input from 'components/Input/Input';
-import { registerSchema } from 'constants/validationSchemas';
+import { registerSchema } from 'pages/Register/register.schema';
 import { IAuthFormInputs, SignUp } from 'interfaces/interfaces';
 import CustomButton from 'components/CustomButton/CustomButton';
 import {
@@ -22,7 +22,7 @@ import {
   linkStyles,
   Subtitle,
   Wrapper,
-} from 'components/Auth/styles';
+} from 'styles/styles';
 import { ErrorTypo } from 'components/Typographies/Typographies';
 
 const Register = () => {

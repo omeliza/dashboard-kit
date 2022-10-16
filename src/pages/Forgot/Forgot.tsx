@@ -3,24 +3,24 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FormProvider, useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
+import { Block } from '@mui/icons-material';
 
 import Input from 'components/Input/Input';
 import Logo from 'components/Logo/LogoMedium/LogoMedium';
 import { onForgotSubmit } from 'services/auth.service';
-import { forgotSchema } from 'constants/validationSchemas';
 import { IForgot } from 'interfaces/interfaces';
 import CustomButton from 'components/CustomButton/CustomButton';
-import {
-  AuthBottomTitle,
-  AuthForm,
-  AuthTitle,
-  Block,
-  Empty,
-  linkStyles,
-  Subtitle,
-  Wrapper,
-} from 'components/Auth/styles';
 import { ErrorTypo } from 'components/Typographies/Typographies';
+import {
+  Wrapper,
+  AuthTitle,
+  Subtitle,
+  AuthForm,
+  Empty,
+  AuthBottomTitle,
+  linkStyles,
+} from 'styles/styles';
+import { forgotSchema } from 'pages/Forgot/forgot.schema';
 
 const Forgot = () => {
   const location = useLocation();

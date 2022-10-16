@@ -10,17 +10,6 @@ import { useAppDispatch, useAppSelector } from 'redux/hooks';
 import { setPersonPriority } from 'redux/slices/tickets/tickets.slice';
 import { $white4, $white5 } from 'constants/colors';
 
-// const ITEM_HEIGHT = 42;
-// const ITEM_PADDING_TOP = 8;
-// const MenuProps = {
-//   PaperProps: {
-//     style: {
-//       maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
-//       width: 250,
-//     },
-//   },
-// };
-
 const priorities = ['low', 'normal', 'high'];
 
 function getStyles(priority: string, personPriority: string, theme: Theme) {
@@ -48,9 +37,6 @@ const SelectBlock = () => {
   const { register } = useFormContext();
   return (
     <FormControl sx={{ mt: '6px', width: 316, height: 42 }} required>
-      {/* <InputLabel id="demo-multiple-name-label"  shrink={false}>
-          Choose priority
-        </InputLabel> */}
       <Select
         // eslint-disable-next-line react/jsx-props-no-spreading
         {...register('priority')}
@@ -59,7 +45,6 @@ const SelectBlock = () => {
         value={personPriority}
         onChange={handleChange}
         input={<OutlinedInput label="Choose priority" />}
-        // MenuProps={MenuProps}
         sx={{
           width: 316,
           height: 42,

@@ -12,24 +12,31 @@ export const sortingFilteredContacts = (
   order: string,
   data: IContact[],
 ) => {
-  if (order === 'asc' && name) {
-    return contactsFiltering(data, name).sort((a, b) =>
-      a.name > b.name ? 1 : -1,
-    );
+  if (name) {
+    switch (order) {
+      case 'asc':
+        return contactsFiltering(data, name).sort((a, b) =>
+          a.name > b.name ? 1 : -1,
+        );
+      case 'desc':
+        return contactsFiltering(data, name).sort((a, b) =>
+          a.name > b.name ? -1 : 1,
+        );
+      case '':
+        return contactsFiltering(data, name);
+      default:
+        break;
+    }
   }
-  if (order === 'desc' && name) {
-    return contactsFiltering(data, name).sort((a, b) =>
-      a.name > b.name ? -1 : 1,
-    );
-  }
-  if (order === '' && name) {
-    return contactsFiltering(data, name);
-  }
-  if (order === 'desc' && name === '') {
-    return [...data].sort((a, b) => (a.name > b.name ? -1 : 1));
-  }
-  if (order === 'asc' && name === '') {
-    return [...data].sort((a, b) => (a.name > b.name ? 1 : -1));
+  if (name === '') {
+    switch (order) {
+      case 'desc':
+        return [...data].sort((a, b) => (a.name > b.name ? -1 : 1));
+      case 'asc':
+        return [...data].sort((a, b) => (a.name > b.name ? 1 : -1));
+      default:
+        break;
+    }
   }
   return data;
 };
@@ -50,24 +57,35 @@ export const sortingFilteredTickets = (
   order: string,
   data: ITicket[],
 ) => {
-  if (order === 'asc' && text) {
-    return ticketsFiltering(data, text).sort((a, b) =>
-      a.customerName > b.customerName ? 1 : -1,
-    );
+  if (text) {
+    switch (order) {
+      case 'asc':
+        return ticketsFiltering(data, text).sort((a, b) =>
+          a.customerName > b.customerName ? 1 : -1,
+        );
+      case 'desc':
+        return ticketsFiltering(data, text).sort((a, b) =>
+          a.customerName > b.customerName ? -1 : 1,
+        );
+      case '':
+        return ticketsFiltering(data, text);
+      default:
+        break;
+    }
   }
-  if (order === 'desc' && text) {
-    return ticketsFiltering(data, text).sort((a, b) =>
-      a.customerName > b.customerName ? -1 : 1,
-    );
-  }
-  if (order === '' && text) {
-    return ticketsFiltering(data, text);
-  }
-  if (order === 'desc' && text === '') {
-    return [...data].sort((a, b) => (a.customerName > b.customerName ? -1 : 1));
-  }
-  if (order === 'asc' && text === '') {
-    return [...data].sort((a, b) => (a.customerName > b.customerName ? 1 : -1));
+  if (text === '') {
+    switch (order) {
+      case 'desc':
+        return [...data].sort((a, b) =>
+          a.customerName > b.customerName ? -1 : 1,
+        );
+      case 'asc':
+        return [...data].sort((a, b) =>
+          a.customerName > b.customerName ? 1 : -1,
+        );
+      default:
+        break;
+    }
   }
   return data;
 };

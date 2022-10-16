@@ -27,11 +27,11 @@ const theme = createTheme({
 const store = setupStore();
 
 root.render(
-  <ErrorBoundary>
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <App />
-      </ThemeProvider>
-    </Provider>
-  </ErrorBoundary>,
+  // <ErrorBoundary>
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <App />
+    </ThemeProvider>
+  </Provider>,
+  // </ErrorBoundary>,
 );
